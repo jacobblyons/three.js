@@ -16850,22 +16850,26 @@ function addLineNumbers( string ) {
 
 }
 
-function WebGLShader( gl, type, string ) {
+function WebGLShader( gl, type, string, debug ) {
 
 	var shader = gl.createShader( type );
 
 	gl.shaderSource( shader, string );
 	gl.compileShader( shader );
 
-	if ( gl.getShaderParameter( shader, 35713 ) === false ) {
+	if ( debug === true ) {
 
-		console.error( 'THREE.WebGLShader: Shader couldn\'t compile.' );
+		if ( gl.getShaderParameter( shader, 35713 ) === false ) {
 
-	}
+			console.error( 'THREE.WebGLShader: Shader couldn\'t compile.' );
 
-	if ( gl.getShaderInfoLog( shader ) !== '' ) {
+		}
 
-		console.warn( 'THREE.WebGLShader: gl.getShaderInfoLog()', type === 35633 ? 'vertex' : 'fragment', gl.getShaderInfoLog( shader ), addLineNumbers( string ) );
+		if ( gl.getShaderInfoLog( shader ) !== '' ) {
+
+			console.warn( 'THREE.WebGLShader: gl.getShaderInfoLog()', type === 35633 ? 'vertex' : 'fragment', gl.getShaderInfoLog( shader ), addLineNumbers( string ) );
+
+		}
 
 	}
 
@@ -17456,8 +17460,8 @@ function WebGLProgram( renderer, extensions, code, material, shader, parameters,
 	// console.log( '*VERTEX*', vertexGlsl );
 	// console.log( '*FRAGMENT*', fragmentGlsl );
 
-	var glVertexShader = WebGLShader( gl, 35633, vertexGlsl );
-	var glFragmentShader = WebGLShader( gl, 35632, fragmentGlsl );
+	var glVertexShader = WebGLShader( gl, 35633, vertexGlsl, renderer.debug.checkShaderErrors );
+	var glFragmentShader = WebGLShader( gl, 35632, fragmentGlsl, renderer.debug.checkShaderErrors );
 
 	gl.attachShader( program, glVertexShader );
 	gl.attachShader( program, glFragmentShader );
@@ -17477,56 +17481,61 @@ function WebGLProgram( renderer, extensions, code, material, shader, parameters,
 
 	gl.linkProgram( program );
 
-	var programLog = gl.getProgramInfoLog( program ).trim();
-	var vertexLog = gl.getShaderInfoLog( glVertexShader ).trim();
-	var fragmentLog = gl.getShaderInfoLog( glFragmentShader ).trim();
+	// check for link errors
+	if ( renderer.debug.checkShaderErrors ) {
 
-	var runnable = true;
-	var haveDiagnostics = true;
+		var programLog = gl.getProgramInfoLog( program ).trim();
+		var vertexLog = gl.getShaderInfoLog( glVertexShader ).trim();
+		var fragmentLog = gl.getShaderInfoLog( glFragmentShader ).trim();
 
-	// console.log( '**VERTEX**', gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( glVertexShader ) );
-	// console.log( '**FRAGMENT**', gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( glFragmentShader ) );
+		var runnable = true;
+		var haveDiagnostics = true;
 
-	if ( gl.getProgramParameter( program, 35714 ) === false ) {
+		// console.log( '**VERTEX**', gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( glVertexShader ) );
+		// console.log( '**FRAGMENT**', gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( glFragmentShader ) );
 
-		runnable = false;
+		if ( gl.getProgramParameter( program, 35714 ) === false ) {
 
-		console.error( 'THREE.WebGLProgram: shader error: ', gl.getError(), '35715', gl.getProgramParameter( program, 35715 ), 'gl.getProgramInfoLog', programLog, vertexLog, fragmentLog );
+			runnable = false;
 
-	} else if ( programLog !== '' ) {
+			console.error( 'THREE.WebGLProgram: shader error: ', gl.getError(), '35715', gl.getProgramParameter( program, 35715 ), 'gl.getProgramInfoLog', programLog, vertexLog, fragmentLog );
 
-		console.warn( 'THREE.WebGLProgram: gl.getProgramInfoLog()', programLog );
+		} else if ( programLog !== '' ) {
 
-	} else if ( vertexLog === '' || fragmentLog === '' ) {
+			console.warn( 'THREE.WebGLProgram: gl.getProgramInfoLog()', programLog );
 
-		haveDiagnostics = false;
+		} else if ( vertexLog === '' || fragmentLog === '' ) {
 
-	}
+			haveDiagnostics = false;
 
-	if ( haveDiagnostics ) {
+		}
 
-		this.diagnostics = {
+		if ( haveDiagnostics ) {
 
-			runnable: runnable,
-			material: material,
+			this.diagnostics = {
 
-			programLog: programLog,
+				runnable: runnable,
+				material: material,
 
-			vertexShader: {
+				programLog: programLog,
 
-				log: vertexLog,
-				prefix: prefixVertex
+				vertexShader: {
 
-			},
+					log: vertexLog,
+					prefix: prefixVertex
 
-			fragmentShader: {
+				},
 
-				log: fragmentLog,
-				prefix: prefixFragment
+				fragmentShader: {
 
-			}
+					log: fragmentLog,
+					prefix: prefixFragment
 
-		};
+				}
+
+			};
+
+		}
 
 	}
 
@@ -22684,6 +22693,16 @@ function WebGLRenderer( parameters ) {
 
 	this.domElement = _canvas;
 	this.context = null;
+
+	// Debug configuration container
+	this.debug = {
+
+		/**
+		 * Enables error checking and reporting when shader programs are being compiled
+		 * @type {boolean}
+		 */
+		checkShaderErrors: false
+	};
 
 	// clearing
 
@@ -39725,6 +39744,251 @@ Object.assign( FontLoader.prototype, {
 } );
 
 /**
+ * @author Filipe Caixeta / http://filipecaixeta.com.br
+ * @author Mugen87 / https://github.com/Mugen87
+ *
+ * Description: A THREE loader for PCD ascii and binary files.
+ *
+ * Limitations: Compressed binary files are not supported.
+ *
+ */
+
+function PCDLoader(manager) {
+	this.manager = manager !== undefined ? manager : THREE.DefaultLoadingManager;
+	this.littleEndian = true;
+}
+
+Object.assign(PCDLoader.prototype, {
+	constructor: THREE.PCDLoader,
+
+	load: function(url, onLoad, onProgress, onError) {
+		var scope = this;
+
+		var loader = new THREE.FileLoader(scope.manager);
+		loader.setPath(scope.path);
+		loader.setResponseType("arraybuffer");
+		loader.load(
+			url,
+			function(data) {
+				try {
+					onLoad(scope.parse(data, url));
+				} catch (e) {
+					if (onError) {
+						onError(e);
+					} else {
+						throw e;
+					}
+				}
+			},
+			onProgress,
+			onError
+		);
+	},
+
+	setPath: function(value) {
+		this.path = value;
+		return this;
+	},
+
+	parse: function(data, url) {
+		function parseHeader(data) {
+			var PCDheader = {};
+			var result1 = data.search(/[\r\n]DATA\s(\S*)\s/i);
+			var result2 = /[\r\n]DATA\s(\S*)\s/i.exec(data.substr(result1 - 1));
+
+			PCDheader.data = result2[1];
+			PCDheader.headerLen = result2[0].length + result1;
+			PCDheader.str = data.substr(0, PCDheader.headerLen);
+
+			// remove comments
+
+			PCDheader.str = PCDheader.str.replace(/\#.*/gi, "");
+
+			// parse
+
+			PCDheader.version = /VERSION (.*)/i.exec(PCDheader.str);
+			PCDheader.fields = /FIELDS (.*)/i.exec(PCDheader.str);
+			PCDheader.size = /SIZE (.*)/i.exec(PCDheader.str);
+			PCDheader.type = /TYPE (.*)/i.exec(PCDheader.str);
+			PCDheader.count = /COUNT (.*)/i.exec(PCDheader.str);
+			PCDheader.width = /WIDTH (.*)/i.exec(PCDheader.str);
+			PCDheader.height = /HEIGHT (.*)/i.exec(PCDheader.str);
+			PCDheader.viewpoint = /VIEWPOINT (.*)/i.exec(PCDheader.str);
+			PCDheader.points = /POINTS (.*)/i.exec(PCDheader.str);
+
+			// evaluate
+
+			if (PCDheader.version !== null) PCDheader.version = parseFloat(PCDheader.version[1]);
+
+			if (PCDheader.fields !== null) PCDheader.fields = PCDheader.fields[1].split(" ");
+
+			if (PCDheader.type !== null) PCDheader.type = PCDheader.type[1].split(" ");
+
+			if (PCDheader.width !== null) PCDheader.width = parseInt(PCDheader.width[1]);
+
+			if (PCDheader.height !== null) PCDheader.height = parseInt(PCDheader.height[1]);
+
+			if (PCDheader.viewpoint !== null) PCDheader.viewpoint = PCDheader.viewpoint[1];
+
+			if (PCDheader.points !== null) PCDheader.points = parseInt(PCDheader.points[1], 10);
+
+			if (PCDheader.points === null) PCDheader.points = PCDheader.width * PCDheader.height;
+
+			if (PCDheader.size !== null) {
+				PCDheader.size = PCDheader.size[1].split(" ").map(function(x) {
+					return parseInt(x, 10);
+				});
+			}
+
+			if (PCDheader.count !== null) {
+				PCDheader.count = PCDheader.count[1].split(" ").map(function(x) {
+					return parseInt(x, 10);
+				});
+			} else {
+				PCDheader.count = [];
+
+				for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
+					PCDheader.count.push(1);
+				}
+			}
+
+			PCDheader.offset = {};
+
+			var sizeSum = 0;
+
+			for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
+				if (PCDheader.data === "ascii") {
+					PCDheader.offset[PCDheader.fields[i]] = i;
+				} else {
+					PCDheader.offset[PCDheader.fields[i]] = sizeSum;
+					sizeSum += PCDheader.size[i];
+				}
+			}
+
+			// for binary only
+
+			PCDheader.rowSize = sizeSum;
+
+			return PCDheader;
+		}
+
+		var textData = THREE.LoaderUtils.decodeText(data);
+
+		// parse header (always ascii format)
+
+		var PCDheader = parseHeader(textData);
+
+		// parse data
+
+		var position = [];
+		var normal = [];
+		var color = [];
+
+		// ascii
+
+		if (PCDheader.data === "ascii") {
+			var offset = PCDheader.offset;
+			var pcdData = textData.substr(PCDheader.headerLen);
+			var lines = pcdData.split("\n");
+
+			for (var i = 0, l = lines.length; i < l; i++) {
+				if (lines[i] === "") continue;
+
+				var line = lines[i].split(" ");
+
+				if (offset.x !== undefined) {
+					position.push(parseFloat(line[offset.x]));
+					position.push(parseFloat(line[offset.y]));
+					position.push(parseFloat(line[offset.z]));
+				}
+
+				if (offset.rgb !== undefined) {
+					var rgb = parseFloat(line[offset.rgb]);
+					var r = (rgb >> 16) & 0x0000ff;
+					var g = (rgb >> 8) & 0x0000ff;
+					var b = (rgb >> 0) & 0x0000ff;
+					color.push(r / 255, g / 255, b / 255);
+				}
+
+				if (offset.normal_x !== undefined) {
+					normal.push(parseFloat(line[offset.normal_x]));
+					normal.push(parseFloat(line[offset.normal_y]));
+					normal.push(parseFloat(line[offset.normal_z]));
+				}
+			}
+		}
+
+		// binary
+
+		if (PCDheader.data === "binary_compressed") {
+			console.error("THREE.PCDLoader: binary_compressed files are not supported");
+			return;
+		}
+
+		if (PCDheader.data === "binary") {
+			var dataview = new DataView(data, PCDheader.headerLen);
+			var offset = PCDheader.offset;
+
+			for (var i = 0, row = 0; i < PCDheader.points; i++, row += PCDheader.rowSize) {
+				if (offset.x !== undefined) {
+					position.push(dataview.getFloat32(row + offset.x, this.littleEndian));
+					position.push(dataview.getFloat32(row + offset.y, this.littleEndian));
+					position.push(dataview.getFloat32(row + offset.z, this.littleEndian));
+				}
+
+				if (offset.rgb !== undefined) {
+					color.push(dataview.getUint8(row + offset.rgb + 2) / 255.0);
+					color.push(dataview.getUint8(row + offset.rgb + 1) / 255.0);
+					color.push(dataview.getUint8(row + offset.rgb + 0) / 255.0);
+				}
+
+				if (offset.normal_x !== undefined) {
+					normal.push(dataview.getFloat32(row + offset.normal_x, this.littleEndian));
+					normal.push(dataview.getFloat32(row + offset.normal_y, this.littleEndian));
+					normal.push(dataview.getFloat32(row + offset.normal_z, this.littleEndian));
+				}
+			}
+		}
+
+		// build geometry
+
+		var geometry = new THREE.BufferGeometry();
+
+		if (position.length > 0) geometry.addAttribute("position", new THREE.Float32BufferAttribute(position, 3));
+		if (normal.length > 0) geometry.addAttribute("normal", new THREE.Float32BufferAttribute(normal, 3));
+		if (color.length > 0) geometry.addAttribute("color", new THREE.Float32BufferAttribute(color, 3));
+
+		geometry.computeBoundingSphere();
+
+		// build material
+
+		var material = new THREE.PointsMaterial({ size: 0.005 });
+
+		if (color.length > 0) {
+			material.vertexColors = THREE.VertexColors;
+		} else {
+			material.color.setHex(Math.random() * 0xffffff);
+		}
+
+		// build mesh
+
+		var mesh = new THREE.Points(geometry, material);
+		var name = url
+			.split("")
+			.reverse()
+			.join("");
+		name = /([^\/]*)/.exec(name);
+		name = name[1]
+			.split("")
+			.reverse()
+			.join("");
+		mesh.name = name;
+
+		return mesh;
+	}
+});
+
+/**
  * @author alteredq / http://alteredqualia.com/
  */
 
@@ -40374,6 +40638,45 @@ LightProbe.prototype = Object.assign( Object.create( Light.prototype ), {
 	constructor: LightProbe,
 
 	isLightProbe: true,
+
+	setAmbientProbe: function ( color, intensity ) {
+
+		this.color.set( color );
+
+		this.intensity = intensity !== undefined ? intensity : 1;
+
+		this.sh.zero();
+
+		// without extra factor of PI in the shader, would be 2 / Math.sqrt( Math.PI );
+		this.sh.coefficients[ 0 ].set( 1, 1, 1 ).multiplyScalar( 2 * Math.sqrt( Math.PI ) );
+
+	},
+
+	setHemisphereProbe: function ( skyColor, groundColor, intensity ) {
+
+		// up-direction hardwired
+
+		this.color.setHex( 0xffffff );
+
+		this.intensity = intensity !== undefined ? intensity : 1;
+
+		var sky = new Color( skyColor );
+		var ground = new Color( groundColor );
+
+		/* cough */
+		sky = new Vector3( sky.r, sky.g, sky.b );
+		ground = new Vector3( ground.r, ground.g, ground.b );
+
+		// without extra factor of PI in the shader, should = 1 / Math.sqrt( Math.PI );
+		var c0 = Math.sqrt( Math.PI );
+		var c1 = c0 * Math.sqrt( 0.75 );
+
+		this.sh.zero();
+
+		this.sh.coefficients[ 0 ].copy( sky ).add( ground ).multiplyScalar( c0 );
+		this.sh.coefficients[ 1 ].copy( sky ).sub( ground ).multiplyScalar( c1 );
+
+	},
 
 	// https://www.ppsloan.org/publications/StupidSH36.pdf
 	setFromCubeTexture: function ( cubeTexture ) {
@@ -45576,6 +45879,153 @@ HemisphereLightHelper.prototype.update = function () {
 }();
 
 /**
+ * @author WestLangley / http://github.com/WestLangley
+ */
+
+function LightProbeHelper( lightProbe, size ) {
+
+	this.lightProbe = lightProbe;
+
+	this.size = size;
+
+	var defines = {};
+	defines[ 'GAMMA_OUTPUT' ] = "";
+
+	// material
+	var material = new ShaderMaterial( {
+
+		defines: defines,
+
+		uniforms: {
+
+			sh: { value: this.lightProbe.sh.coefficients }, // by reference
+
+			intensity: { value: this.lightProbe.intensity }
+
+		},
+
+		vertexShader: `
+
+			varying vec3 vNormal;
+
+			void main() {
+
+				vNormal = normalize( normalMatrix * normal );
+
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+			}`,
+
+		fragmentShader: `
+
+			#define RECIPROCAL_PI 0.318309886
+
+			vec3 inverseTransformDirection( in vec3 normal, in mat4 matrix ) {
+
+				// matrix is assumed to be orthogonal
+
+				return normalize( ( vec4( normal, 0.0 ) * matrix ).xyz );
+
+			}
+
+			vec3 linearToOutput( in vec3 a ) {
+
+				#ifdef GAMMA_OUTPUT
+
+					return pow( a, vec3( 1.0 / float( GAMMA_FACTOR ) ) );
+
+				#else
+
+					return a;
+
+				#endif
+
+			}
+
+			// get the irradiance (radiance convolved with cosine lobe) at the point 'normal' on the unit sphere
+			// source: https://graphics.stanford.edu/papers/envmap/envmap.pdf
+			vec3 shGetIrradianceAt( in vec3 normal, in vec3 shCoefficients[ 9 ] ) {
+
+				// normal is assumed to have unit length
+
+				float x = normal.x, y = normal.y, z = normal.z;
+
+				// band 0
+				vec3 result = shCoefficients[ 0 ] * 0.886227;
+
+				// band 1
+				result += shCoefficients[ 1 ] * 2.0 * 0.511664 * y;
+				result += shCoefficients[ 2 ] * 2.0 * 0.511664 * z;
+				result += shCoefficients[ 3 ] * 2.0 * 0.511664 * x;
+
+				// band 2
+				result += shCoefficients[ 4 ] * 2.0 * 0.429043 * x * y;
+				result += shCoefficients[ 5 ] * 2.0 * 0.429043 * y * z;
+				result += shCoefficients[ 6 ] * ( 0.743125 * z * z - 0.247708 );
+				result += shCoefficients[ 7 ] * 2.0 * 0.429043 * x * z;
+				result += shCoefficients[ 8 ] * 0.429043 * ( x * x - y * y );
+
+				return result;
+
+			}
+
+			uniform vec3 sh[ 9 ]; // sh coefficients
+
+			uniform float intensity; // light probe intensity
+
+			varying vec3 vNormal;
+
+			void main() {
+
+				vec3 normal = normalize( vNormal );
+
+				vec3 worldNormal = inverseTransformDirection( normal, viewMatrix );
+
+				vec3 irradiance = shGetIrradianceAt( worldNormal, sh );
+
+				vec3 outgoingLight = RECIPROCAL_PI * irradiance * intensity;
+
+				outgoingLight = linearToOutput( outgoingLight );
+
+				gl_FragColor = vec4( outgoingLight, 1.0 );
+
+			}`
+
+	} );
+
+	var geometry = new SphereBufferGeometry( 1, 32, 16 );
+
+	Mesh.call( this, geometry, material );
+
+	this.onBeforeRender();
+
+}
+
+LightProbeHelper.prototype = Object.create( Mesh.prototype );
+LightProbeHelper.prototype.constructor = LightProbeHelper;
+
+LightProbeHelper.prototype.dispose = function () {
+
+	this.geometry.dispose();
+	this.material.dispose();
+
+};
+
+LightProbeHelper.prototype.onBeforeRender = function () {
+
+	return function update() {
+
+		this.position.copy( this.lightProbe.position );
+
+		this.scale.set( 1, 1, 1 ).multiplyScalar( this.size );
+
+		this.material.uniforms.intensity.value = this.lightProbe.intensity;
+
+	};
+
+}();
+
+/**
  * @author mrdoob / http://mrdoob.com/
  */
 
@@ -48482,4 +48932,4 @@ function LensFlare() {
 
 }
 
-export { WebGLMultisampleRenderTarget, WebGLRenderTargetCube, WebGLRenderTarget, WebGLRenderer, ShaderLib, UniformsLib, UniformsUtils, ShaderChunk, FogExp2, Fog, Scene, Sprite, LOD, SkinnedMesh, Skeleton, Bone, Mesh, LineSegments, LineLoop, Line, Points, Group, VideoTexture, DataTexture, DataTexture2DArray, DataTexture3D, CompressedTexture, CubeTexture, CanvasTexture, DepthTexture, Texture, AnimationLoader, CompressedTextureLoader, DataTextureLoader, CubeTextureLoader, TextureLoader, ObjectLoader, MaterialLoader, BufferGeometryLoader, DefaultLoadingManager, LoadingManager, ImageLoader, ImageBitmapLoader, FontLoader, FileLoader, Loader, LoaderUtils, Cache, AudioLoader, SpotLightShadow, SpotLight, PointLight, RectAreaLight, HemisphereLight, DirectionalLightShadow, DirectionalLight, AmbientLight, LightShadow, Light, LightProbe, StereoCamera, PerspectiveCamera, OrthographicCamera, CubeCamera, ArrayCamera, Camera, AudioListener, PositionalAudio, AudioContext, AudioAnalyser, Audio, VectorKeyframeTrack, StringKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack, ColorKeyframeTrack, BooleanKeyframeTrack, PropertyMixer, PropertyBinding, KeyframeTrack, AnimationUtils, AnimationObjectGroup, AnimationMixer, AnimationClip, Uniform, InstancedBufferGeometry, BufferGeometry, Geometry, InterleavedBufferAttribute, InstancedInterleavedBuffer, InterleavedBuffer, InstancedBufferAttribute, Face3, Object3D, Raycaster, Layers, EventDispatcher, Clock, QuaternionLinearInterpolant, LinearInterpolant, DiscreteInterpolant, CubicInterpolant, Interpolant, Triangle, _Math as Math, Spherical, Cylindrical, Plane, Frustum, Sphere, Ray, Matrix4, Matrix3, Box3, Box2, Line3, Euler, Vector4, Vector3, Vector2, Quaternion, Color, SphericalHarmonics3, ImmediateRenderObject, VertexNormalsHelper, SpotLightHelper, SkeletonHelper, PointLightHelper, RectAreaLightHelper, HemisphereLightHelper, GridHelper, PolarGridHelper, PositionalAudioHelper, FaceNormalsHelper, DirectionalLightHelper, CameraHelper, BoxHelper, Box3Helper, PlaneHelper, ArrowHelper, AxesHelper, Shape, Path, ShapePath, Font, CurvePath, Curve, ImageUtils, ShapeUtils, WebGLUtils, WireframeGeometry, ParametricGeometry, ParametricBufferGeometry, TetrahedronGeometry, TetrahedronBufferGeometry, OctahedronGeometry, OctahedronBufferGeometry, IcosahedronGeometry, IcosahedronBufferGeometry, DodecahedronGeometry, DodecahedronBufferGeometry, PolyhedronGeometry, PolyhedronBufferGeometry, TubeGeometry, TubeBufferGeometry, TorusKnotGeometry, TorusKnotBufferGeometry, TorusGeometry, TorusBufferGeometry, TextGeometry, TextBufferGeometry, SphereGeometry, SphereBufferGeometry, RingGeometry, RingBufferGeometry, PlaneGeometry, PlaneBufferGeometry, LatheGeometry, LatheBufferGeometry, ShapeGeometry, ShapeBufferGeometry, ExtrudeGeometry, ExtrudeBufferGeometry, EdgesGeometry, ConeGeometry, ConeBufferGeometry, CylinderGeometry, CylinderBufferGeometry, CircleGeometry, CircleBufferGeometry, BoxGeometry, BoxGeometry as CubeGeometry, BoxBufferGeometry, ShadowMaterial, SpriteMaterial, RawShaderMaterial, ShaderMaterial, PointsMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshPhongMaterial, MeshToonMaterial, MeshNormalMaterial, MeshLambertMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshBasicMaterial, MeshMatcapMaterial, LineDashedMaterial, LineBasicMaterial, Material, Float64BufferAttribute, Float32BufferAttribute, Uint32BufferAttribute, Int32BufferAttribute, Uint16BufferAttribute, Int16BufferAttribute, Uint8ClampedBufferAttribute, Uint8BufferAttribute, Int8BufferAttribute, BufferAttribute, ArcCurve, CatmullRomCurve3, CubicBezierCurve, CubicBezierCurve3, EllipseCurve, LineCurve, LineCurve3, QuadraticBezierCurve, QuadraticBezierCurve3, SplineCurve, REVISION, MOUSE, CullFaceNone, CullFaceBack, CullFaceFront, CullFaceFrontBack, FrontFaceDirectionCW, FrontFaceDirectionCCW, BasicShadowMap, PCFShadowMap, PCFSoftShadowMap, FrontSide, BackSide, DoubleSide, FlatShading, SmoothShading, NoColors, FaceColors, VertexColors, NoBlending, NormalBlending, AdditiveBlending, SubtractiveBlending, MultiplyBlending, CustomBlending, AddEquation, SubtractEquation, ReverseSubtractEquation, MinEquation, MaxEquation, ZeroFactor, OneFactor, SrcColorFactor, OneMinusSrcColorFactor, SrcAlphaFactor, OneMinusSrcAlphaFactor, DstAlphaFactor, OneMinusDstAlphaFactor, DstColorFactor, OneMinusDstColorFactor, SrcAlphaSaturateFactor, NeverDepth, AlwaysDepth, LessDepth, LessEqualDepth, EqualDepth, GreaterEqualDepth, GreaterDepth, NotEqualDepth, MultiplyOperation, MixOperation, AddOperation, NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, UVMapping, CubeReflectionMapping, CubeRefractionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping, CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, NearestMipMapNearestFilter, NearestMipMapLinearFilter, LinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType, UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedShort565Type, UnsignedInt248Type, AlphaFormat, RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat, DepthStencilFormat, RedFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGB_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_PVRTC_2BPPV1_Format, RGB_ETC1_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_10x10_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, LoopOnce, LoopRepeat, LoopPingPong, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, TrianglesDrawMode, TriangleStripDrawMode, TriangleFanDrawMode, LinearEncoding, sRGBEncoding, GammaEncoding, RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking, RGBADepthPacking, TangentSpaceNormalMap, ObjectSpaceNormalMap, Face4, LineStrip, LinePieces, MeshFaceMaterial, MultiMaterial, PointCloud, Particle, ParticleSystem, PointCloudMaterial, ParticleBasicMaterial, ParticleSystemMaterial, Vertex, DynamicBufferAttribute, Int8Attribute, Uint8Attribute, Uint8ClampedAttribute, Int16Attribute, Uint16Attribute, Int32Attribute, Uint32Attribute, Float32Attribute, Float64Attribute, ClosedSplineCurve3, SplineCurve3, Spline, AxisHelper, BoundingBoxHelper, EdgesHelper, WireframeHelper, XHRLoader, BinaryTextureLoader, GeometryUtils, Projector, CanvasRenderer, JSONLoader, SceneUtils, LensFlare };
+export { WebGLMultisampleRenderTarget, WebGLRenderTargetCube, WebGLRenderTarget, WebGLRenderer, ShaderLib, UniformsLib, UniformsUtils, ShaderChunk, FogExp2, Fog, Scene, Sprite, LOD, SkinnedMesh, Skeleton, Bone, Mesh, LineSegments, LineLoop, Line, Points, Group, VideoTexture, DataTexture, DataTexture2DArray, DataTexture3D, CompressedTexture, CubeTexture, CanvasTexture, DepthTexture, Texture, AnimationLoader, CompressedTextureLoader, DataTextureLoader, CubeTextureLoader, TextureLoader, ObjectLoader, MaterialLoader, BufferGeometryLoader, DefaultLoadingManager, LoadingManager, ImageLoader, ImageBitmapLoader, FontLoader, FileLoader, PCDLoader, Loader, LoaderUtils, Cache, AudioLoader, SpotLightShadow, SpotLight, PointLight, RectAreaLight, HemisphereLight, DirectionalLightShadow, DirectionalLight, AmbientLight, LightShadow, Light, LightProbe, StereoCamera, PerspectiveCamera, OrthographicCamera, CubeCamera, ArrayCamera, Camera, AudioListener, PositionalAudio, AudioContext, AudioAnalyser, Audio, VectorKeyframeTrack, StringKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack, ColorKeyframeTrack, BooleanKeyframeTrack, PropertyMixer, PropertyBinding, KeyframeTrack, AnimationUtils, AnimationObjectGroup, AnimationMixer, AnimationClip, Uniform, InstancedBufferGeometry, BufferGeometry, Geometry, InterleavedBufferAttribute, InstancedInterleavedBuffer, InterleavedBuffer, InstancedBufferAttribute, Face3, Object3D, Raycaster, Layers, EventDispatcher, Clock, QuaternionLinearInterpolant, LinearInterpolant, DiscreteInterpolant, CubicInterpolant, Interpolant, Triangle, _Math as Math, Spherical, Cylindrical, Plane, Frustum, Sphere, Ray, Matrix4, Matrix3, Box3, Box2, Line3, Euler, Vector4, Vector3, Vector2, Quaternion, Color, SphericalHarmonics3, ImmediateRenderObject, VertexNormalsHelper, SpotLightHelper, SkeletonHelper, PointLightHelper, RectAreaLightHelper, HemisphereLightHelper, LightProbeHelper, GridHelper, PolarGridHelper, PositionalAudioHelper, FaceNormalsHelper, DirectionalLightHelper, CameraHelper, BoxHelper, Box3Helper, PlaneHelper, ArrowHelper, AxesHelper, Shape, Path, ShapePath, Font, CurvePath, Curve, ImageUtils, ShapeUtils, WebGLUtils, WireframeGeometry, ParametricGeometry, ParametricBufferGeometry, TetrahedronGeometry, TetrahedronBufferGeometry, OctahedronGeometry, OctahedronBufferGeometry, IcosahedronGeometry, IcosahedronBufferGeometry, DodecahedronGeometry, DodecahedronBufferGeometry, PolyhedronGeometry, PolyhedronBufferGeometry, TubeGeometry, TubeBufferGeometry, TorusKnotGeometry, TorusKnotBufferGeometry, TorusGeometry, TorusBufferGeometry, TextGeometry, TextBufferGeometry, SphereGeometry, SphereBufferGeometry, RingGeometry, RingBufferGeometry, PlaneGeometry, PlaneBufferGeometry, LatheGeometry, LatheBufferGeometry, ShapeGeometry, ShapeBufferGeometry, ExtrudeGeometry, ExtrudeBufferGeometry, EdgesGeometry, ConeGeometry, ConeBufferGeometry, CylinderGeometry, CylinderBufferGeometry, CircleGeometry, CircleBufferGeometry, BoxGeometry, BoxGeometry as CubeGeometry, BoxBufferGeometry, ShadowMaterial, SpriteMaterial, RawShaderMaterial, ShaderMaterial, PointsMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshPhongMaterial, MeshToonMaterial, MeshNormalMaterial, MeshLambertMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshBasicMaterial, MeshMatcapMaterial, LineDashedMaterial, LineBasicMaterial, Material, Float64BufferAttribute, Float32BufferAttribute, Uint32BufferAttribute, Int32BufferAttribute, Uint16BufferAttribute, Int16BufferAttribute, Uint8ClampedBufferAttribute, Uint8BufferAttribute, Int8BufferAttribute, BufferAttribute, ArcCurve, CatmullRomCurve3, CubicBezierCurve, CubicBezierCurve3, EllipseCurve, LineCurve, LineCurve3, QuadraticBezierCurve, QuadraticBezierCurve3, SplineCurve, REVISION, MOUSE, CullFaceNone, CullFaceBack, CullFaceFront, CullFaceFrontBack, FrontFaceDirectionCW, FrontFaceDirectionCCW, BasicShadowMap, PCFShadowMap, PCFSoftShadowMap, FrontSide, BackSide, DoubleSide, FlatShading, SmoothShading, NoColors, FaceColors, VertexColors, NoBlending, NormalBlending, AdditiveBlending, SubtractiveBlending, MultiplyBlending, CustomBlending, AddEquation, SubtractEquation, ReverseSubtractEquation, MinEquation, MaxEquation, ZeroFactor, OneFactor, SrcColorFactor, OneMinusSrcColorFactor, SrcAlphaFactor, OneMinusSrcAlphaFactor, DstAlphaFactor, OneMinusDstAlphaFactor, DstColorFactor, OneMinusDstColorFactor, SrcAlphaSaturateFactor, NeverDepth, AlwaysDepth, LessDepth, LessEqualDepth, EqualDepth, GreaterEqualDepth, GreaterDepth, NotEqualDepth, MultiplyOperation, MixOperation, AddOperation, NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, UVMapping, CubeReflectionMapping, CubeRefractionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping, CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, NearestMipMapNearestFilter, NearestMipMapLinearFilter, LinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType, UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedShort565Type, UnsignedInt248Type, AlphaFormat, RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat, DepthStencilFormat, RedFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGB_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_PVRTC_2BPPV1_Format, RGB_ETC1_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_10x10_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, LoopOnce, LoopRepeat, LoopPingPong, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, TrianglesDrawMode, TriangleStripDrawMode, TriangleFanDrawMode, LinearEncoding, sRGBEncoding, GammaEncoding, RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking, RGBADepthPacking, TangentSpaceNormalMap, ObjectSpaceNormalMap, Face4, LineStrip, LinePieces, MeshFaceMaterial, MultiMaterial, PointCloud, Particle, ParticleSystem, PointCloudMaterial, ParticleBasicMaterial, ParticleSystemMaterial, Vertex, DynamicBufferAttribute, Int8Attribute, Uint8Attribute, Uint8ClampedAttribute, Int16Attribute, Uint16Attribute, Int32Attribute, Uint32Attribute, Float32Attribute, Float64Attribute, ClosedSplineCurve3, SplineCurve3, Spline, AxisHelper, BoundingBoxHelper, EdgesHelper, WireframeHelper, XHRLoader, BinaryTextureLoader, GeometryUtils, Projector, CanvasRenderer, JSONLoader, SceneUtils, LensFlare };
