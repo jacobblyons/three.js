@@ -197,7 +197,7 @@ var FlatShading = 1;
 var SmoothShading = 2;
 var NoColors = 0;
 var FaceColors = 1;
-var VertexColors = 2;
+var VertexColors$1 = 2;
 var NoBlending = 0;
 var NormalBlending = 1;
 var AdditiveBlending = 2;
@@ -10856,14 +10856,14 @@ Uint32BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
 Uint32BufferAttribute.prototype.constructor = Uint32BufferAttribute;
 
 
-function Float32BufferAttribute( array, itemSize, normalized ) {
+function Float32BufferAttribute$1( array, itemSize, normalized ) {
 
 	BufferAttribute.call( this, new Float32Array( array ), itemSize, normalized );
 
 }
 
-Float32BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
-Float32BufferAttribute.prototype.constructor = Float32BufferAttribute;
+Float32BufferAttribute$1.prototype = Object.create( BufferAttribute.prototype );
+Float32BufferAttribute$1.prototype.constructor = Float32BufferAttribute$1;
 
 
 function Float64BufferAttribute( array, itemSize, normalized ) {
@@ -11172,7 +11172,7 @@ function arrayMax( array ) {
 
 var bufferGeometryId = 1; // BufferGeometry uses odd numbers as Id
 
-function BufferGeometry() {
+function BufferGeometry$1() {
 
 	Object.defineProperty( this, 'id', { value: bufferGeometryId += 2 } );
 
@@ -11197,9 +11197,9 @@ function BufferGeometry() {
 
 }
 
-BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
+BufferGeometry$1.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
-	constructor: BufferGeometry,
+	constructor: BufferGeometry$1,
 
 	isBufferGeometry: true,
 
@@ -11469,15 +11469,15 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 		if ( object.isPoints || object.isLine ) {
 
-			var positions = new Float32BufferAttribute( geometry.vertices.length * 3, 3 );
-			var colors = new Float32BufferAttribute( geometry.colors.length * 3, 3 );
+			var positions = new Float32BufferAttribute$1( geometry.vertices.length * 3, 3 );
+			var colors = new Float32BufferAttribute$1( geometry.colors.length * 3, 3 );
 
 			this.addAttribute( 'position', positions.copyVector3sArray( geometry.vertices ) );
 			this.addAttribute( 'color', colors.copyColorsArray( geometry.colors ) );
 
 			if ( geometry.lineDistances && geometry.lineDistances.length === geometry.vertices.length ) {
 
-				var lineDistances = new Float32BufferAttribute( geometry.lineDistances.length, 1 );
+				var lineDistances = new Float32BufferAttribute$1( geometry.lineDistances.length, 1 );
 
 				this.addAttribute( 'lineDistance', lineDistances.copyArray( geometry.lineDistances ) );
 
@@ -11520,7 +11520,7 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 		}
 
-		this.addAttribute( 'position', new Float32BufferAttribute( position, 3 ) );
+		this.addAttribute( 'position', new Float32BufferAttribute$1( position, 3 ) );
 
 		return this;
 
@@ -11709,7 +11709,7 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 				var morphTarget = morphTargets[ i ];
 
-				var attribute = new Float32BufferAttribute( morphTarget.data.length * 3, 3 );
+				var attribute = new Float32BufferAttribute$1( morphTarget.data.length * 3, 3 );
 				attribute.name = morphTarget.name;
 
 				array.push( attribute.copyVector3sArray( morphTarget.data ) );
@@ -11724,14 +11724,14 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 		if ( geometry.skinIndices.length > 0 ) {
 
-			var skinIndices = new Float32BufferAttribute( geometry.skinIndices.length * 4, 4 );
+			var skinIndices = new Float32BufferAttribute$1( geometry.skinIndices.length * 4, 4 );
 			this.addAttribute( 'skinIndex', skinIndices.copyVector4sArray( geometry.skinIndices ) );
 
 		}
 
 		if ( geometry.skinWeights.length > 0 ) {
 
-			var skinWeights = new Float32BufferAttribute( geometry.skinWeights.length * 4, 4 );
+			var skinWeights = new Float32BufferAttribute$1( geometry.skinWeights.length * 4, 4 );
 			this.addAttribute( 'skinWeight', skinWeights.copyVector4sArray( geometry.skinWeights ) );
 
 		}
@@ -12112,7 +12112,7 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 		}
 
-		var geometry2 = new BufferGeometry();
+		var geometry2 = new BufferGeometry$1();
 
 		var indices = this.index.array;
 		var attributes = this.attributes;
@@ -12317,7 +12317,7 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 		 return new this.constructor().copy( this );
 		 */
 
-		return new BufferGeometry().copy( this );
+		return new BufferGeometry$1().copy( this );
 
 	},
 
@@ -12464,7 +12464,7 @@ BoxGeometry.prototype.constructor = BoxGeometry;
 
 function BoxBufferGeometry( width, height, depth, widthSegments, heightSegments, depthSegments ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'BoxBufferGeometry';
 
@@ -12513,9 +12513,9 @@ function BoxBufferGeometry( width, height, depth, widthSegments, heightSegments,
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 	function buildPlane( u, v, w, udir, vdir, width, height, depth, gridX, gridY, materialIndex ) {
 
@@ -12623,7 +12623,7 @@ function BoxBufferGeometry( width, height, depth, widthSegments, heightSegments,
 
 }
 
-BoxBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+BoxBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 BoxBufferGeometry.prototype.constructor = BoxBufferGeometry;
 
 /**
@@ -12658,7 +12658,7 @@ PlaneGeometry.prototype.constructor = PlaneGeometry;
 
 function PlaneBufferGeometry( width, height, widthSegments, heightSegments ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'PlaneBufferGeometry';
 
@@ -12737,13 +12737,13 @@ function PlaneBufferGeometry( width, height, widthSegments, heightSegments ) {
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 }
 
-PlaneBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+PlaneBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 PlaneBufferGeometry.prototype.constructor = PlaneBufferGeometry;
 
 /**
@@ -14343,7 +14343,7 @@ function Mesh( geometry, material ) {
 
 	this.type = 'Mesh';
 
-	this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
+	this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
 	this.material = material !== undefined ? material : new MeshBasicMaterial( { color: Math.random() * 0xffffff } );
 
 	this.drawMode = TrianglesDrawMode;
@@ -15439,7 +15439,7 @@ function WebGLGeometries( gl, attributes, info ) {
 
 			if ( geometry._bufferGeometry === undefined ) {
 
-				geometry._bufferGeometry = new BufferGeometry().setFromObject( object );
+				geometry._bufferGeometry = new BufferGeometry$1().setFromObject( object );
 
 			}
 
@@ -25670,7 +25670,7 @@ function Sprite( material ) {
 
 	if ( geometry === undefined ) {
 
-		geometry = new BufferGeometry();
+		geometry = new BufferGeometry$1();
 
 		var float32Array = new Float32Array( [
 			- 0.5, - 0.5, 0, 0, 0,
@@ -26377,7 +26377,7 @@ function Line( geometry, material, mode ) {
 
 	this.type = 'Line';
 
-	this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
+	this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
 	this.material = material !== undefined ? material : new LineBasicMaterial( { color: Math.random() * 0xffffff } );
 
 }
@@ -26416,7 +26416,7 @@ Line.prototype = Object.assign( Object.create( Object3D.prototype ), {
 
 					}
 
-					geometry.addAttribute( 'lineDistance', new Float32BufferAttribute( lineDistances, 1 ) );
+					geometry.addAttribute( 'lineDistance', new Float32BufferAttribute$1( lineDistances, 1 ) );
 
 				} else {
 
@@ -26652,7 +26652,7 @@ LineSegments.prototype = Object.assign( Object.create( Line.prototype ), {
 
 					}
 
-					geometry.addAttribute( 'lineDistance', new Float32BufferAttribute( lineDistances, 1 ) );
+					geometry.addAttribute( 'lineDistance', new Float32BufferAttribute$1( lineDistances, 1 ) );
 
 				} else {
 
@@ -26721,7 +26721,7 @@ LineLoop.prototype = Object.assign( Object.create( Line.prototype ), {
  * }
  */
 
-function PointsMaterial( parameters ) {
+function PointsMaterial$1( parameters ) {
 
 	Material.call( this );
 
@@ -26742,12 +26742,12 @@ function PointsMaterial( parameters ) {
 
 }
 
-PointsMaterial.prototype = Object.create( Material.prototype );
-PointsMaterial.prototype.constructor = PointsMaterial;
+PointsMaterial$1.prototype = Object.create( Material.prototype );
+PointsMaterial$1.prototype.constructor = PointsMaterial$1;
 
-PointsMaterial.prototype.isPointsMaterial = true;
+PointsMaterial$1.prototype.isPointsMaterial = true;
 
-PointsMaterial.prototype.copy = function ( source ) {
+PointsMaterial$1.prototype.copy = function ( source ) {
 
 	Material.prototype.copy.call( this, source );
 
@@ -26774,8 +26774,8 @@ function Points( geometry, material ) {
 
 	this.type = 'Points';
 
-	this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
-	this.material = material !== undefined ? material : new PointsMaterial( { color: Math.random() * 0xffffff } );
+	this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
+	this.material = material !== undefined ? material : new PointsMaterial$1( { color: Math.random() * 0xffffff } );
 
 }
 
@@ -27024,7 +27024,7 @@ DepthTexture.prototype.isDepthTexture = true;
 
 function WireframeGeometry( geometry ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'WireframeGeometry';
 
@@ -27183,11 +27183,11 @@ function WireframeGeometry( geometry ) {
 
 	// build geometry
 
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
 
 }
 
-WireframeGeometry.prototype = Object.create( BufferGeometry.prototype );
+WireframeGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 WireframeGeometry.prototype.constructor = WireframeGeometry;
 
 /**
@@ -27224,7 +27224,7 @@ ParametricGeometry.prototype.constructor = ParametricGeometry;
 
 function ParametricBufferGeometry( func, slices, stacks ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'ParametricBufferGeometry';
 
@@ -27337,13 +27337,13 @@ function ParametricBufferGeometry( func, slices, stacks ) {
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 }
 
-ParametricBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+ParametricBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 ParametricBufferGeometry.prototype.constructor = ParametricBufferGeometry;
 
 /**
@@ -27380,7 +27380,7 @@ PolyhedronGeometry.prototype.constructor = PolyhedronGeometry;
 
 function PolyhedronBufferGeometry( vertices, indices, radius, detail ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'PolyhedronBufferGeometry';
 
@@ -27413,9 +27413,9 @@ function PolyhedronBufferGeometry( vertices, indices, radius, detail ) {
 
 	// build non-indexed geometry
 
-	this.addAttribute( 'position', new Float32BufferAttribute( vertexBuffer, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( vertexBuffer.slice(), 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvBuffer, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertexBuffer, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( vertexBuffer.slice(), 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvBuffer, 2 ) );
 
 	if ( detail === 0 ) {
 
@@ -27676,7 +27676,7 @@ function PolyhedronBufferGeometry( vertices, indices, radius, detail ) {
 
 }
 
-PolyhedronBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+PolyhedronBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 PolyhedronBufferGeometry.prototype.constructor = PolyhedronBufferGeometry;
 
 /**
@@ -27978,7 +27978,7 @@ TubeGeometry.prototype.constructor = TubeGeometry;
 
 function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, closed ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'TubeBufferGeometry';
 
@@ -28026,9 +28026,9 @@ function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, clos
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 	// functions
 
@@ -28140,12 +28140,12 @@ function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, clos
 
 }
 
-TubeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+TubeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 TubeBufferGeometry.prototype.constructor = TubeBufferGeometry;
 
 TubeBufferGeometry.prototype.toJSON = function () {
 
-	var data = BufferGeometry.prototype.toJSON.call( this );
+	var data = BufferGeometry$1.prototype.toJSON.call( this );
 
 	data.path = this.parameters.path.toJSON();
 
@@ -28191,7 +28191,7 @@ TorusKnotGeometry.prototype.constructor = TorusKnotGeometry;
 
 function TorusKnotBufferGeometry( radius, tube, tubularSegments, radialSegments, p, q ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'TorusKnotBufferGeometry';
 
@@ -28316,9 +28316,9 @@ function TorusKnotBufferGeometry( radius, tube, tubularSegments, radialSegments,
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 	// this function calculates the current position on the torus curve
 
@@ -28337,7 +28337,7 @@ function TorusKnotBufferGeometry( radius, tube, tubularSegments, radialSegments,
 
 }
 
-TorusKnotBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+TorusKnotBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 TorusKnotBufferGeometry.prototype.constructor = TorusKnotBufferGeometry;
 
 /**
@@ -28374,7 +28374,7 @@ TorusGeometry.prototype.constructor = TorusGeometry;
 
 function TorusBufferGeometry( radius, tube, radialSegments, tubularSegments, arc ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'TorusBufferGeometry';
 
@@ -28466,13 +28466,13 @@ function TorusBufferGeometry( radius, tube, radialSegments, tubularSegments, arc
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 }
 
-TorusBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+TorusBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 TorusBufferGeometry.prototype.constructor = TorusBufferGeometry;
 
 /**
@@ -29436,7 +29436,7 @@ ExtrudeGeometry.prototype.toJSON = function () {
 
 function ExtrudeBufferGeometry( shapes, options ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'ExtrudeBufferGeometry';
 
@@ -29461,8 +29461,8 @@ function ExtrudeBufferGeometry( shapes, options ) {
 
 	// build geometry
 
-	this.addAttribute( 'position', new Float32BufferAttribute( verticesArray, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvArray, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( verticesArray, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvArray, 2 ) );
 
 	this.computeVertexNormals();
 
@@ -30097,12 +30097,12 @@ function ExtrudeBufferGeometry( shapes, options ) {
 
 }
 
-ExtrudeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+ExtrudeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 ExtrudeBufferGeometry.prototype.constructor = ExtrudeBufferGeometry;
 
 ExtrudeBufferGeometry.prototype.toJSON = function () {
 
-	var data = BufferGeometry.prototype.toJSON.call( this );
+	var data = BufferGeometry$1.prototype.toJSON.call( this );
 
 	var shapes = this.parameters.shapes;
 	var options = this.parameters.options;
@@ -30312,7 +30312,7 @@ SphereGeometry.prototype.constructor = SphereGeometry;
 
 function SphereBufferGeometry( radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'SphereBufferGeometry';
 
@@ -30416,13 +30416,13 @@ function SphereBufferGeometry( radius, widthSegments, heightSegments, phiStart, 
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 }
 
-SphereBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+SphereBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 SphereBufferGeometry.prototype.constructor = SphereBufferGeometry;
 
 /**
@@ -30459,7 +30459,7 @@ RingGeometry.prototype.constructor = RingGeometry;
 
 function RingBufferGeometry( innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'RingBufferGeometry';
 
@@ -30560,13 +30560,13 @@ function RingBufferGeometry( innerRadius, outerRadius, thetaSegments, phiSegment
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 }
 
-RingBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+RingBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 RingBufferGeometry.prototype.constructor = RingBufferGeometry;
 
 /**
@@ -30602,7 +30602,7 @@ LatheGeometry.prototype.constructor = LatheGeometry;
 
 function LatheBufferGeometry( points, segments, phiStart, phiLength ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'LatheBufferGeometry';
 
@@ -30692,8 +30692,8 @@ function LatheBufferGeometry( points, segments, phiStart, phiLength ) {
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 	// generate normals
 
@@ -30743,7 +30743,7 @@ function LatheBufferGeometry( points, segments, phiStart, phiLength ) {
 
 }
 
-LatheBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+LatheBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 LatheBufferGeometry.prototype.constructor = LatheBufferGeometry;
 
 /**
@@ -30794,7 +30794,7 @@ ShapeGeometry.prototype.toJSON = function () {
 
 function ShapeBufferGeometry( shapes, curveSegments ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'ShapeBufferGeometry';
 
@@ -30841,9 +30841,9 @@ function ShapeBufferGeometry( shapes, curveSegments ) {
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 
 	// helper functions
@@ -30920,12 +30920,12 @@ function ShapeBufferGeometry( shapes, curveSegments ) {
 
 }
 
-ShapeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+ShapeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 ShapeBufferGeometry.prototype.constructor = ShapeBufferGeometry;
 
 ShapeBufferGeometry.prototype.toJSON = function () {
 
-	var data = BufferGeometry.prototype.toJSON.call( this );
+	var data = BufferGeometry$1.prototype.toJSON.call( this );
 
 	var shapes = this.parameters.shapes;
 
@@ -30966,7 +30966,7 @@ function toJSON$1( shapes, data ) {
 
 function EdgesGeometry( geometry, thresholdAngle ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'EdgesGeometry';
 
@@ -31058,11 +31058,11 @@ function EdgesGeometry( geometry, thresholdAngle ) {
 
 	// build geometry
 
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
 
 }
 
-EdgesGeometry.prototype = Object.create( BufferGeometry.prototype );
+EdgesGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 EdgesGeometry.prototype.constructor = EdgesGeometry;
 
 /**
@@ -31101,7 +31101,7 @@ CylinderGeometry.prototype.constructor = CylinderGeometry;
 
 function CylinderBufferGeometry( radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'CylinderBufferGeometry';
 
@@ -31157,9 +31157,9 @@ function CylinderBufferGeometry( radiusTop, radiusBottom, height, radialSegments
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 	function generateTorso() {
 
@@ -31370,7 +31370,7 @@ function CylinderBufferGeometry( radiusTop, radiusBottom, height, radialSegments
 
 }
 
-CylinderBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+CylinderBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 CylinderBufferGeometry.prototype.constructor = CylinderBufferGeometry;
 
 /**
@@ -31456,7 +31456,7 @@ CircleGeometry.prototype.constructor = CircleGeometry;
 
 function CircleBufferGeometry( radius, segments, thetaStart, thetaLength ) {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'CircleBufferGeometry';
 
@@ -31527,13 +31527,13 @@ function CircleBufferGeometry( radius, segments, thetaStart, thetaLength ) {
 	// build geometry
 
 	this.setIndex( indices );
-	this.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	this.addAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
-	this.addAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+	this.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	this.addAttribute( 'normal', new Float32BufferAttribute$1( normals, 3 ) );
+	this.addAttribute( 'uv', new Float32BufferAttribute$1( uvs, 2 ) );
 
 }
 
-CircleBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
+CircleBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
 CircleBufferGeometry.prototype.constructor = CircleBufferGeometry;
 
 
@@ -32429,7 +32429,7 @@ var Materials = /*#__PURE__*/Object.freeze({
 	SpriteMaterial: SpriteMaterial,
 	RawShaderMaterial: RawShaderMaterial,
 	ShaderMaterial: ShaderMaterial,
-	PointsMaterial: PointsMaterial,
+	PointsMaterial: PointsMaterial$1,
 	MeshPhysicalMaterial: MeshPhysicalMaterial,
 	MeshStandardMaterial: MeshStandardMaterial,
 	MeshPhongMaterial: MeshPhongMaterial,
@@ -38074,7 +38074,7 @@ Object.assign( BufferGeometryLoader.prototype, {
 
 	parse: function ( json ) {
 
-		var geometry = new BufferGeometry();
+		var geometry = new BufferGeometry$1();
 
 		var index = json.data.index;
 
@@ -39747,24 +39747,22 @@ Object.assign( FontLoader.prototype, {
  * @author Filipe Caixeta / http://filipecaixeta.com.br
  * @author Mugen87 / https://github.com/Mugen87
  *
- * Description: A THREE loader for PCD ascii and binary files.
+ * Description: A loader for PCD ascii and binary files.
  *
  * Limitations: Compressed binary files are not supported.
  *
  */
 
 function PCDLoader(manager) {
-	this.manager = manager !== undefined ? manager : THREE.DefaultLoadingManager;
+	this.manager = manager !== undefined ? manager : DefaultLoadingManager;
 	this.littleEndian = true;
 }
 
 Object.assign(PCDLoader.prototype, {
-	constructor: THREE.PCDLoader,
-
 	load: function(url, onLoad, onProgress, onError) {
 		var scope = this;
 
-		var loader = new THREE.FileLoader(scope.manager);
+		var loader = new FileLoader(scope.manager);
 		loader.setPath(scope.path);
 		loader.setResponseType("arraybuffer");
 		loader.load(
@@ -39872,7 +39870,7 @@ Object.assign(PCDLoader.prototype, {
 			return PCDheader;
 		}
 
-		var textData = THREE.LoaderUtils.decodeText(data);
+		var textData = LoaderUtils.decodeText(data);
 
 		// parse header (always ascii format)
 
@@ -39921,7 +39919,7 @@ Object.assign(PCDLoader.prototype, {
 		// binary
 
 		if (PCDheader.data === "binary_compressed") {
-			console.error("THREE.PCDLoader: binary_compressed files are not supported");
+			console.error("PCDLoader: binary_compressed files are not supported");
 			return;
 		}
 
@@ -39952,27 +39950,27 @@ Object.assign(PCDLoader.prototype, {
 
 		// build geometry
 
-		var geometry = new THREE.BufferGeometry();
+		var geometry = new BufferGeometry();
 
-		if (position.length > 0) geometry.addAttribute("position", new THREE.Float32BufferAttribute(position, 3));
-		if (normal.length > 0) geometry.addAttribute("normal", new THREE.Float32BufferAttribute(normal, 3));
-		if (color.length > 0) geometry.addAttribute("color", new THREE.Float32BufferAttribute(color, 3));
+		if (position.length > 0) geometry.addAttribute("position", new Float32BufferAttribute(position, 3));
+		if (normal.length > 0) geometry.addAttribute("normal", new Float32BufferAttribute(normal, 3));
+		if (color.length > 0) geometry.addAttribute("color", new Float32BufferAttribute(color, 3));
 
 		geometry.computeBoundingSphere();
 
 		// build material
 
-		var material = new THREE.PointsMaterial({ size: 0.005 });
+		var material = new PointsMaterial({ size: 0.005 });
 
 		if (color.length > 0) {
-			material.vertexColors = THREE.VertexColors;
+			material.vertexColors = VertexColors;
 		} else {
 			material.color.setHex(Math.random() * 0xffffff);
 		}
 
 		// build mesh
 
-		var mesh = new THREE.Points(geometry, material);
+		var mesh = new Points(geometry, material);
 		var name = url
 			.split("")
 			.reverse()
@@ -40281,7 +40279,7 @@ Object.assign( Loader.prototype, {
 						json[ name ] = value;
 						break;
 					case 'vertexColors':
-						if ( value === true ) json.vertexColors = VertexColors;
+						if ( value === true ) json.vertexColors = VertexColors$1;
 						if ( value === 'face' ) json.vertexColors = FaceColors;
 						break;
 					default:
@@ -44493,14 +44491,14 @@ Uniform.prototype.clone = function () {
 
 function InstancedBufferGeometry() {
 
-	BufferGeometry.call( this );
+	BufferGeometry$1.call( this );
 
 	this.type = 'InstancedBufferGeometry';
 	this.maxInstancedCount = undefined;
 
 }
 
-InstancedBufferGeometry.prototype = Object.assign( Object.create( BufferGeometry.prototype ), {
+InstancedBufferGeometry.prototype = Object.assign( Object.create( BufferGeometry$1.prototype ), {
 
 	constructor: InstancedBufferGeometry,
 
@@ -44508,7 +44506,7 @@ InstancedBufferGeometry.prototype = Object.assign( Object.create( BufferGeometry
 
 	copy: function ( source ) {
 
-		BufferGeometry.prototype.copy.call( this, source );
+		BufferGeometry$1.prototype.copy.call( this, source );
 
 		this.maxInstancedCount = source.maxInstancedCount;
 
@@ -45311,9 +45309,9 @@ function VertexNormalsHelper( object, size, hex, linewidth ) {
 
 	//
 
-	var geometry = new BufferGeometry();
+	var geometry = new BufferGeometry$1();
 
-	var positions = new Float32BufferAttribute( nNormals * 2 * 3, 3 );
+	var positions = new Float32BufferAttribute$1( nNormals * 2 * 3, 3 );
 
 	geometry.addAttribute( 'position', positions );
 
@@ -45440,7 +45438,7 @@ function SpotLightHelper( light, color ) {
 
 	this.color = color;
 
-	var geometry = new BufferGeometry();
+	var geometry = new BufferGeometry$1();
 
 	var positions = [
 		0, 0, 0, 	0, 0, 1,
@@ -45462,7 +45460,7 @@ function SpotLightHelper( light, color ) {
 
 	}
 
-	geometry.addAttribute( 'position', new Float32BufferAttribute( positions, 3 ) );
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( positions, 3 ) );
 
 	var material = new LineBasicMaterial( { fog: false } );
 
@@ -45546,7 +45544,7 @@ function SkeletonHelper( object ) {
 
 	var bones = getBoneList( object );
 
-	var geometry = new BufferGeometry();
+	var geometry = new BufferGeometry$1();
 
 	var vertices = [];
 	var colors = [];
@@ -45569,10 +45567,10 @@ function SkeletonHelper( object ) {
 
 	}
 
-	geometry.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	geometry.addAttribute( 'color', new Float32BufferAttribute( colors, 3 ) );
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
-	var material = new LineBasicMaterial( { vertexColors: VertexColors, depthTest: false, depthWrite: false, transparent: true } );
+	var material = new LineBasicMaterial( { vertexColors: VertexColors$1, depthTest: false, depthWrite: false, transparent: true } );
 
 	LineSegments.call( this, geometry, material );
 
@@ -45735,8 +45733,8 @@ function RectAreaLightHelper( light, color ) {
 
 	var positions = [ 1, 1, 0, - 1, 1, 0, - 1, - 1, 0, 1, - 1, 0, 1, 1, 0 ];
 
-	var geometry = new BufferGeometry();
-	geometry.addAttribute( 'position', new Float32BufferAttribute( positions, 3 ) );
+	var geometry = new BufferGeometry$1();
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( positions, 3 ) );
 	geometry.computeBoundingSphere();
 
 	var material = new LineBasicMaterial( { fog: false } );
@@ -45747,8 +45745,8 @@ function RectAreaLightHelper( light, color ) {
 
 	var positions2 = [ 1, 1, 0, - 1, 1, 0, - 1, - 1, 0, 1, 1, 0, - 1, - 1, 0, 1, - 1, 0 ];
 
-	var geometry2 = new BufferGeometry();
-	geometry2.addAttribute( 'position', new Float32BufferAttribute( positions2, 3 ) );
+	var geometry2 = new BufferGeometry$1();
+	geometry2.addAttribute( 'position', new Float32BufferAttribute$1( positions2, 3 ) );
 	geometry2.computeBoundingSphere();
 
 	this.add( new Mesh( geometry2, new MeshBasicMaterial( { side: BackSide, fog: false } ) ) );
@@ -45815,7 +45813,7 @@ function HemisphereLightHelper( light, size, color ) {
 	geometry.rotateY( Math.PI * 0.5 );
 
 	this.material = new MeshBasicMaterial( { wireframe: true, fog: false } );
-	if ( this.color === undefined ) this.material.vertexColors = VertexColors;
+	if ( this.color === undefined ) this.material.vertexColors = VertexColors$1;
 
 	var position = geometry.getAttribute( 'position' );
 	var colors = new Float32Array( position.count * 3 );
@@ -46056,11 +46054,11 @@ function GridHelper( size, divisions, color1, color2 ) {
 
 	}
 
-	var geometry = new BufferGeometry();
-	geometry.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	geometry.addAttribute( 'color', new Float32BufferAttribute( colors, 3 ) );
+	var geometry = new BufferGeometry$1();
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
-	var material = new LineBasicMaterial( { vertexColors: VertexColors } );
+	var material = new LineBasicMaterial( { vertexColors: VertexColors$1 } );
 
 	LineSegments.call( this, geometry, material );
 
@@ -46163,11 +46161,11 @@ function PolarGridHelper( radius, radials, circles, divisions, color1, color2 ) 
 
 	}
 
-	var geometry = new BufferGeometry();
-	geometry.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	geometry.addAttribute( 'color', new Float32BufferAttribute( colors, 3 ) );
+	var geometry = new BufferGeometry$1();
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
-	var material = new LineBasicMaterial( { vertexColors: VertexColors } );
+	var material = new LineBasicMaterial( { vertexColors: VertexColors$1 } );
 
 	LineSegments.call( this, geometry, material );
 
@@ -46187,7 +46185,7 @@ function PositionalAudioHelper( audio, range, divisionsInnerAngle, divisionsOute
 	this.divisionsInnerAngle = divisionsInnerAngle || 16;
 	this.divisionsOuterAngle = divisionsOuterAngle || 2;
 
-	var geometry = new BufferGeometry();
+	var geometry = new BufferGeometry$1();
 	var divisions = this.divisionsInnerAngle + this.divisionsOuterAngle * 2;
 	var positions = new Float32Array( ( divisions * 3 + 3 ) * 3 );
 	geometry.addAttribute( 'position', new BufferAttribute( positions, 3 ) );
@@ -46311,9 +46309,9 @@ function FaceNormalsHelper( object, size, hex, linewidth ) {
 
 	//
 
-	var geometry = new BufferGeometry();
+	var geometry = new BufferGeometry$1();
 
-	var positions = new Float32BufferAttribute( nNormals * 2 * 3, 3 );
+	var positions = new Float32BufferAttribute$1( nNormals * 2 * 3, 3 );
 
 	geometry.addAttribute( 'position', positions );
 
@@ -46405,8 +46403,8 @@ function DirectionalLightHelper( light, size, color ) {
 
 	if ( size === undefined ) size = 1;
 
-	var geometry = new BufferGeometry();
-	geometry.addAttribute( 'position', new Float32BufferAttribute( [
+	var geometry = new BufferGeometry$1();
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( [
 		- size, size, 0,
 		size, size, 0,
 		size, - size, 0,
@@ -46419,8 +46417,8 @@ function DirectionalLightHelper( light, size, color ) {
 	this.lightPlane = new Line( geometry, material );
 	this.add( this.lightPlane );
 
-	geometry = new BufferGeometry();
-	geometry.addAttribute( 'position', new Float32BufferAttribute( [ 0, 0, 0, 0, 0, 1 ], 3 ) );
+	geometry = new BufferGeometry$1();
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( [ 0, 0, 0, 0, 0, 1 ], 3 ) );
 
 	this.targetLine = new Line( geometry, material );
 	this.add( this.targetLine );
@@ -46486,7 +46484,7 @@ DirectionalLightHelper.prototype.update = function () {
 
 function CameraHelper( camera ) {
 
-	var geometry = new BufferGeometry();
+	var geometry = new BufferGeometry$1();
 	var material = new LineBasicMaterial( { color: 0xffffff, vertexColors: FaceColors } );
 
 	var vertices = [];
@@ -46571,8 +46569,8 @@ function CameraHelper( camera ) {
 
 	}
 
-	geometry.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	geometry.addAttribute( 'color', new Float32BufferAttribute( colors, 3 ) );
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
 	LineSegments.call( this, geometry, material );
 
@@ -46687,7 +46685,7 @@ function BoxHelper( object, color ) {
 	var indices = new Uint16Array( [ 0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7 ] );
 	var positions = new Float32Array( 8 * 3 );
 
-	var geometry = new BufferGeometry();
+	var geometry = new BufferGeometry$1();
 	geometry.setIndex( new BufferAttribute( indices, 1 ) );
 	geometry.addAttribute( 'position', new BufferAttribute( positions, 3 ) );
 
@@ -46802,11 +46800,11 @@ function Box3Helper( box, hex ) {
 
 	var positions = [ 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, - 1, 1, 1, 1, - 1, - 1, 1, - 1, - 1, - 1, - 1, 1, - 1, - 1 ];
 
-	var geometry = new BufferGeometry();
+	var geometry = new BufferGeometry$1();
 
 	geometry.setIndex( new BufferAttribute( indices, 1 ) );
 
-	geometry.addAttribute( 'position', new Float32BufferAttribute( positions, 3 ) );
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( positions, 3 ) );
 
 	LineSegments.call( this, geometry, new LineBasicMaterial( { color: color } ) );
 
@@ -46849,8 +46847,8 @@ function PlaneHelper( plane, size, hex ) {
 
 	var positions = [ 1, - 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, - 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0 ];
 
-	var geometry = new BufferGeometry();
-	geometry.addAttribute( 'position', new Float32BufferAttribute( positions, 3 ) );
+	var geometry = new BufferGeometry$1();
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( positions, 3 ) );
 	geometry.computeBoundingSphere();
 
 	Line.call( this, geometry, new LineBasicMaterial( { color: color } ) );
@@ -46859,8 +46857,8 @@ function PlaneHelper( plane, size, hex ) {
 
 	var positions2 = [ 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, 1, 1, - 1, - 1, 1, 1, - 1, 1 ];
 
-	var geometry2 = new BufferGeometry();
-	geometry2.addAttribute( 'position', new Float32BufferAttribute( positions2, 3 ) );
+	var geometry2 = new BufferGeometry$1();
+	geometry2.addAttribute( 'position', new Float32BufferAttribute$1( positions2, 3 ) );
 	geometry2.computeBoundingSphere();
 
 	this.add( new Mesh( geometry2, new MeshBasicMaterial( { color: color, opacity: 0.2, transparent: true, depthWrite: false } ) ) );
@@ -46919,8 +46917,8 @@ function ArrowHelper( dir, origin, length, color, headLength, headWidth ) {
 
 	if ( lineGeometry === undefined ) {
 
-		lineGeometry = new BufferGeometry();
-		lineGeometry.addAttribute( 'position', new Float32BufferAttribute( [ 0, 0, 0, 0, 1, 0 ], 3 ) );
+		lineGeometry = new BufferGeometry$1();
+		lineGeometry.addAttribute( 'position', new Float32BufferAttribute$1( [ 0, 0, 0, 0, 1, 0 ], 3 ) );
 
 		coneGeometry = new CylinderBufferGeometry( 0, 0.5, 1, 5, 1 );
 		coneGeometry.translate( 0, - 0.5, 0 );
@@ -47035,11 +47033,11 @@ function AxesHelper( size ) {
 		0, 0, 1,	0, 0.6, 1
 	];
 
-	var geometry = new BufferGeometry();
-	geometry.addAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-	geometry.addAttribute( 'color', new Float32BufferAttribute( colors, 3 ) );
+	var geometry = new BufferGeometry$1();
+	geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
+	geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
-	var material = new LineBasicMaterial( { vertexColors: VertexColors } );
+	var material = new LineBasicMaterial( { vertexColors: VertexColors$1 } );
 
 	LineSegments.call( this, geometry, material );
 
@@ -47110,21 +47108,21 @@ function ParticleSystem( geometry, material ) {
 function PointCloudMaterial( parameters ) {
 
 	console.warn( 'THREE.PointCloudMaterial has been renamed to THREE.PointsMaterial.' );
-	return new PointsMaterial( parameters );
+	return new PointsMaterial$1( parameters );
 
 }
 
 function ParticleBasicMaterial( parameters ) {
 
 	console.warn( 'THREE.ParticleBasicMaterial has been renamed to THREE.PointsMaterial.' );
-	return new PointsMaterial( parameters );
+	return new PointsMaterial$1( parameters );
 
 }
 
 function ParticleSystemMaterial( parameters ) {
 
 	console.warn( 'THREE.ParticleSystemMaterial has been renamed to THREE.PointsMaterial.' );
-	return new PointsMaterial( parameters );
+	return new PointsMaterial$1( parameters );
 
 }
 
@@ -47196,7 +47194,7 @@ function Uint32Attribute( array, itemSize ) {
 function Float32Attribute( array, itemSize ) {
 
 	console.warn( 'THREE.Float32Attribute has been removed. Use new THREE.Float32BufferAttribute() instead.' );
-	return new Float32BufferAttribute( array, itemSize );
+	return new Float32BufferAttribute$1( array, itemSize );
 
 }
 
@@ -48133,7 +48131,7 @@ Object.defineProperties( BufferAttribute.prototype, {
 
 } );
 
-Object.assign( BufferGeometry.prototype, {
+Object.assign( BufferGeometry$1.prototype, {
 
 	addIndex: function ( index ) {
 
@@ -48171,7 +48169,7 @@ Object.assign( BufferGeometry.prototype, {
 
 } );
 
-Object.defineProperties( BufferGeometry.prototype, {
+Object.defineProperties( BufferGeometry$1.prototype, {
 
 	drawcalls: {
 		get: function () {
@@ -48932,4 +48930,4 @@ function LensFlare() {
 
 }
 
-export { WebGLMultisampleRenderTarget, WebGLRenderTargetCube, WebGLRenderTarget, WebGLRenderer, ShaderLib, UniformsLib, UniformsUtils, ShaderChunk, FogExp2, Fog, Scene, Sprite, LOD, SkinnedMesh, Skeleton, Bone, Mesh, LineSegments, LineLoop, Line, Points, Group, VideoTexture, DataTexture, DataTexture2DArray, DataTexture3D, CompressedTexture, CubeTexture, CanvasTexture, DepthTexture, Texture, AnimationLoader, CompressedTextureLoader, DataTextureLoader, CubeTextureLoader, TextureLoader, ObjectLoader, MaterialLoader, BufferGeometryLoader, DefaultLoadingManager, LoadingManager, ImageLoader, ImageBitmapLoader, FontLoader, FileLoader, PCDLoader, Loader, LoaderUtils, Cache, AudioLoader, SpotLightShadow, SpotLight, PointLight, RectAreaLight, HemisphereLight, DirectionalLightShadow, DirectionalLight, AmbientLight, LightShadow, Light, LightProbe, StereoCamera, PerspectiveCamera, OrthographicCamera, CubeCamera, ArrayCamera, Camera, AudioListener, PositionalAudio, AudioContext, AudioAnalyser, Audio, VectorKeyframeTrack, StringKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack, ColorKeyframeTrack, BooleanKeyframeTrack, PropertyMixer, PropertyBinding, KeyframeTrack, AnimationUtils, AnimationObjectGroup, AnimationMixer, AnimationClip, Uniform, InstancedBufferGeometry, BufferGeometry, Geometry, InterleavedBufferAttribute, InstancedInterleavedBuffer, InterleavedBuffer, InstancedBufferAttribute, Face3, Object3D, Raycaster, Layers, EventDispatcher, Clock, QuaternionLinearInterpolant, LinearInterpolant, DiscreteInterpolant, CubicInterpolant, Interpolant, Triangle, _Math as Math, Spherical, Cylindrical, Plane, Frustum, Sphere, Ray, Matrix4, Matrix3, Box3, Box2, Line3, Euler, Vector4, Vector3, Vector2, Quaternion, Color, SphericalHarmonics3, ImmediateRenderObject, VertexNormalsHelper, SpotLightHelper, SkeletonHelper, PointLightHelper, RectAreaLightHelper, HemisphereLightHelper, LightProbeHelper, GridHelper, PolarGridHelper, PositionalAudioHelper, FaceNormalsHelper, DirectionalLightHelper, CameraHelper, BoxHelper, Box3Helper, PlaneHelper, ArrowHelper, AxesHelper, Shape, Path, ShapePath, Font, CurvePath, Curve, ImageUtils, ShapeUtils, WebGLUtils, WireframeGeometry, ParametricGeometry, ParametricBufferGeometry, TetrahedronGeometry, TetrahedronBufferGeometry, OctahedronGeometry, OctahedronBufferGeometry, IcosahedronGeometry, IcosahedronBufferGeometry, DodecahedronGeometry, DodecahedronBufferGeometry, PolyhedronGeometry, PolyhedronBufferGeometry, TubeGeometry, TubeBufferGeometry, TorusKnotGeometry, TorusKnotBufferGeometry, TorusGeometry, TorusBufferGeometry, TextGeometry, TextBufferGeometry, SphereGeometry, SphereBufferGeometry, RingGeometry, RingBufferGeometry, PlaneGeometry, PlaneBufferGeometry, LatheGeometry, LatheBufferGeometry, ShapeGeometry, ShapeBufferGeometry, ExtrudeGeometry, ExtrudeBufferGeometry, EdgesGeometry, ConeGeometry, ConeBufferGeometry, CylinderGeometry, CylinderBufferGeometry, CircleGeometry, CircleBufferGeometry, BoxGeometry, BoxGeometry as CubeGeometry, BoxBufferGeometry, ShadowMaterial, SpriteMaterial, RawShaderMaterial, ShaderMaterial, PointsMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshPhongMaterial, MeshToonMaterial, MeshNormalMaterial, MeshLambertMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshBasicMaterial, MeshMatcapMaterial, LineDashedMaterial, LineBasicMaterial, Material, Float64BufferAttribute, Float32BufferAttribute, Uint32BufferAttribute, Int32BufferAttribute, Uint16BufferAttribute, Int16BufferAttribute, Uint8ClampedBufferAttribute, Uint8BufferAttribute, Int8BufferAttribute, BufferAttribute, ArcCurve, CatmullRomCurve3, CubicBezierCurve, CubicBezierCurve3, EllipseCurve, LineCurve, LineCurve3, QuadraticBezierCurve, QuadraticBezierCurve3, SplineCurve, REVISION, MOUSE, CullFaceNone, CullFaceBack, CullFaceFront, CullFaceFrontBack, FrontFaceDirectionCW, FrontFaceDirectionCCW, BasicShadowMap, PCFShadowMap, PCFSoftShadowMap, FrontSide, BackSide, DoubleSide, FlatShading, SmoothShading, NoColors, FaceColors, VertexColors, NoBlending, NormalBlending, AdditiveBlending, SubtractiveBlending, MultiplyBlending, CustomBlending, AddEquation, SubtractEquation, ReverseSubtractEquation, MinEquation, MaxEquation, ZeroFactor, OneFactor, SrcColorFactor, OneMinusSrcColorFactor, SrcAlphaFactor, OneMinusSrcAlphaFactor, DstAlphaFactor, OneMinusDstAlphaFactor, DstColorFactor, OneMinusDstColorFactor, SrcAlphaSaturateFactor, NeverDepth, AlwaysDepth, LessDepth, LessEqualDepth, EqualDepth, GreaterEqualDepth, GreaterDepth, NotEqualDepth, MultiplyOperation, MixOperation, AddOperation, NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, UVMapping, CubeReflectionMapping, CubeRefractionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping, CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, NearestMipMapNearestFilter, NearestMipMapLinearFilter, LinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType, UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedShort565Type, UnsignedInt248Type, AlphaFormat, RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat, DepthStencilFormat, RedFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGB_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_PVRTC_2BPPV1_Format, RGB_ETC1_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_10x10_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, LoopOnce, LoopRepeat, LoopPingPong, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, TrianglesDrawMode, TriangleStripDrawMode, TriangleFanDrawMode, LinearEncoding, sRGBEncoding, GammaEncoding, RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking, RGBADepthPacking, TangentSpaceNormalMap, ObjectSpaceNormalMap, Face4, LineStrip, LinePieces, MeshFaceMaterial, MultiMaterial, PointCloud, Particle, ParticleSystem, PointCloudMaterial, ParticleBasicMaterial, ParticleSystemMaterial, Vertex, DynamicBufferAttribute, Int8Attribute, Uint8Attribute, Uint8ClampedAttribute, Int16Attribute, Uint16Attribute, Int32Attribute, Uint32Attribute, Float32Attribute, Float64Attribute, ClosedSplineCurve3, SplineCurve3, Spline, AxisHelper, BoundingBoxHelper, EdgesHelper, WireframeHelper, XHRLoader, BinaryTextureLoader, GeometryUtils, Projector, CanvasRenderer, JSONLoader, SceneUtils, LensFlare };
+export { WebGLMultisampleRenderTarget, WebGLRenderTargetCube, WebGLRenderTarget, WebGLRenderer, ShaderLib, UniformsLib, UniformsUtils, ShaderChunk, FogExp2, Fog, Scene, Sprite, LOD, SkinnedMesh, Skeleton, Bone, Mesh, LineSegments, LineLoop, Line, Points, Group, VideoTexture, DataTexture, DataTexture2DArray, DataTexture3D, CompressedTexture, CubeTexture, CanvasTexture, DepthTexture, Texture, AnimationLoader, CompressedTextureLoader, DataTextureLoader, CubeTextureLoader, TextureLoader, ObjectLoader, MaterialLoader, BufferGeometryLoader, DefaultLoadingManager, LoadingManager, ImageLoader, ImageBitmapLoader, FontLoader, FileLoader, PCDLoader, Loader, LoaderUtils, Cache, AudioLoader, SpotLightShadow, SpotLight, PointLight, RectAreaLight, HemisphereLight, DirectionalLightShadow, DirectionalLight, AmbientLight, LightShadow, Light, LightProbe, StereoCamera, PerspectiveCamera, OrthographicCamera, CubeCamera, ArrayCamera, Camera, AudioListener, PositionalAudio, AudioContext, AudioAnalyser, Audio, VectorKeyframeTrack, StringKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack, ColorKeyframeTrack, BooleanKeyframeTrack, PropertyMixer, PropertyBinding, KeyframeTrack, AnimationUtils, AnimationObjectGroup, AnimationMixer, AnimationClip, Uniform, InstancedBufferGeometry, BufferGeometry$1 as BufferGeometry, Geometry, InterleavedBufferAttribute, InstancedInterleavedBuffer, InterleavedBuffer, InstancedBufferAttribute, Face3, Object3D, Raycaster, Layers, EventDispatcher, Clock, QuaternionLinearInterpolant, LinearInterpolant, DiscreteInterpolant, CubicInterpolant, Interpolant, Triangle, _Math as Math, Spherical, Cylindrical, Plane, Frustum, Sphere, Ray, Matrix4, Matrix3, Box3, Box2, Line3, Euler, Vector4, Vector3, Vector2, Quaternion, Color, SphericalHarmonics3, ImmediateRenderObject, VertexNormalsHelper, SpotLightHelper, SkeletonHelper, PointLightHelper, RectAreaLightHelper, HemisphereLightHelper, LightProbeHelper, GridHelper, PolarGridHelper, PositionalAudioHelper, FaceNormalsHelper, DirectionalLightHelper, CameraHelper, BoxHelper, Box3Helper, PlaneHelper, ArrowHelper, AxesHelper, Shape, Path, ShapePath, Font, CurvePath, Curve, ImageUtils, ShapeUtils, WebGLUtils, WireframeGeometry, ParametricGeometry, ParametricBufferGeometry, TetrahedronGeometry, TetrahedronBufferGeometry, OctahedronGeometry, OctahedronBufferGeometry, IcosahedronGeometry, IcosahedronBufferGeometry, DodecahedronGeometry, DodecahedronBufferGeometry, PolyhedronGeometry, PolyhedronBufferGeometry, TubeGeometry, TubeBufferGeometry, TorusKnotGeometry, TorusKnotBufferGeometry, TorusGeometry, TorusBufferGeometry, TextGeometry, TextBufferGeometry, SphereGeometry, SphereBufferGeometry, RingGeometry, RingBufferGeometry, PlaneGeometry, PlaneBufferGeometry, LatheGeometry, LatheBufferGeometry, ShapeGeometry, ShapeBufferGeometry, ExtrudeGeometry, ExtrudeBufferGeometry, EdgesGeometry, ConeGeometry, ConeBufferGeometry, CylinderGeometry, CylinderBufferGeometry, CircleGeometry, CircleBufferGeometry, BoxGeometry, BoxGeometry as CubeGeometry, BoxBufferGeometry, ShadowMaterial, SpriteMaterial, RawShaderMaterial, ShaderMaterial, PointsMaterial$1 as PointsMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshPhongMaterial, MeshToonMaterial, MeshNormalMaterial, MeshLambertMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshBasicMaterial, MeshMatcapMaterial, LineDashedMaterial, LineBasicMaterial, Material, Float64BufferAttribute, Float32BufferAttribute$1 as Float32BufferAttribute, Uint32BufferAttribute, Int32BufferAttribute, Uint16BufferAttribute, Int16BufferAttribute, Uint8ClampedBufferAttribute, Uint8BufferAttribute, Int8BufferAttribute, BufferAttribute, ArcCurve, CatmullRomCurve3, CubicBezierCurve, CubicBezierCurve3, EllipseCurve, LineCurve, LineCurve3, QuadraticBezierCurve, QuadraticBezierCurve3, SplineCurve, REVISION, MOUSE, CullFaceNone, CullFaceBack, CullFaceFront, CullFaceFrontBack, FrontFaceDirectionCW, FrontFaceDirectionCCW, BasicShadowMap, PCFShadowMap, PCFSoftShadowMap, FrontSide, BackSide, DoubleSide, FlatShading, SmoothShading, NoColors, FaceColors, VertexColors$1 as VertexColors, NoBlending, NormalBlending, AdditiveBlending, SubtractiveBlending, MultiplyBlending, CustomBlending, AddEquation, SubtractEquation, ReverseSubtractEquation, MinEquation, MaxEquation, ZeroFactor, OneFactor, SrcColorFactor, OneMinusSrcColorFactor, SrcAlphaFactor, OneMinusSrcAlphaFactor, DstAlphaFactor, OneMinusDstAlphaFactor, DstColorFactor, OneMinusDstColorFactor, SrcAlphaSaturateFactor, NeverDepth, AlwaysDepth, LessDepth, LessEqualDepth, EqualDepth, GreaterEqualDepth, GreaterDepth, NotEqualDepth, MultiplyOperation, MixOperation, AddOperation, NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, UVMapping, CubeReflectionMapping, CubeRefractionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping, CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, NearestMipMapNearestFilter, NearestMipMapLinearFilter, LinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType, UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedShort565Type, UnsignedInt248Type, AlphaFormat, RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat, DepthStencilFormat, RedFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGB_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_PVRTC_2BPPV1_Format, RGB_ETC1_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_10x10_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, LoopOnce, LoopRepeat, LoopPingPong, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, TrianglesDrawMode, TriangleStripDrawMode, TriangleFanDrawMode, LinearEncoding, sRGBEncoding, GammaEncoding, RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking, RGBADepthPacking, TangentSpaceNormalMap, ObjectSpaceNormalMap, Face4, LineStrip, LinePieces, MeshFaceMaterial, MultiMaterial, PointCloud, Particle, ParticleSystem, PointCloudMaterial, ParticleBasicMaterial, ParticleSystemMaterial, Vertex, DynamicBufferAttribute, Int8Attribute, Uint8Attribute, Uint8ClampedAttribute, Int16Attribute, Uint16Attribute, Int32Attribute, Uint32Attribute, Float32Attribute, Float64Attribute, ClosedSplineCurve3, SplineCurve3, Spline, AxisHelper, BoundingBoxHelper, EdgesHelper, WireframeHelper, XHRLoader, BinaryTextureLoader, GeometryUtils, Projector, CanvasRenderer, JSONLoader, SceneUtils, LensFlare };

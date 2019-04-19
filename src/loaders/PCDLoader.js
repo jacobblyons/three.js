@@ -2,24 +2,29 @@
  * @author Filipe Caixeta / http://filipecaixeta.com.br
  * @author Mugen87 / https://github.com/Mugen87
  *
- * Description: A THREE loader for PCD ascii and binary files.
+ * Description: A loader for PCD ascii and binary files.
  *
  * Limitations: Compressed binary files are not supported.
  *
  */
 
+import { Points } from "../objects/Points.js";
+import { LoaderUtils } from "./LoaderUtils.js";
+import { FileLoader } from "./FileLoader.js";
+import { DefaultLoadingManager } from "./LoadingManager.js";
+export * from "../materials/Materials.js";
+export * from "../geometries/Geometries.js";
+
 function PCDLoader(manager) {
-	this.manager = manager !== undefined ? manager : THREE.DefaultLoadingManager;
+	this.manager = manager !== undefined ? manager : DefaultLoadingManager;
 	this.littleEndian = true;
 }
 
 Object.assign(PCDLoader.prototype, {
-	constructor: THREE.PCDLoader,
-
 	load: function(url, onLoad, onProgress, onError) {
 		var scope = this;
 
-		var loader = new THREE.FileLoader(scope.manager);
+		var loader = new FileLoader(scope.manager);
 		loader.setPath(scope.path);
 		loader.setResponseType("arraybuffer");
 		loader.load(
@@ -127,7 +132,7 @@ Object.assign(PCDLoader.prototype, {
 			return PCDheader;
 		}
 
-		var textData = THREE.LoaderUtils.decodeText(data);
+		var textData = LoaderUtils.decodeText(data);
 
 		// parse header (always ascii format)
 
@@ -176,7 +181,7 @@ Object.assign(PCDLoader.prototype, {
 		// binary
 
 		if (PCDheader.data === "binary_compressed") {
-			console.error("THREE.PCDLoader: binary_compressed files are not supported");
+			console.error("PCDLoader: binary_compressed files are not supported");
 			return;
 		}
 
@@ -207,27 +212,27 @@ Object.assign(PCDLoader.prototype, {
 
 		// build geometry
 
-		var geometry = new THREE.BufferGeometry();
+		var geometry = new BufferGeometry();
 
-		if (position.length > 0) geometry.addAttribute("position", new THREE.Float32BufferAttribute(position, 3));
-		if (normal.length > 0) geometry.addAttribute("normal", new THREE.Float32BufferAttribute(normal, 3));
-		if (color.length > 0) geometry.addAttribute("color", new THREE.Float32BufferAttribute(color, 3));
+		if (position.length > 0) geometry.addAttribute("position", new Float32BufferAttribute(position, 3));
+		if (normal.length > 0) geometry.addAttribute("normal", new Float32BufferAttribute(normal, 3));
+		if (color.length > 0) geometry.addAttribute("color", new Float32BufferAttribute(color, 3));
 
 		geometry.computeBoundingSphere();
 
 		// build material
 
-		var material = new THREE.PointsMaterial({ size: 0.005 });
+		var material = new PointsMaterial({ size: 0.005 });
 
 		if (color.length > 0) {
-			material.vertexColors = THREE.VertexColors;
+			material.vertexColors = VertexColors;
 		} else {
 			material.color.setHex(Math.random() * 0xffffff);
 		}
 
 		// build mesh
 
-		var mesh = new THREE.Points(geometry, material);
+		var mesh = new Points(geometry, material);
 		var name = url
 			.split("")
 			.reverse()

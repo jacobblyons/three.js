@@ -1,3 +1,4 @@
+import { Points } from "./../objects/Points.d";
 import { Mesh } from "./../objects/Mesh.d";
 import { TextureLoader } from "./TextureLoader.d";
 import { Texture } from "./../textures/Texture.d";
@@ -18,7 +19,7 @@ export class PCDLoader {
 	 */
 	load(
 		url: string,
-		onLoad?: (texture: Texture) => void,
+		onLoad?: (point: { Points }) => void,
 		onProgress?: (event: ProgressEvent) => void,
 		onError?: (event: ErrorEvent) => void
 	): Texture;
