@@ -11178,7 +11178,7 @@
 
 	var bufferGeometryId = 1; // BufferGeometry uses odd numbers as Id
 
-	function BufferGeometry$1() {
+	function BufferGeometry() {
 
 		Object.defineProperty( this, 'id', { value: bufferGeometryId += 2 } );
 
@@ -11203,9 +11203,9 @@
 
 	}
 
-	BufferGeometry$1.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
+	BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
-		constructor: BufferGeometry$1,
+		constructor: BufferGeometry,
 
 		isBufferGeometry: true,
 
@@ -12118,7 +12118,7 @@
 
 			}
 
-			var geometry2 = new BufferGeometry$1();
+			var geometry2 = new BufferGeometry();
 
 			var indices = this.index.array;
 			var attributes = this.attributes;
@@ -12323,7 +12323,7 @@
 			 return new this.constructor().copy( this );
 			 */
 
-			return new BufferGeometry$1().copy( this );
+			return new BufferGeometry().copy( this );
 
 		},
 
@@ -12470,7 +12470,7 @@
 
 	function BoxBufferGeometry( width, height, depth, widthSegments, heightSegments, depthSegments ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'BoxBufferGeometry';
 
@@ -12629,7 +12629,7 @@
 
 	}
 
-	BoxBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	BoxBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	BoxBufferGeometry.prototype.constructor = BoxBufferGeometry;
 
 	/**
@@ -12664,7 +12664,7 @@
 
 	function PlaneBufferGeometry( width, height, widthSegments, heightSegments ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'PlaneBufferGeometry';
 
@@ -12749,7 +12749,7 @@
 
 	}
 
-	PlaneBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	PlaneBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	PlaneBufferGeometry.prototype.constructor = PlaneBufferGeometry;
 
 	/**
@@ -14349,7 +14349,7 @@
 
 		this.type = 'Mesh';
 
-		this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
+		this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
 		this.material = material !== undefined ? material : new MeshBasicMaterial( { color: Math.random() * 0xffffff } );
 
 		this.drawMode = TrianglesDrawMode;
@@ -15445,7 +15445,7 @@
 
 				if ( geometry._bufferGeometry === undefined ) {
 
-					geometry._bufferGeometry = new BufferGeometry$1().setFromObject( object );
+					geometry._bufferGeometry = new BufferGeometry().setFromObject( object );
 
 				}
 
@@ -25676,7 +25676,7 @@
 
 		if ( geometry === undefined ) {
 
-			geometry = new BufferGeometry$1();
+			geometry = new BufferGeometry();
 
 			var float32Array = new Float32Array( [
 				- 0.5, - 0.5, 0, 0, 0,
@@ -26383,7 +26383,7 @@
 
 		this.type = 'Line';
 
-		this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
+		this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
 		this.material = material !== undefined ? material : new LineBasicMaterial( { color: Math.random() * 0xffffff } );
 
 	}
@@ -26780,7 +26780,7 @@
 
 		this.type = 'Points';
 
-		this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
+		this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
 		this.material = material !== undefined ? material : new PointsMaterial$1( { color: Math.random() * 0xffffff } );
 
 	}
@@ -27030,7 +27030,7 @@
 
 	function WireframeGeometry( geometry ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'WireframeGeometry';
 
@@ -27193,7 +27193,7 @@
 
 	}
 
-	WireframeGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	WireframeGeometry.prototype = Object.create( BufferGeometry.prototype );
 	WireframeGeometry.prototype.constructor = WireframeGeometry;
 
 	/**
@@ -27230,7 +27230,7 @@
 
 	function ParametricBufferGeometry( func, slices, stacks ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'ParametricBufferGeometry';
 
@@ -27349,7 +27349,7 @@
 
 	}
 
-	ParametricBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	ParametricBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	ParametricBufferGeometry.prototype.constructor = ParametricBufferGeometry;
 
 	/**
@@ -27386,7 +27386,7 @@
 
 	function PolyhedronBufferGeometry( vertices, indices, radius, detail ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'PolyhedronBufferGeometry';
 
@@ -27682,7 +27682,7 @@
 
 	}
 
-	PolyhedronBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	PolyhedronBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	PolyhedronBufferGeometry.prototype.constructor = PolyhedronBufferGeometry;
 
 	/**
@@ -27984,7 +27984,7 @@
 
 	function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, closed ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'TubeBufferGeometry';
 
@@ -28146,12 +28146,12 @@
 
 	}
 
-	TubeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	TubeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	TubeBufferGeometry.prototype.constructor = TubeBufferGeometry;
 
 	TubeBufferGeometry.prototype.toJSON = function () {
 
-		var data = BufferGeometry$1.prototype.toJSON.call( this );
+		var data = BufferGeometry.prototype.toJSON.call( this );
 
 		data.path = this.parameters.path.toJSON();
 
@@ -28197,7 +28197,7 @@
 
 	function TorusKnotBufferGeometry( radius, tube, tubularSegments, radialSegments, p, q ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'TorusKnotBufferGeometry';
 
@@ -28343,7 +28343,7 @@
 
 	}
 
-	TorusKnotBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	TorusKnotBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	TorusKnotBufferGeometry.prototype.constructor = TorusKnotBufferGeometry;
 
 	/**
@@ -28380,7 +28380,7 @@
 
 	function TorusBufferGeometry( radius, tube, radialSegments, tubularSegments, arc ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'TorusBufferGeometry';
 
@@ -28478,7 +28478,7 @@
 
 	}
 
-	TorusBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	TorusBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	TorusBufferGeometry.prototype.constructor = TorusBufferGeometry;
 
 	/**
@@ -29442,7 +29442,7 @@
 
 	function ExtrudeBufferGeometry( shapes, options ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'ExtrudeBufferGeometry';
 
@@ -30103,12 +30103,12 @@
 
 	}
 
-	ExtrudeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	ExtrudeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	ExtrudeBufferGeometry.prototype.constructor = ExtrudeBufferGeometry;
 
 	ExtrudeBufferGeometry.prototype.toJSON = function () {
 
-		var data = BufferGeometry$1.prototype.toJSON.call( this );
+		var data = BufferGeometry.prototype.toJSON.call( this );
 
 		var shapes = this.parameters.shapes;
 		var options = this.parameters.options;
@@ -30318,7 +30318,7 @@
 
 	function SphereBufferGeometry( radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'SphereBufferGeometry';
 
@@ -30428,7 +30428,7 @@
 
 	}
 
-	SphereBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	SphereBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	SphereBufferGeometry.prototype.constructor = SphereBufferGeometry;
 
 	/**
@@ -30465,7 +30465,7 @@
 
 	function RingBufferGeometry( innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'RingBufferGeometry';
 
@@ -30572,7 +30572,7 @@
 
 	}
 
-	RingBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	RingBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	RingBufferGeometry.prototype.constructor = RingBufferGeometry;
 
 	/**
@@ -30608,7 +30608,7 @@
 
 	function LatheBufferGeometry( points, segments, phiStart, phiLength ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'LatheBufferGeometry';
 
@@ -30749,7 +30749,7 @@
 
 	}
 
-	LatheBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	LatheBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	LatheBufferGeometry.prototype.constructor = LatheBufferGeometry;
 
 	/**
@@ -30800,7 +30800,7 @@
 
 	function ShapeBufferGeometry( shapes, curveSegments ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'ShapeBufferGeometry';
 
@@ -30926,12 +30926,12 @@
 
 	}
 
-	ShapeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	ShapeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	ShapeBufferGeometry.prototype.constructor = ShapeBufferGeometry;
 
 	ShapeBufferGeometry.prototype.toJSON = function () {
 
-		var data = BufferGeometry$1.prototype.toJSON.call( this );
+		var data = BufferGeometry.prototype.toJSON.call( this );
 
 		var shapes = this.parameters.shapes;
 
@@ -30972,7 +30972,7 @@
 
 	function EdgesGeometry( geometry, thresholdAngle ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'EdgesGeometry';
 
@@ -31068,7 +31068,7 @@
 
 	}
 
-	EdgesGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	EdgesGeometry.prototype = Object.create( BufferGeometry.prototype );
 	EdgesGeometry.prototype.constructor = EdgesGeometry;
 
 	/**
@@ -31107,7 +31107,7 @@
 
 	function CylinderBufferGeometry( radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'CylinderBufferGeometry';
 
@@ -31376,7 +31376,7 @@
 
 	}
 
-	CylinderBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	CylinderBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	CylinderBufferGeometry.prototype.constructor = CylinderBufferGeometry;
 
 	/**
@@ -31462,7 +31462,7 @@
 
 	function CircleBufferGeometry( radius, segments, thetaStart, thetaLength ) {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'CircleBufferGeometry';
 
@@ -31539,7 +31539,7 @@
 
 	}
 
-	CircleBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+	CircleBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 	CircleBufferGeometry.prototype.constructor = CircleBufferGeometry;
 
 
@@ -38080,7 +38080,7 @@
 
 		parse: function ( json ) {
 
-			var geometry = new BufferGeometry$1();
+			var geometry = new BufferGeometry();
 
 			var index = json.data.index;
 
@@ -44497,14 +44497,14 @@
 
 	function InstancedBufferGeometry() {
 
-		BufferGeometry$1.call( this );
+		BufferGeometry.call( this );
 
 		this.type = 'InstancedBufferGeometry';
 		this.maxInstancedCount = undefined;
 
 	}
 
-	InstancedBufferGeometry.prototype = Object.assign( Object.create( BufferGeometry$1.prototype ), {
+	InstancedBufferGeometry.prototype = Object.assign( Object.create( BufferGeometry.prototype ), {
 
 		constructor: InstancedBufferGeometry,
 
@@ -44512,7 +44512,7 @@
 
 		copy: function ( source ) {
 
-			BufferGeometry$1.prototype.copy.call( this, source );
+			BufferGeometry.prototype.copy.call( this, source );
 
 			this.maxInstancedCount = source.maxInstancedCount;
 
@@ -45315,7 +45315,7 @@
 
 		//
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 
 		var positions = new Float32BufferAttribute$1( nNormals * 2 * 3, 3 );
 
@@ -45444,7 +45444,7 @@
 
 		this.color = color;
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 
 		var positions = [
 			0, 0, 0, 	0, 0, 1,
@@ -45550,7 +45550,7 @@
 
 		var bones = getBoneList( object );
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 
 		var vertices = [];
 		var colors = [];
@@ -45739,7 +45739,7 @@
 
 		var positions = [ 1, 1, 0, - 1, 1, 0, - 1, - 1, 0, 1, - 1, 0, 1, 1, 0 ];
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		geometry.addAttribute( 'position', new Float32BufferAttribute$1( positions, 3 ) );
 		geometry.computeBoundingSphere();
 
@@ -45751,7 +45751,7 @@
 
 		var positions2 = [ 1, 1, 0, - 1, 1, 0, - 1, - 1, 0, 1, 1, 0, - 1, - 1, 0, 1, - 1, 0 ];
 
-		var geometry2 = new BufferGeometry$1();
+		var geometry2 = new BufferGeometry();
 		geometry2.addAttribute( 'position', new Float32BufferAttribute$1( positions2, 3 ) );
 		geometry2.computeBoundingSphere();
 
@@ -46060,7 +46060,7 @@
 
 		}
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
 		geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
@@ -46167,7 +46167,7 @@
 
 		}
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
 		geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
@@ -46191,7 +46191,7 @@
 		this.divisionsInnerAngle = divisionsInnerAngle || 16;
 		this.divisionsOuterAngle = divisionsOuterAngle || 2;
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		var divisions = this.divisionsInnerAngle + this.divisionsOuterAngle * 2;
 		var positions = new Float32Array( ( divisions * 3 + 3 ) * 3 );
 		geometry.addAttribute( 'position', new BufferAttribute( positions, 3 ) );
@@ -46315,7 +46315,7 @@
 
 		//
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 
 		var positions = new Float32BufferAttribute$1( nNormals * 2 * 3, 3 );
 
@@ -46409,7 +46409,7 @@
 
 		if ( size === undefined ) size = 1;
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		geometry.addAttribute( 'position', new Float32BufferAttribute$1( [
 			- size, size, 0,
 			size, size, 0,
@@ -46423,7 +46423,7 @@
 		this.lightPlane = new Line( geometry, material );
 		this.add( this.lightPlane );
 
-		geometry = new BufferGeometry$1();
+		geometry = new BufferGeometry();
 		geometry.addAttribute( 'position', new Float32BufferAttribute$1( [ 0, 0, 0, 0, 0, 1 ], 3 ) );
 
 		this.targetLine = new Line( geometry, material );
@@ -46490,7 +46490,7 @@
 
 	function CameraHelper( camera ) {
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		var material = new LineBasicMaterial( { color: 0xffffff, vertexColors: FaceColors } );
 
 		var vertices = [];
@@ -46691,7 +46691,7 @@
 		var indices = new Uint16Array( [ 0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7 ] );
 		var positions = new Float32Array( 8 * 3 );
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		geometry.setIndex( new BufferAttribute( indices, 1 ) );
 		geometry.addAttribute( 'position', new BufferAttribute( positions, 3 ) );
 
@@ -46806,7 +46806,7 @@
 
 		var positions = [ 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, - 1, 1, 1, 1, - 1, - 1, 1, - 1, - 1, - 1, - 1, 1, - 1, - 1 ];
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 
 		geometry.setIndex( new BufferAttribute( indices, 1 ) );
 
@@ -46853,7 +46853,7 @@
 
 		var positions = [ 1, - 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, - 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0 ];
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		geometry.addAttribute( 'position', new Float32BufferAttribute$1( positions, 3 ) );
 		geometry.computeBoundingSphere();
 
@@ -46863,7 +46863,7 @@
 
 		var positions2 = [ 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, 1, 1, - 1, - 1, 1, 1, - 1, 1 ];
 
-		var geometry2 = new BufferGeometry$1();
+		var geometry2 = new BufferGeometry();
 		geometry2.addAttribute( 'position', new Float32BufferAttribute$1( positions2, 3 ) );
 		geometry2.computeBoundingSphere();
 
@@ -46923,7 +46923,7 @@
 
 		if ( lineGeometry === undefined ) {
 
-			lineGeometry = new BufferGeometry$1();
+			lineGeometry = new BufferGeometry();
 			lineGeometry.addAttribute( 'position', new Float32BufferAttribute$1( [ 0, 0, 0, 0, 1, 0 ], 3 ) );
 
 			coneGeometry = new CylinderBufferGeometry( 0, 0.5, 1, 5, 1 );
@@ -47039,7 +47039,7 @@
 			0, 0, 1,	0, 0.6, 1
 		];
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 		geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
 		geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
@@ -48137,7 +48137,7 @@
 
 	} );
 
-	Object.assign( BufferGeometry$1.prototype, {
+	Object.assign( BufferGeometry.prototype, {
 
 		addIndex: function ( index ) {
 
@@ -48175,7 +48175,7 @@
 
 	} );
 
-	Object.defineProperties( BufferGeometry$1.prototype, {
+	Object.defineProperties( BufferGeometry.prototype, {
 
 		drawcalls: {
 			get: function () {
@@ -49023,7 +49023,7 @@
 	exports.AnimationClip = AnimationClip;
 	exports.Uniform = Uniform;
 	exports.InstancedBufferGeometry = InstancedBufferGeometry;
-	exports.BufferGeometry = BufferGeometry$1;
+	exports.BufferGeometry = BufferGeometry;
 	exports.Geometry = Geometry;
 	exports.InterleavedBufferAttribute = InterleavedBufferAttribute;
 	exports.InstancedInterleavedBuffer = InstancedInterleavedBuffer;

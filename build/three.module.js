@@ -11172,7 +11172,7 @@ function arrayMax( array ) {
 
 var bufferGeometryId = 1; // BufferGeometry uses odd numbers as Id
 
-function BufferGeometry$1() {
+function BufferGeometry() {
 
 	Object.defineProperty( this, 'id', { value: bufferGeometryId += 2 } );
 
@@ -11197,9 +11197,9 @@ function BufferGeometry$1() {
 
 }
 
-BufferGeometry$1.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
+BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
-	constructor: BufferGeometry$1,
+	constructor: BufferGeometry,
 
 	isBufferGeometry: true,
 
@@ -12112,7 +12112,7 @@ BufferGeometry$1.prototype = Object.assign( Object.create( EventDispatcher.proto
 
 		}
 
-		var geometry2 = new BufferGeometry$1();
+		var geometry2 = new BufferGeometry();
 
 		var indices = this.index.array;
 		var attributes = this.attributes;
@@ -12317,7 +12317,7 @@ BufferGeometry$1.prototype = Object.assign( Object.create( EventDispatcher.proto
 		 return new this.constructor().copy( this );
 		 */
 
-		return new BufferGeometry$1().copy( this );
+		return new BufferGeometry().copy( this );
 
 	},
 
@@ -12464,7 +12464,7 @@ BoxGeometry.prototype.constructor = BoxGeometry;
 
 function BoxBufferGeometry( width, height, depth, widthSegments, heightSegments, depthSegments ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'BoxBufferGeometry';
 
@@ -12623,7 +12623,7 @@ function BoxBufferGeometry( width, height, depth, widthSegments, heightSegments,
 
 }
 
-BoxBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+BoxBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 BoxBufferGeometry.prototype.constructor = BoxBufferGeometry;
 
 /**
@@ -12658,7 +12658,7 @@ PlaneGeometry.prototype.constructor = PlaneGeometry;
 
 function PlaneBufferGeometry( width, height, widthSegments, heightSegments ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'PlaneBufferGeometry';
 
@@ -12743,7 +12743,7 @@ function PlaneBufferGeometry( width, height, widthSegments, heightSegments ) {
 
 }
 
-PlaneBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+PlaneBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 PlaneBufferGeometry.prototype.constructor = PlaneBufferGeometry;
 
 /**
@@ -14343,7 +14343,7 @@ function Mesh( geometry, material ) {
 
 	this.type = 'Mesh';
 
-	this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
+	this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
 	this.material = material !== undefined ? material : new MeshBasicMaterial( { color: Math.random() * 0xffffff } );
 
 	this.drawMode = TrianglesDrawMode;
@@ -15439,7 +15439,7 @@ function WebGLGeometries( gl, attributes, info ) {
 
 			if ( geometry._bufferGeometry === undefined ) {
 
-				geometry._bufferGeometry = new BufferGeometry$1().setFromObject( object );
+				geometry._bufferGeometry = new BufferGeometry().setFromObject( object );
 
 			}
 
@@ -25670,7 +25670,7 @@ function Sprite( material ) {
 
 	if ( geometry === undefined ) {
 
-		geometry = new BufferGeometry$1();
+		geometry = new BufferGeometry();
 
 		var float32Array = new Float32Array( [
 			- 0.5, - 0.5, 0, 0, 0,
@@ -26377,7 +26377,7 @@ function Line( geometry, material, mode ) {
 
 	this.type = 'Line';
 
-	this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
+	this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
 	this.material = material !== undefined ? material : new LineBasicMaterial( { color: Math.random() * 0xffffff } );
 
 }
@@ -26774,7 +26774,7 @@ function Points( geometry, material ) {
 
 	this.type = 'Points';
 
-	this.geometry = geometry !== undefined ? geometry : new BufferGeometry$1();
+	this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
 	this.material = material !== undefined ? material : new PointsMaterial$1( { color: Math.random() * 0xffffff } );
 
 }
@@ -27024,7 +27024,7 @@ DepthTexture.prototype.isDepthTexture = true;
 
 function WireframeGeometry( geometry ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'WireframeGeometry';
 
@@ -27187,7 +27187,7 @@ function WireframeGeometry( geometry ) {
 
 }
 
-WireframeGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+WireframeGeometry.prototype = Object.create( BufferGeometry.prototype );
 WireframeGeometry.prototype.constructor = WireframeGeometry;
 
 /**
@@ -27224,7 +27224,7 @@ ParametricGeometry.prototype.constructor = ParametricGeometry;
 
 function ParametricBufferGeometry( func, slices, stacks ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'ParametricBufferGeometry';
 
@@ -27343,7 +27343,7 @@ function ParametricBufferGeometry( func, slices, stacks ) {
 
 }
 
-ParametricBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+ParametricBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 ParametricBufferGeometry.prototype.constructor = ParametricBufferGeometry;
 
 /**
@@ -27380,7 +27380,7 @@ PolyhedronGeometry.prototype.constructor = PolyhedronGeometry;
 
 function PolyhedronBufferGeometry( vertices, indices, radius, detail ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'PolyhedronBufferGeometry';
 
@@ -27676,7 +27676,7 @@ function PolyhedronBufferGeometry( vertices, indices, radius, detail ) {
 
 }
 
-PolyhedronBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+PolyhedronBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 PolyhedronBufferGeometry.prototype.constructor = PolyhedronBufferGeometry;
 
 /**
@@ -27978,7 +27978,7 @@ TubeGeometry.prototype.constructor = TubeGeometry;
 
 function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, closed ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'TubeBufferGeometry';
 
@@ -28140,12 +28140,12 @@ function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, clos
 
 }
 
-TubeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+TubeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 TubeBufferGeometry.prototype.constructor = TubeBufferGeometry;
 
 TubeBufferGeometry.prototype.toJSON = function () {
 
-	var data = BufferGeometry$1.prototype.toJSON.call( this );
+	var data = BufferGeometry.prototype.toJSON.call( this );
 
 	data.path = this.parameters.path.toJSON();
 
@@ -28191,7 +28191,7 @@ TorusKnotGeometry.prototype.constructor = TorusKnotGeometry;
 
 function TorusKnotBufferGeometry( radius, tube, tubularSegments, radialSegments, p, q ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'TorusKnotBufferGeometry';
 
@@ -28337,7 +28337,7 @@ function TorusKnotBufferGeometry( radius, tube, tubularSegments, radialSegments,
 
 }
 
-TorusKnotBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+TorusKnotBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 TorusKnotBufferGeometry.prototype.constructor = TorusKnotBufferGeometry;
 
 /**
@@ -28374,7 +28374,7 @@ TorusGeometry.prototype.constructor = TorusGeometry;
 
 function TorusBufferGeometry( radius, tube, radialSegments, tubularSegments, arc ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'TorusBufferGeometry';
 
@@ -28472,7 +28472,7 @@ function TorusBufferGeometry( radius, tube, radialSegments, tubularSegments, arc
 
 }
 
-TorusBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+TorusBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 TorusBufferGeometry.prototype.constructor = TorusBufferGeometry;
 
 /**
@@ -29436,7 +29436,7 @@ ExtrudeGeometry.prototype.toJSON = function () {
 
 function ExtrudeBufferGeometry( shapes, options ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'ExtrudeBufferGeometry';
 
@@ -30097,12 +30097,12 @@ function ExtrudeBufferGeometry( shapes, options ) {
 
 }
 
-ExtrudeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+ExtrudeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 ExtrudeBufferGeometry.prototype.constructor = ExtrudeBufferGeometry;
 
 ExtrudeBufferGeometry.prototype.toJSON = function () {
 
-	var data = BufferGeometry$1.prototype.toJSON.call( this );
+	var data = BufferGeometry.prototype.toJSON.call( this );
 
 	var shapes = this.parameters.shapes;
 	var options = this.parameters.options;
@@ -30312,7 +30312,7 @@ SphereGeometry.prototype.constructor = SphereGeometry;
 
 function SphereBufferGeometry( radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'SphereBufferGeometry';
 
@@ -30422,7 +30422,7 @@ function SphereBufferGeometry( radius, widthSegments, heightSegments, phiStart, 
 
 }
 
-SphereBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+SphereBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 SphereBufferGeometry.prototype.constructor = SphereBufferGeometry;
 
 /**
@@ -30459,7 +30459,7 @@ RingGeometry.prototype.constructor = RingGeometry;
 
 function RingBufferGeometry( innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'RingBufferGeometry';
 
@@ -30566,7 +30566,7 @@ function RingBufferGeometry( innerRadius, outerRadius, thetaSegments, phiSegment
 
 }
 
-RingBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+RingBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 RingBufferGeometry.prototype.constructor = RingBufferGeometry;
 
 /**
@@ -30602,7 +30602,7 @@ LatheGeometry.prototype.constructor = LatheGeometry;
 
 function LatheBufferGeometry( points, segments, phiStart, phiLength ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'LatheBufferGeometry';
 
@@ -30743,7 +30743,7 @@ function LatheBufferGeometry( points, segments, phiStart, phiLength ) {
 
 }
 
-LatheBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+LatheBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 LatheBufferGeometry.prototype.constructor = LatheBufferGeometry;
 
 /**
@@ -30794,7 +30794,7 @@ ShapeGeometry.prototype.toJSON = function () {
 
 function ShapeBufferGeometry( shapes, curveSegments ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'ShapeBufferGeometry';
 
@@ -30920,12 +30920,12 @@ function ShapeBufferGeometry( shapes, curveSegments ) {
 
 }
 
-ShapeBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+ShapeBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 ShapeBufferGeometry.prototype.constructor = ShapeBufferGeometry;
 
 ShapeBufferGeometry.prototype.toJSON = function () {
 
-	var data = BufferGeometry$1.prototype.toJSON.call( this );
+	var data = BufferGeometry.prototype.toJSON.call( this );
 
 	var shapes = this.parameters.shapes;
 
@@ -30966,7 +30966,7 @@ function toJSON$1( shapes, data ) {
 
 function EdgesGeometry( geometry, thresholdAngle ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'EdgesGeometry';
 
@@ -31062,7 +31062,7 @@ function EdgesGeometry( geometry, thresholdAngle ) {
 
 }
 
-EdgesGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+EdgesGeometry.prototype = Object.create( BufferGeometry.prototype );
 EdgesGeometry.prototype.constructor = EdgesGeometry;
 
 /**
@@ -31101,7 +31101,7 @@ CylinderGeometry.prototype.constructor = CylinderGeometry;
 
 function CylinderBufferGeometry( radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'CylinderBufferGeometry';
 
@@ -31370,7 +31370,7 @@ function CylinderBufferGeometry( radiusTop, radiusBottom, height, radialSegments
 
 }
 
-CylinderBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+CylinderBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 CylinderBufferGeometry.prototype.constructor = CylinderBufferGeometry;
 
 /**
@@ -31456,7 +31456,7 @@ CircleGeometry.prototype.constructor = CircleGeometry;
 
 function CircleBufferGeometry( radius, segments, thetaStart, thetaLength ) {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'CircleBufferGeometry';
 
@@ -31533,7 +31533,7 @@ function CircleBufferGeometry( radius, segments, thetaStart, thetaLength ) {
 
 }
 
-CircleBufferGeometry.prototype = Object.create( BufferGeometry$1.prototype );
+CircleBufferGeometry.prototype = Object.create( BufferGeometry.prototype );
 CircleBufferGeometry.prototype.constructor = CircleBufferGeometry;
 
 
@@ -38074,7 +38074,7 @@ Object.assign( BufferGeometryLoader.prototype, {
 
 	parse: function ( json ) {
 
-		var geometry = new BufferGeometry$1();
+		var geometry = new BufferGeometry();
 
 		var index = json.data.index;
 
@@ -44491,14 +44491,14 @@ Uniform.prototype.clone = function () {
 
 function InstancedBufferGeometry() {
 
-	BufferGeometry$1.call( this );
+	BufferGeometry.call( this );
 
 	this.type = 'InstancedBufferGeometry';
 	this.maxInstancedCount = undefined;
 
 }
 
-InstancedBufferGeometry.prototype = Object.assign( Object.create( BufferGeometry$1.prototype ), {
+InstancedBufferGeometry.prototype = Object.assign( Object.create( BufferGeometry.prototype ), {
 
 	constructor: InstancedBufferGeometry,
 
@@ -44506,7 +44506,7 @@ InstancedBufferGeometry.prototype = Object.assign( Object.create( BufferGeometry
 
 	copy: function ( source ) {
 
-		BufferGeometry$1.prototype.copy.call( this, source );
+		BufferGeometry.prototype.copy.call( this, source );
 
 		this.maxInstancedCount = source.maxInstancedCount;
 
@@ -45309,7 +45309,7 @@ function VertexNormalsHelper( object, size, hex, linewidth ) {
 
 	//
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 
 	var positions = new Float32BufferAttribute$1( nNormals * 2 * 3, 3 );
 
@@ -45438,7 +45438,7 @@ function SpotLightHelper( light, color ) {
 
 	this.color = color;
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 
 	var positions = [
 		0, 0, 0, 	0, 0, 1,
@@ -45544,7 +45544,7 @@ function SkeletonHelper( object ) {
 
 	var bones = getBoneList( object );
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 
 	var vertices = [];
 	var colors = [];
@@ -45733,7 +45733,7 @@ function RectAreaLightHelper( light, color ) {
 
 	var positions = [ 1, 1, 0, - 1, 1, 0, - 1, - 1, 0, 1, - 1, 0, 1, 1, 0 ];
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	geometry.addAttribute( 'position', new Float32BufferAttribute$1( positions, 3 ) );
 	geometry.computeBoundingSphere();
 
@@ -45745,7 +45745,7 @@ function RectAreaLightHelper( light, color ) {
 
 	var positions2 = [ 1, 1, 0, - 1, 1, 0, - 1, - 1, 0, 1, 1, 0, - 1, - 1, 0, 1, - 1, 0 ];
 
-	var geometry2 = new BufferGeometry$1();
+	var geometry2 = new BufferGeometry();
 	geometry2.addAttribute( 'position', new Float32BufferAttribute$1( positions2, 3 ) );
 	geometry2.computeBoundingSphere();
 
@@ -46054,7 +46054,7 @@ function GridHelper( size, divisions, color1, color2 ) {
 
 	}
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
 	geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
@@ -46161,7 +46161,7 @@ function PolarGridHelper( radius, radials, circles, divisions, color1, color2 ) 
 
 	}
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
 	geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
@@ -46185,7 +46185,7 @@ function PositionalAudioHelper( audio, range, divisionsInnerAngle, divisionsOute
 	this.divisionsInnerAngle = divisionsInnerAngle || 16;
 	this.divisionsOuterAngle = divisionsOuterAngle || 2;
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	var divisions = this.divisionsInnerAngle + this.divisionsOuterAngle * 2;
 	var positions = new Float32Array( ( divisions * 3 + 3 ) * 3 );
 	geometry.addAttribute( 'position', new BufferAttribute( positions, 3 ) );
@@ -46309,7 +46309,7 @@ function FaceNormalsHelper( object, size, hex, linewidth ) {
 
 	//
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 
 	var positions = new Float32BufferAttribute$1( nNormals * 2 * 3, 3 );
 
@@ -46403,7 +46403,7 @@ function DirectionalLightHelper( light, size, color ) {
 
 	if ( size === undefined ) size = 1;
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	geometry.addAttribute( 'position', new Float32BufferAttribute$1( [
 		- size, size, 0,
 		size, size, 0,
@@ -46417,7 +46417,7 @@ function DirectionalLightHelper( light, size, color ) {
 	this.lightPlane = new Line( geometry, material );
 	this.add( this.lightPlane );
 
-	geometry = new BufferGeometry$1();
+	geometry = new BufferGeometry();
 	geometry.addAttribute( 'position', new Float32BufferAttribute$1( [ 0, 0, 0, 0, 0, 1 ], 3 ) );
 
 	this.targetLine = new Line( geometry, material );
@@ -46484,7 +46484,7 @@ DirectionalLightHelper.prototype.update = function () {
 
 function CameraHelper( camera ) {
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	var material = new LineBasicMaterial( { color: 0xffffff, vertexColors: FaceColors } );
 
 	var vertices = [];
@@ -46685,7 +46685,7 @@ function BoxHelper( object, color ) {
 	var indices = new Uint16Array( [ 0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7 ] );
 	var positions = new Float32Array( 8 * 3 );
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	geometry.setIndex( new BufferAttribute( indices, 1 ) );
 	geometry.addAttribute( 'position', new BufferAttribute( positions, 3 ) );
 
@@ -46800,7 +46800,7 @@ function Box3Helper( box, hex ) {
 
 	var positions = [ 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, - 1, 1, 1, 1, - 1, - 1, 1, - 1, - 1, - 1, - 1, 1, - 1, - 1 ];
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 
 	geometry.setIndex( new BufferAttribute( indices, 1 ) );
 
@@ -46847,7 +46847,7 @@ function PlaneHelper( plane, size, hex ) {
 
 	var positions = [ 1, - 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, - 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0 ];
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	geometry.addAttribute( 'position', new Float32BufferAttribute$1( positions, 3 ) );
 	geometry.computeBoundingSphere();
 
@@ -46857,7 +46857,7 @@ function PlaneHelper( plane, size, hex ) {
 
 	var positions2 = [ 1, 1, 1, - 1, 1, 1, - 1, - 1, 1, 1, 1, 1, - 1, - 1, 1, 1, - 1, 1 ];
 
-	var geometry2 = new BufferGeometry$1();
+	var geometry2 = new BufferGeometry();
 	geometry2.addAttribute( 'position', new Float32BufferAttribute$1( positions2, 3 ) );
 	geometry2.computeBoundingSphere();
 
@@ -46917,7 +46917,7 @@ function ArrowHelper( dir, origin, length, color, headLength, headWidth ) {
 
 	if ( lineGeometry === undefined ) {
 
-		lineGeometry = new BufferGeometry$1();
+		lineGeometry = new BufferGeometry();
 		lineGeometry.addAttribute( 'position', new Float32BufferAttribute$1( [ 0, 0, 0, 0, 1, 0 ], 3 ) );
 
 		coneGeometry = new CylinderBufferGeometry( 0, 0.5, 1, 5, 1 );
@@ -47033,7 +47033,7 @@ function AxesHelper( size ) {
 		0, 0, 1,	0, 0.6, 1
 	];
 
-	var geometry = new BufferGeometry$1();
+	var geometry = new BufferGeometry();
 	geometry.addAttribute( 'position', new Float32BufferAttribute$1( vertices, 3 ) );
 	geometry.addAttribute( 'color', new Float32BufferAttribute$1( colors, 3 ) );
 
@@ -48131,7 +48131,7 @@ Object.defineProperties( BufferAttribute.prototype, {
 
 } );
 
-Object.assign( BufferGeometry$1.prototype, {
+Object.assign( BufferGeometry.prototype, {
 
 	addIndex: function ( index ) {
 
@@ -48169,7 +48169,7 @@ Object.assign( BufferGeometry$1.prototype, {
 
 } );
 
-Object.defineProperties( BufferGeometry$1.prototype, {
+Object.defineProperties( BufferGeometry.prototype, {
 
 	drawcalls: {
 		get: function () {
@@ -48930,4 +48930,4 @@ function LensFlare() {
 
 }
 
-export { WebGLMultisampleRenderTarget, WebGLRenderTargetCube, WebGLRenderTarget, WebGLRenderer, ShaderLib, UniformsLib, UniformsUtils, ShaderChunk, FogExp2, Fog, Scene, Sprite, LOD, SkinnedMesh, Skeleton, Bone, Mesh, LineSegments, LineLoop, Line, Points, Group, VideoTexture, DataTexture, DataTexture2DArray, DataTexture3D, CompressedTexture, CubeTexture, CanvasTexture, DepthTexture, Texture, AnimationLoader, CompressedTextureLoader, DataTextureLoader, CubeTextureLoader, TextureLoader, ObjectLoader, MaterialLoader, BufferGeometryLoader, DefaultLoadingManager, LoadingManager, ImageLoader, ImageBitmapLoader, FontLoader, FileLoader, PCDLoader, Loader, LoaderUtils, Cache, AudioLoader, SpotLightShadow, SpotLight, PointLight, RectAreaLight, HemisphereLight, DirectionalLightShadow, DirectionalLight, AmbientLight, LightShadow, Light, LightProbe, StereoCamera, PerspectiveCamera, OrthographicCamera, CubeCamera, ArrayCamera, Camera, AudioListener, PositionalAudio, AudioContext, AudioAnalyser, Audio, VectorKeyframeTrack, StringKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack, ColorKeyframeTrack, BooleanKeyframeTrack, PropertyMixer, PropertyBinding, KeyframeTrack, AnimationUtils, AnimationObjectGroup, AnimationMixer, AnimationClip, Uniform, InstancedBufferGeometry, BufferGeometry$1 as BufferGeometry, Geometry, InterleavedBufferAttribute, InstancedInterleavedBuffer, InterleavedBuffer, InstancedBufferAttribute, Face3, Object3D, Raycaster, Layers, EventDispatcher, Clock, QuaternionLinearInterpolant, LinearInterpolant, DiscreteInterpolant, CubicInterpolant, Interpolant, Triangle, _Math as Math, Spherical, Cylindrical, Plane, Frustum, Sphere, Ray, Matrix4, Matrix3, Box3, Box2, Line3, Euler, Vector4, Vector3, Vector2, Quaternion, Color, SphericalHarmonics3, ImmediateRenderObject, VertexNormalsHelper, SpotLightHelper, SkeletonHelper, PointLightHelper, RectAreaLightHelper, HemisphereLightHelper, LightProbeHelper, GridHelper, PolarGridHelper, PositionalAudioHelper, FaceNormalsHelper, DirectionalLightHelper, CameraHelper, BoxHelper, Box3Helper, PlaneHelper, ArrowHelper, AxesHelper, Shape, Path, ShapePath, Font, CurvePath, Curve, ImageUtils, ShapeUtils, WebGLUtils, WireframeGeometry, ParametricGeometry, ParametricBufferGeometry, TetrahedronGeometry, TetrahedronBufferGeometry, OctahedronGeometry, OctahedronBufferGeometry, IcosahedronGeometry, IcosahedronBufferGeometry, DodecahedronGeometry, DodecahedronBufferGeometry, PolyhedronGeometry, PolyhedronBufferGeometry, TubeGeometry, TubeBufferGeometry, TorusKnotGeometry, TorusKnotBufferGeometry, TorusGeometry, TorusBufferGeometry, TextGeometry, TextBufferGeometry, SphereGeometry, SphereBufferGeometry, RingGeometry, RingBufferGeometry, PlaneGeometry, PlaneBufferGeometry, LatheGeometry, LatheBufferGeometry, ShapeGeometry, ShapeBufferGeometry, ExtrudeGeometry, ExtrudeBufferGeometry, EdgesGeometry, ConeGeometry, ConeBufferGeometry, CylinderGeometry, CylinderBufferGeometry, CircleGeometry, CircleBufferGeometry, BoxGeometry, BoxGeometry as CubeGeometry, BoxBufferGeometry, ShadowMaterial, SpriteMaterial, RawShaderMaterial, ShaderMaterial, PointsMaterial$1 as PointsMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshPhongMaterial, MeshToonMaterial, MeshNormalMaterial, MeshLambertMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshBasicMaterial, MeshMatcapMaterial, LineDashedMaterial, LineBasicMaterial, Material, Float64BufferAttribute, Float32BufferAttribute$1 as Float32BufferAttribute, Uint32BufferAttribute, Int32BufferAttribute, Uint16BufferAttribute, Int16BufferAttribute, Uint8ClampedBufferAttribute, Uint8BufferAttribute, Int8BufferAttribute, BufferAttribute, ArcCurve, CatmullRomCurve3, CubicBezierCurve, CubicBezierCurve3, EllipseCurve, LineCurve, LineCurve3, QuadraticBezierCurve, QuadraticBezierCurve3, SplineCurve, REVISION, MOUSE, CullFaceNone, CullFaceBack, CullFaceFront, CullFaceFrontBack, FrontFaceDirectionCW, FrontFaceDirectionCCW, BasicShadowMap, PCFShadowMap, PCFSoftShadowMap, FrontSide, BackSide, DoubleSide, FlatShading, SmoothShading, NoColors, FaceColors, VertexColors$1 as VertexColors, NoBlending, NormalBlending, AdditiveBlending, SubtractiveBlending, MultiplyBlending, CustomBlending, AddEquation, SubtractEquation, ReverseSubtractEquation, MinEquation, MaxEquation, ZeroFactor, OneFactor, SrcColorFactor, OneMinusSrcColorFactor, SrcAlphaFactor, OneMinusSrcAlphaFactor, DstAlphaFactor, OneMinusDstAlphaFactor, DstColorFactor, OneMinusDstColorFactor, SrcAlphaSaturateFactor, NeverDepth, AlwaysDepth, LessDepth, LessEqualDepth, EqualDepth, GreaterEqualDepth, GreaterDepth, NotEqualDepth, MultiplyOperation, MixOperation, AddOperation, NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, UVMapping, CubeReflectionMapping, CubeRefractionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping, CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, NearestMipMapNearestFilter, NearestMipMapLinearFilter, LinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType, UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedShort565Type, UnsignedInt248Type, AlphaFormat, RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat, DepthStencilFormat, RedFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGB_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_PVRTC_2BPPV1_Format, RGB_ETC1_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_10x10_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, LoopOnce, LoopRepeat, LoopPingPong, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, TrianglesDrawMode, TriangleStripDrawMode, TriangleFanDrawMode, LinearEncoding, sRGBEncoding, GammaEncoding, RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking, RGBADepthPacking, TangentSpaceNormalMap, ObjectSpaceNormalMap, Face4, LineStrip, LinePieces, MeshFaceMaterial, MultiMaterial, PointCloud, Particle, ParticleSystem, PointCloudMaterial, ParticleBasicMaterial, ParticleSystemMaterial, Vertex, DynamicBufferAttribute, Int8Attribute, Uint8Attribute, Uint8ClampedAttribute, Int16Attribute, Uint16Attribute, Int32Attribute, Uint32Attribute, Float32Attribute, Float64Attribute, ClosedSplineCurve3, SplineCurve3, Spline, AxisHelper, BoundingBoxHelper, EdgesHelper, WireframeHelper, XHRLoader, BinaryTextureLoader, GeometryUtils, Projector, CanvasRenderer, JSONLoader, SceneUtils, LensFlare };
+export { WebGLMultisampleRenderTarget, WebGLRenderTargetCube, WebGLRenderTarget, WebGLRenderer, ShaderLib, UniformsLib, UniformsUtils, ShaderChunk, FogExp2, Fog, Scene, Sprite, LOD, SkinnedMesh, Skeleton, Bone, Mesh, LineSegments, LineLoop, Line, Points, Group, VideoTexture, DataTexture, DataTexture2DArray, DataTexture3D, CompressedTexture, CubeTexture, CanvasTexture, DepthTexture, Texture, AnimationLoader, CompressedTextureLoader, DataTextureLoader, CubeTextureLoader, TextureLoader, ObjectLoader, MaterialLoader, BufferGeometryLoader, DefaultLoadingManager, LoadingManager, ImageLoader, ImageBitmapLoader, FontLoader, FileLoader, PCDLoader, Loader, LoaderUtils, Cache, AudioLoader, SpotLightShadow, SpotLight, PointLight, RectAreaLight, HemisphereLight, DirectionalLightShadow, DirectionalLight, AmbientLight, LightShadow, Light, LightProbe, StereoCamera, PerspectiveCamera, OrthographicCamera, CubeCamera, ArrayCamera, Camera, AudioListener, PositionalAudio, AudioContext, AudioAnalyser, Audio, VectorKeyframeTrack, StringKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack, ColorKeyframeTrack, BooleanKeyframeTrack, PropertyMixer, PropertyBinding, KeyframeTrack, AnimationUtils, AnimationObjectGroup, AnimationMixer, AnimationClip, Uniform, InstancedBufferGeometry, BufferGeometry, Geometry, InterleavedBufferAttribute, InstancedInterleavedBuffer, InterleavedBuffer, InstancedBufferAttribute, Face3, Object3D, Raycaster, Layers, EventDispatcher, Clock, QuaternionLinearInterpolant, LinearInterpolant, DiscreteInterpolant, CubicInterpolant, Interpolant, Triangle, _Math as Math, Spherical, Cylindrical, Plane, Frustum, Sphere, Ray, Matrix4, Matrix3, Box3, Box2, Line3, Euler, Vector4, Vector3, Vector2, Quaternion, Color, SphericalHarmonics3, ImmediateRenderObject, VertexNormalsHelper, SpotLightHelper, SkeletonHelper, PointLightHelper, RectAreaLightHelper, HemisphereLightHelper, LightProbeHelper, GridHelper, PolarGridHelper, PositionalAudioHelper, FaceNormalsHelper, DirectionalLightHelper, CameraHelper, BoxHelper, Box3Helper, PlaneHelper, ArrowHelper, AxesHelper, Shape, Path, ShapePath, Font, CurvePath, Curve, ImageUtils, ShapeUtils, WebGLUtils, WireframeGeometry, ParametricGeometry, ParametricBufferGeometry, TetrahedronGeometry, TetrahedronBufferGeometry, OctahedronGeometry, OctahedronBufferGeometry, IcosahedronGeometry, IcosahedronBufferGeometry, DodecahedronGeometry, DodecahedronBufferGeometry, PolyhedronGeometry, PolyhedronBufferGeometry, TubeGeometry, TubeBufferGeometry, TorusKnotGeometry, TorusKnotBufferGeometry, TorusGeometry, TorusBufferGeometry, TextGeometry, TextBufferGeometry, SphereGeometry, SphereBufferGeometry, RingGeometry, RingBufferGeometry, PlaneGeometry, PlaneBufferGeometry, LatheGeometry, LatheBufferGeometry, ShapeGeometry, ShapeBufferGeometry, ExtrudeGeometry, ExtrudeBufferGeometry, EdgesGeometry, ConeGeometry, ConeBufferGeometry, CylinderGeometry, CylinderBufferGeometry, CircleGeometry, CircleBufferGeometry, BoxGeometry, BoxGeometry as CubeGeometry, BoxBufferGeometry, ShadowMaterial, SpriteMaterial, RawShaderMaterial, ShaderMaterial, PointsMaterial$1 as PointsMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshPhongMaterial, MeshToonMaterial, MeshNormalMaterial, MeshLambertMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshBasicMaterial, MeshMatcapMaterial, LineDashedMaterial, LineBasicMaterial, Material, Float64BufferAttribute, Float32BufferAttribute$1 as Float32BufferAttribute, Uint32BufferAttribute, Int32BufferAttribute, Uint16BufferAttribute, Int16BufferAttribute, Uint8ClampedBufferAttribute, Uint8BufferAttribute, Int8BufferAttribute, BufferAttribute, ArcCurve, CatmullRomCurve3, CubicBezierCurve, CubicBezierCurve3, EllipseCurve, LineCurve, LineCurve3, QuadraticBezierCurve, QuadraticBezierCurve3, SplineCurve, REVISION, MOUSE, CullFaceNone, CullFaceBack, CullFaceFront, CullFaceFrontBack, FrontFaceDirectionCW, FrontFaceDirectionCCW, BasicShadowMap, PCFShadowMap, PCFSoftShadowMap, FrontSide, BackSide, DoubleSide, FlatShading, SmoothShading, NoColors, FaceColors, VertexColors$1 as VertexColors, NoBlending, NormalBlending, AdditiveBlending, SubtractiveBlending, MultiplyBlending, CustomBlending, AddEquation, SubtractEquation, ReverseSubtractEquation, MinEquation, MaxEquation, ZeroFactor, OneFactor, SrcColorFactor, OneMinusSrcColorFactor, SrcAlphaFactor, OneMinusSrcAlphaFactor, DstAlphaFactor, OneMinusDstAlphaFactor, DstColorFactor, OneMinusDstColorFactor, SrcAlphaSaturateFactor, NeverDepth, AlwaysDepth, LessDepth, LessEqualDepth, EqualDepth, GreaterEqualDepth, GreaterDepth, NotEqualDepth, MultiplyOperation, MixOperation, AddOperation, NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, UVMapping, CubeReflectionMapping, CubeRefractionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping, CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, NearestMipMapNearestFilter, NearestMipMapLinearFilter, LinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType, UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedShort565Type, UnsignedInt248Type, AlphaFormat, RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat, DepthStencilFormat, RedFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGB_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_PVRTC_2BPPV1_Format, RGB_ETC1_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_10x10_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, LoopOnce, LoopRepeat, LoopPingPong, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, TrianglesDrawMode, TriangleStripDrawMode, TriangleFanDrawMode, LinearEncoding, sRGBEncoding, GammaEncoding, RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking, RGBADepthPacking, TangentSpaceNormalMap, ObjectSpaceNormalMap, Face4, LineStrip, LinePieces, MeshFaceMaterial, MultiMaterial, PointCloud, Particle, ParticleSystem, PointCloudMaterial, ParticleBasicMaterial, ParticleSystemMaterial, Vertex, DynamicBufferAttribute, Int8Attribute, Uint8Attribute, Uint8ClampedAttribute, Int16Attribute, Uint16Attribute, Int32Attribute, Uint32Attribute, Float32Attribute, Float64Attribute, ClosedSplineCurve3, SplineCurve3, Spline, AxisHelper, BoundingBoxHelper, EdgesHelper, WireframeHelper, XHRLoader, BinaryTextureLoader, GeometryUtils, Projector, CanvasRenderer, JSONLoader, SceneUtils, LensFlare };

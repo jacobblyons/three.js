@@ -19,7 +19,7 @@ export class PCDLoader {
 	 */
 	load(
 		url: string,
-		onLoad?: (point: { Points }) => void,
+		onLoad?: (data: any) => void,
 		onProgress?: (event: ProgressEvent) => void,
 		onError?: (event: ErrorEvent) => void
 	): Texture;

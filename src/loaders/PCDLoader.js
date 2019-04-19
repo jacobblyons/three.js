@@ -12,8 +12,9 @@ import { Points } from "../objects/Points.js";
 import { LoaderUtils } from "./LoaderUtils.js";
 import { FileLoader } from "./FileLoader.js";
 import { DefaultLoadingManager } from "./LoadingManager.js";
-export * from "../materials/Materials.js";
-export * from "../geometries/Geometries.js";
+import { BufferGeometry } from "../core/BufferGeometry.js";
+import "../materials/Materials.js";
+import "../geometries/Geometries.js";
 
 function PCDLoader(manager) {
 	this.manager = manager !== undefined ? manager : DefaultLoadingManager;
