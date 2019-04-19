@@ -1,3 +1,4 @@
+import { BufferGeometry } from "./../core/BufferGeometry.d";
 import { Points } from "./../objects/Points.d";
 import { Mesh } from "./../objects/Mesh.d";
 import { TextureLoader } from "./TextureLoader.d";
