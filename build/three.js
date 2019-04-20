@@ -26629,7 +26629,7 @@
 	 * }
 	 */
 
-	function PointsMaterial$1( parameters ) {
+	function PointsMaterial( parameters ) {
 
 		Material.call( this );
 
@@ -26650,12 +26650,12 @@
 
 	}
 
-	PointsMaterial$1.prototype = Object.create( Material.prototype );
-	PointsMaterial$1.prototype.constructor = PointsMaterial$1;
+	PointsMaterial.prototype = Object.create( Material.prototype );
+	PointsMaterial.prototype.constructor = PointsMaterial;
 
-	PointsMaterial$1.prototype.isPointsMaterial = true;
+	PointsMaterial.prototype.isPointsMaterial = true;
 
-	PointsMaterial$1.prototype.copy = function ( source ) {
+	PointsMaterial.prototype.copy = function ( source ) {
 
 		Material.prototype.copy.call( this, source );
 
@@ -26683,7 +26683,7 @@
 		this.type = 'Points';
 
 		this.geometry = geometry !== undefined ? geometry : new BufferGeometry();
-		this.material = material !== undefined ? material : new PointsMaterial$1( { color: Math.random() * 0xffffff } );
+		this.material = material !== undefined ? material : new PointsMaterial( { color: Math.random() * 0xffffff } );
 
 	}
 
@@ -32337,7 +32337,7 @@
 		SpriteMaterial: SpriteMaterial,
 		RawShaderMaterial: RawShaderMaterial,
 		ShaderMaterial: ShaderMaterial,
-		PointsMaterial: PointsMaterial$1,
+		PointsMaterial: PointsMaterial,
 		MeshPhysicalMaterial: MeshPhysicalMaterial,
 		MeshStandardMaterial: MeshStandardMaterial,
 		MeshPhongMaterial: MeshPhongMaterial,
@@ -47016,21 +47016,21 @@
 	function PointCloudMaterial( parameters ) {
 
 		console.warn( 'THREE.PointCloudMaterial has been renamed to THREE.PointsMaterial.' );
-		return new PointsMaterial$1( parameters );
+		return new PointsMaterial( parameters );
 
 	}
 
 	function ParticleBasicMaterial( parameters ) {
 
 		console.warn( 'THREE.ParticleBasicMaterial has been renamed to THREE.PointsMaterial.' );
-		return new PointsMaterial$1( parameters );
+		return new PointsMaterial( parameters );
 
 	}
 
 	function ParticleSystemMaterial( parameters ) {
 
 		console.warn( 'THREE.ParticleSystemMaterial has been renamed to THREE.PointsMaterial.' );
-		return new PointsMaterial$1( parameters );
+		return new PointsMaterial( parameters );
 
 	}
 
@@ -49037,7 +49037,7 @@
 	exports.SpriteMaterial = SpriteMaterial;
 	exports.RawShaderMaterial = RawShaderMaterial;
 	exports.ShaderMaterial = ShaderMaterial;
-	exports.PointsMaterial = PointsMaterial$1;
+	exports.PointsMaterial = PointsMaterial;
 	exports.MeshPhysicalMaterial = MeshPhysicalMaterial;
 	exports.MeshStandardMaterial = MeshStandardMaterial;
 	exports.MeshPhongMaterial = MeshPhongMaterial;

@@ -14,7 +14,7 @@ import { FileLoader } from "./FileLoader.js";
 import { DefaultLoadingManager } from "./LoadingManager.js";
 import { BufferGeometry } from "../core/BufferGeometry.js";
 import { Float32BufferAttribute } from "../core/BufferAttribute";
-import "../materials/Materials.js";
+import { PointsMaterial } from "../materials/Materials.js";
 
 function PCDLoader(manager) {
 	this.manager = manager !== undefined ? manager : DefaultLoadingManager;
