@@ -13,6 +13,7 @@ import { LoaderUtils } from "./LoaderUtils.js";
 import { FileLoader } from "./FileLoader.js";
 import { DefaultLoadingManager } from "./LoadingManager.js";
 import { BufferGeometry } from "../core/BufferGeometry.js";
+import { Float32BufferAttribute } from "../core/BufferAttribute";
 import "../materials/Materials.js";
 
 function PCDLoader(manager) {
