@@ -9040,15 +9040,12 @@ MeshBasicMaterial.prototype.copy = function ( source ) {
  * @author mrdoob / http://mrdoob.com/
  */
 
-function BufferAttribute( array, itemSize, normalized ) {
-
-	if ( Array.isArray( array ) ) {
-
-		throw new TypeError( 'THREE.BufferAttribute: array should be a Typed Array.' );
-
+function BufferAttribute(array, itemSize, normalized) {
+	if (Array.isArray(array)) {
+		throw new TypeError("THREE.BufferAttribute: array should be a Typed Array.");
 	}
 
-	this.name = '';
+	this.name = "";
 
 	this.array = array;
 	this.itemSize = itemSize;
@@ -9056,55 +9053,42 @@ function BufferAttribute( array, itemSize, normalized ) {
 	this.normalized = normalized === true;
 
 	this.dynamic = false;
-	this.updateRange = { offset: 0, count: - 1 };
+	this.updateRange = { offset: 0, count: -1 };
 
 	this.version = 0;
-
 }
 
-Object.defineProperty( BufferAttribute.prototype, 'needsUpdate', {
-
-	set: function ( value ) {
-
-		if ( value === true ) this.version ++;
-
+Object.defineProperty(BufferAttribute.prototype, "needsUpdate", {
+	set: function(value) {
+		if (value === true) this.version++;
 	}
+});
 
-} );
-
-Object.assign( BufferAttribute.prototype, {
-
+Object.assign(BufferAttribute.prototype, {
 	isBufferAttribute: true,
 
-	onUploadCallback: function () {},
+	onUploadCallback: function() {},
 
-	setArray: function ( array ) {
-
-		if ( Array.isArray( array ) ) {
-
-			throw new TypeError( 'THREE.BufferAttribute: array should be a Typed Array.' );
-
+	setArray: function(array) {
+		if (Array.isArray(array)) {
+			throw new TypeError("THREE.BufferAttribute: array should be a Typed Array.");
 		}
 
 		this.count = array !== undefined ? array.length / this.itemSize : 0;
 		this.array = array;
 
 		return this;
-
 	},
 
-	setDynamic: function ( value ) {
-
+	setDynamic: function(value) {
 		this.dynamic = value;
 
 		return this;
-
 	},
 
-	copy: function ( source ) {
-
+	copy: function(source) {
 		this.name = source.name;
-		this.array = new source.array.constructor( source.array );
+		this.array = new source.array.constructor(source.array);
 		this.itemSize = source.itemSize;
 		this.count = source.count;
 		this.normalized = source.normalized;
@@ -9112,350 +9096,266 @@ Object.assign( BufferAttribute.prototype, {
 		this.dynamic = source.dynamic;
 
 		return this;
-
 	},
 
-	copyAt: function ( index1, attribute, index2 ) {
-
+	copyAt: function(index1, attribute, index2) {
 		index1 *= this.itemSize;
 		index2 *= attribute.itemSize;
 
-		for ( var i = 0, l = this.itemSize; i < l; i ++ ) {
-
-			this.array[ index1 + i ] = attribute.array[ index2 + i ];
-
+		for (var i = 0, l = this.itemSize; i < l; i++) {
+			this.array[index1 + i] = attribute.array[index2 + i];
 		}
 
 		return this;
-
 	},
 
-	copyArray: function ( array ) {
-
-		this.array.set( array );
+	copyArray: function(array) {
+		this.array.set(array);
 
 		return this;
-
 	},
 
-	copyColorsArray: function ( colors ) {
+	copyColorsArray: function(colors) {
+		var array = this.array,
+			offset = 0;
 
-		var array = this.array, offset = 0;
+		for (var i = 0, l = colors.length; i < l; i++) {
+			var color = colors[i];
 
-		for ( var i = 0, l = colors.length; i < l; i ++ ) {
-
-			var color = colors[ i ];
-
-			if ( color === undefined ) {
-
-				console.warn( 'THREE.BufferAttribute.copyColorsArray(): color is undefined', i );
+			if (color === undefined) {
+				console.warn("THREE.BufferAttribute.copyColorsArray(): color is undefined", i);
 				color = new Color();
-
 			}
 
-			array[ offset ++ ] = color.r;
-			array[ offset ++ ] = color.g;
-			array[ offset ++ ] = color.b;
-
+			array[offset++] = color.r;
+			array[offset++] = color.g;
+			array[offset++] = color.b;
 		}
 
 		return this;
-
 	},
 
-	copyVector2sArray: function ( vectors ) {
+	copyVector2sArray: function(vectors) {
+		var array = this.array,
+			offset = 0;
 
-		var array = this.array, offset = 0;
+		for (var i = 0, l = vectors.length; i < l; i++) {
+			var vector = vectors[i];
 
-		for ( var i = 0, l = vectors.length; i < l; i ++ ) {
-
-			var vector = vectors[ i ];
-
-			if ( vector === undefined ) {
-
-				console.warn( 'THREE.BufferAttribute.copyVector2sArray(): vector is undefined', i );
+			if (vector === undefined) {
+				console.warn("THREE.BufferAttribute.copyVector2sArray(): vector is undefined", i);
 				vector = new Vector2();
-
 			}
 
-			array[ offset ++ ] = vector.x;
-			array[ offset ++ ] = vector.y;
-
+			array[offset++] = vector.x;
+			array[offset++] = vector.y;
 		}
 
 		return this;
-
 	},
 
-	copyVector3sArray: function ( vectors ) {
+	copyVector3sArray: function(vectors) {
+		var array = this.array,
+			offset = 0;
 
-		var array = this.array, offset = 0;
+		for (var i = 0, l = vectors.length; i < l; i++) {
+			var vector = vectors[i];
 
-		for ( var i = 0, l = vectors.length; i < l; i ++ ) {
-
-			var vector = vectors[ i ];
-
-			if ( vector === undefined ) {
-
-				console.warn( 'THREE.BufferAttribute.copyVector3sArray(): vector is undefined', i );
+			if (vector === undefined) {
+				console.warn("THREE.BufferAttribute.copyVector3sArray(): vector is undefined", i);
 				vector = new Vector3();
-
 			}
 
-			array[ offset ++ ] = vector.x;
-			array[ offset ++ ] = vector.y;
-			array[ offset ++ ] = vector.z;
-
+			array[offset++] = vector.x;
+			array[offset++] = vector.y;
+			array[offset++] = vector.z;
 		}
 
 		return this;
-
 	},
 
-	copyVector4sArray: function ( vectors ) {
+	copyVector4sArray: function(vectors) {
+		var array = this.array,
+			offset = 0;
 
-		var array = this.array, offset = 0;
+		for (var i = 0, l = vectors.length; i < l; i++) {
+			var vector = vectors[i];
 
-		for ( var i = 0, l = vectors.length; i < l; i ++ ) {
-
-			var vector = vectors[ i ];
-
-			if ( vector === undefined ) {
-
-				console.warn( 'THREE.BufferAttribute.copyVector4sArray(): vector is undefined', i );
+			if (vector === undefined) {
+				console.warn("THREE.BufferAttribute.copyVector4sArray(): vector is undefined", i);
 				vector = new Vector4();
-
 			}
 
-			array[ offset ++ ] = vector.x;
-			array[ offset ++ ] = vector.y;
-			array[ offset ++ ] = vector.z;
-			array[ offset ++ ] = vector.w;
-
+			array[offset++] = vector.x;
+			array[offset++] = vector.y;
+			array[offset++] = vector.z;
+			array[offset++] = vector.w;
 		}
 
 		return this;
-
 	},
 
-	set: function ( value, offset ) {
+	set: function(value, offset) {
+		if (offset === undefined) offset = 0;
 
-		if ( offset === undefined ) offset = 0;
-
-		this.array.set( value, offset );
+		this.array.set(value, offset);
 
 		return this;
-
 	},
 
-	getX: function ( index ) {
-
-		return this.array[ index * this.itemSize ];
-
+	getX: function(index) {
+		return this.array[index * this.itemSize];
 	},
 
-	setX: function ( index, x ) {
-
-		this.array[ index * this.itemSize ] = x;
+	setX: function(index, x) {
+		this.array[index * this.itemSize] = x;
 
 		return this;
-
 	},
 
-	getY: function ( index ) {
-
-		return this.array[ index * this.itemSize + 1 ];
-
+	getY: function(index) {
+		return this.array[index * this.itemSize + 1];
 	},
 
-	setY: function ( index, y ) {
-
-		this.array[ index * this.itemSize + 1 ] = y;
+	setY: function(index, y) {
+		this.array[index * this.itemSize + 1] = y;
 
 		return this;
-
 	},
 
-	getZ: function ( index ) {
-
-		return this.array[ index * this.itemSize + 2 ];
-
+	getZ: function(index) {
+		return this.array[index * this.itemSize + 2];
 	},
 
-	setZ: function ( index, z ) {
-
-		this.array[ index * this.itemSize + 2 ] = z;
+	setZ: function(index, z) {
+		this.array[index * this.itemSize + 2] = z;
 
 		return this;
-
 	},
 
-	getW: function ( index ) {
-
-		return this.array[ index * this.itemSize + 3 ];
-
+	getW: function(index) {
+		return this.array[index * this.itemSize + 3];
 	},
 
-	setW: function ( index, w ) {
-
-		this.array[ index * this.itemSize + 3 ] = w;
+	setW: function(index, w) {
+		this.array[index * this.itemSize + 3] = w;
 
 		return this;
-
 	},
 
-	setXY: function ( index, x, y ) {
-
+	setXY: function(index, x, y) {
 		index *= this.itemSize;
 
-		this.array[ index + 0 ] = x;
-		this.array[ index + 1 ] = y;
+		this.array[index + 0] = x;
+		this.array[index + 1] = y;
 
 		return this;
-
 	},
 
-	setXYZ: function ( index, x, y, z ) {
-
+	setXYZ: function(index, x, y, z) {
 		index *= this.itemSize;
 
-		this.array[ index + 0 ] = x;
-		this.array[ index + 1 ] = y;
-		this.array[ index + 2 ] = z;
+		this.array[index + 0] = x;
+		this.array[index + 1] = y;
+		this.array[index + 2] = z;
 
 		return this;
-
 	},
 
-	setXYZW: function ( index, x, y, z, w ) {
-
+	setXYZW: function(index, x, y, z, w) {
 		index *= this.itemSize;
 
-		this.array[ index + 0 ] = x;
-		this.array[ index + 1 ] = y;
-		this.array[ index + 2 ] = z;
-		this.array[ index + 3 ] = w;
+		this.array[index + 0] = x;
+		this.array[index + 1] = y;
+		this.array[index + 2] = z;
+		this.array[index + 3] = w;
 
 		return this;
-
 	},
 
-	onUpload: function ( callback ) {
-
+	onUpload: function(callback) {
 		this.onUploadCallback = callback;
 
 		return this;
-
 	},
 
-	clone: function () {
-
-		return new this.constructor( this.array, this.itemSize ).copy( this );
-
+	clone: function() {
+		return new this.constructor(this.array, this.itemSize).copy(this);
 	},
 
-	toJSON: function () {
-
+	toJSON: function() {
 		return {
 			itemSize: this.itemSize,
 			type: this.array.constructor.name,
-			array: Array.prototype.slice.call( this.array ),
+			array: Array.prototype.slice.call(this.array),
 			normalized: this.normalized
 		};
-
 	}
-
-} );
+});
 
 //
 
-function Int8BufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Int8Array( array ), itemSize, normalized );
-
+function Int8BufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Int8Array(array), itemSize, normalized);
 }
 
-Int8BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Int8BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Int8BufferAttribute.prototype.constructor = Int8BufferAttribute;
 
-
-function Uint8BufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Uint8Array( array ), itemSize, normalized );
-
+function Uint8BufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Uint8Array(array), itemSize, normalized);
 }
 
-Uint8BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Uint8BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Uint8BufferAttribute.prototype.constructor = Uint8BufferAttribute;
 
-
-function Uint8ClampedBufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Uint8ClampedArray( array ), itemSize, normalized );
-
+function Uint8ClampedBufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Uint8ClampedArray(array), itemSize, normalized);
 }
 
-Uint8ClampedBufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Uint8ClampedBufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Uint8ClampedBufferAttribute.prototype.constructor = Uint8ClampedBufferAttribute;
 
-
-function Int16BufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Int16Array( array ), itemSize, normalized );
-
+function Int16BufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Int16Array(array), itemSize, normalized);
 }
 
-Int16BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Int16BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Int16BufferAttribute.prototype.constructor = Int16BufferAttribute;
 
-
-function Uint16BufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Uint16Array( array ), itemSize, normalized );
-
+function Uint16BufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Uint16Array(array), itemSize, normalized);
 }
 
-Uint16BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Uint16BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Uint16BufferAttribute.prototype.constructor = Uint16BufferAttribute;
 
-
-function Int32BufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Int32Array( array ), itemSize, normalized );
-
+function Int32BufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Int32Array(array), itemSize, normalized);
 }
 
-Int32BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Int32BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Int32BufferAttribute.prototype.constructor = Int32BufferAttribute;
 
-
-function Uint32BufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Uint32Array( array ), itemSize, normalized );
-
+function Uint32BufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Uint32Array(array), itemSize, normalized);
 }
 
-Uint32BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Uint32BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Uint32BufferAttribute.prototype.constructor = Uint32BufferAttribute;
 
-
-function Float32BufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Float32Array( array ), itemSize, normalized );
-
+function Float32BufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Float32Array(array), itemSize, normalized);
 }
 
-Float32BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Float32BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Float32BufferAttribute.prototype.constructor = Float32BufferAttribute;
 
-
-function Float64BufferAttribute( array, itemSize, normalized ) {
-
-	BufferAttribute.call( this, new Float64Array( array ), itemSize, normalized );
-
+function Float64BufferAttribute(array, itemSize, normalized) {
+	BufferAttribute.call(this, new Float64Array(array), itemSize, normalized);
 }
 
-Float64BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+Float64BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 Float64BufferAttribute.prototype.constructor = Float64BufferAttribute;
 
 /**
@@ -10645,6 +10545,7 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 		}
 
 		return this;
+
 	},
 
 	normalizeNormals: function () {
@@ -18182,8 +18083,8 @@ function WebGLProgram( renderer, extensions, code, material, shader, parameters,
 	// console.log( '*VERTEX*', vertexGlsl );
 	// console.log( '*FRAGMENT*', fragmentGlsl );
 
-	var glVertexShader = WebGLShader( gl, 35633, vertexGlsl, renderer.debug.checkShaderErrors );
-	var glFragmentShader = WebGLShader( gl, 35632, fragmentGlsl, renderer.debug.checkShaderErrors );
+	var glVertexShader = WebGLShader( gl, 35633, vertexGlsl );
+	var glFragmentShader = WebGLShader( gl, 35632, fragmentGlsl );
 
 	gl.attachShader( program, glVertexShader );
 	gl.attachShader( program, glFragmentShader );
@@ -23140,16 +23041,6 @@ function WebGLRenderer( parameters ) {
 		 * @type {boolean}
 		 */
 		checkShaderErrors: true
-	};
-
-	// Debug configuration container
-	this.debug = {
-
-		/**
-		 * Enables error checking and reporting when shader programs are being compiled
-		 * @type {boolean}
-		 */
-		checkShaderErrors: false
 	};
 
 	// clearing
@@ -39662,6 +39553,249 @@ var TEXTURE_FILTER = {
 };
 
 /**
+ * @author Filipe Caixeta / http://filipecaixeta.com.br
+ * @author Mugen87 / https://github.com/Mugen87
+ *
+ * Description: A loader for PCD ascii and binary files.
+ *
+ * Limitations: Compressed binary files are not supported.
+ *
+ */
+
+function PCDLoader(manager) {
+	this.manager = manager !== undefined ? manager : DefaultLoadingManager;
+	this.littleEndian = true;
+}
+
+Object.assign(PCDLoader.prototype, {
+	load: function(url, onLoad, onProgress, onError) {
+		var scope = this;
+
+		var loader = new FileLoader(scope.manager);
+		loader.setPath(scope.path);
+		loader.setResponseType("arraybuffer");
+		loader.load(
+			url,
+			function(data) {
+				try {
+					onLoad(scope.parse(data, url));
+				} catch (e) {
+					if (onError) {
+						onError(e);
+					} else {
+						throw e;
+					}
+				}
+			},
+			onProgress,
+			onError
+		);
+	},
+
+	setPath: function(value) {
+		this.path = value;
+		return this;
+	},
+
+	parse: function(data, url) {
+		function parseHeader(data) {
+			var PCDheader = {};
+			var result1 = data.search(/[\r\n]DATA\s(\S*)\s/i);
+			var result2 = /[\r\n]DATA\s(\S*)\s/i.exec(data.substr(result1 - 1));
+
+			PCDheader.data = result2[1];
+			PCDheader.headerLen = result2[0].length + result1;
+			PCDheader.str = data.substr(0, PCDheader.headerLen);
+
+			// remove comments
+
+			PCDheader.str = PCDheader.str.replace(/\#.*/gi, "");
+
+			// parse
+
+			PCDheader.version = /VERSION (.*)/i.exec(PCDheader.str);
+			PCDheader.fields = /FIELDS (.*)/i.exec(PCDheader.str);
+			PCDheader.size = /SIZE (.*)/i.exec(PCDheader.str);
+			PCDheader.type = /TYPE (.*)/i.exec(PCDheader.str);
+			PCDheader.count = /COUNT (.*)/i.exec(PCDheader.str);
+			PCDheader.width = /WIDTH (.*)/i.exec(PCDheader.str);
+			PCDheader.height = /HEIGHT (.*)/i.exec(PCDheader.str);
+			PCDheader.viewpoint = /VIEWPOINT (.*)/i.exec(PCDheader.str);
+			PCDheader.points = /POINTS (.*)/i.exec(PCDheader.str);
+
+			// evaluate
+
+			if (PCDheader.version !== null) PCDheader.version = parseFloat(PCDheader.version[1]);
+
+			if (PCDheader.fields !== null) PCDheader.fields = PCDheader.fields[1].split(" ");
+
+			if (PCDheader.type !== null) PCDheader.type = PCDheader.type[1].split(" ");
+
+			if (PCDheader.width !== null) PCDheader.width = parseInt(PCDheader.width[1]);
+
+			if (PCDheader.height !== null) PCDheader.height = parseInt(PCDheader.height[1]);
+
+			if (PCDheader.viewpoint !== null) PCDheader.viewpoint = PCDheader.viewpoint[1];
+
+			if (PCDheader.points !== null) PCDheader.points = parseInt(PCDheader.points[1], 10);
+
+			if (PCDheader.points === null) PCDheader.points = PCDheader.width * PCDheader.height;
+
+			if (PCDheader.size !== null) {
+				PCDheader.size = PCDheader.size[1].split(" ").map(function(x) {
+					return parseInt(x, 10);
+				});
+			}
+
+			if (PCDheader.count !== null) {
+				PCDheader.count = PCDheader.count[1].split(" ").map(function(x) {
+					return parseInt(x, 10);
+				});
+			} else {
+				PCDheader.count = [];
+
+				for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
+					PCDheader.count.push(1);
+				}
+			}
+
+			PCDheader.offset = {};
+
+			var sizeSum = 0;
+
+			for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
+				if (PCDheader.data === "ascii") {
+					PCDheader.offset[PCDheader.fields[i]] = i;
+				} else {
+					PCDheader.offset[PCDheader.fields[i]] = sizeSum;
+					sizeSum += PCDheader.size[i];
+				}
+			}
+
+			// for binary only
+
+			PCDheader.rowSize = sizeSum;
+
+			return PCDheader;
+		}
+
+		var textData = LoaderUtils.decodeText(data);
+
+		// parse header (always ascii format)
+
+		var PCDheader = parseHeader(textData);
+
+		// parse data
+
+		var position = [];
+		var normal = [];
+		var color = [];
+
+		// ascii
+
+		if (PCDheader.data === "ascii") {
+			var offset = PCDheader.offset;
+			var pcdData = textData.substr(PCDheader.headerLen);
+			var lines = pcdData.split("\n");
+
+			for (var i = 0, l = lines.length; i < l; i++) {
+				if (lines[i] === "") continue;
+
+				var line = lines[i].split(" ");
+
+				if (offset.x !== undefined) {
+					position.push(parseFloat(line[offset.x]));
+					position.push(parseFloat(line[offset.y]));
+					position.push(parseFloat(line[offset.z]));
+				}
+
+				if (offset.rgb !== undefined) {
+					var rgb = parseFloat(line[offset.rgb]);
+					var r = (rgb >> 16) & 0x0000ff;
+					var g = (rgb >> 8) & 0x0000ff;
+					var b = (rgb >> 0) & 0x0000ff;
+					color.push(r / 255, g / 255, b / 255);
+				}
+
+				if (offset.normal_x !== undefined) {
+					normal.push(parseFloat(line[offset.normal_x]));
+					normal.push(parseFloat(line[offset.normal_y]));
+					normal.push(parseFloat(line[offset.normal_z]));
+				}
+			}
+		}
+
+		// binary
+
+		if (PCDheader.data === "binary_compressed") {
+			console.error("PCDLoader: binary_compressed files are not supported");
+			return;
+		}
+
+		if (PCDheader.data === "binary") {
+			var dataview = new DataView(data, PCDheader.headerLen);
+			var offset = PCDheader.offset;
+
+			for (var i = 0, row = 0; i < PCDheader.points; i++, row += PCDheader.rowSize) {
+				if (offset.x !== undefined) {
+					position.push(dataview.getFloat32(row + offset.x, this.littleEndian));
+					position.push(dataview.getFloat32(row + offset.y, this.littleEndian));
+					position.push(dataview.getFloat32(row + offset.z, this.littleEndian));
+				}
+
+				if (offset.rgb !== undefined) {
+					color.push(dataview.getUint8(row + offset.rgb + 2) / 255.0);
+					color.push(dataview.getUint8(row + offset.rgb + 1) / 255.0);
+					color.push(dataview.getUint8(row + offset.rgb + 0) / 255.0);
+				}
+
+				if (offset.normal_x !== undefined) {
+					normal.push(dataview.getFloat32(row + offset.normal_x, this.littleEndian));
+					normal.push(dataview.getFloat32(row + offset.normal_y, this.littleEndian));
+					normal.push(dataview.getFloat32(row + offset.normal_z, this.littleEndian));
+				}
+			}
+		}
+
+		// build geometry
+
+		var geometry = new BufferGeometry();
+
+		if (position.length > 0) geometry.addAttribute("position", new Float32BufferAttribute(position, 3));
+		if (normal.length > 0) geometry.addAttribute("normal", new Float32BufferAttribute(normal, 3));
+		if (color.length > 0) geometry.addAttribute("color", new Float32BufferAttribute(color, 3));
+
+		geometry.computeBoundingSphere();
+
+		// build material
+
+		var material = new PointsMaterial({ size: 0.005 });
+
+		if (color.length > 0) {
+			material.vertexColors = VertexColors;
+		} else {
+			material.color.setHex(Math.random() * 0xffffff);
+		}
+
+		// build mesh
+
+		var mesh = new Points(geometry, material);
+		var name = url
+			.split("")
+			.reverse()
+			.join("");
+		name = /([^\/]*)/.exec(name);
+		name = name[1]
+			.split("")
+			.reverse()
+			.join("");
+		mesh.name = name;
+
+		return mesh;
+	}
+});
+
+/**
  * @author thespite / http://clicktorelease.com/
  */
 
@@ -40260,249 +40394,6 @@ Object.assign( FontLoader.prototype, {
 	}
 
 } );
-
-/**
- * @author Filipe Caixeta / http://filipecaixeta.com.br
- * @author Mugen87 / https://github.com/Mugen87
- *
- * Description: A loader for PCD ascii and binary files.
- *
- * Limitations: Compressed binary files are not supported.
- *
- */
-
-function PCDLoader(manager) {
-	this.manager = manager !== undefined ? manager : DefaultLoadingManager;
-	this.littleEndian = true;
-}
-
-Object.assign(PCDLoader.prototype, {
-	load: function(url, onLoad, onProgress, onError) {
-		var scope = this;
-
-		var loader = new FileLoader(scope.manager);
-		loader.setPath(scope.path);
-		loader.setResponseType("arraybuffer");
-		loader.load(
-			url,
-			function(data) {
-				try {
-					onLoad(scope.parse(data, url));
-				} catch (e) {
-					if (onError) {
-						onError(e);
-					} else {
-						throw e;
-					}
-				}
-			},
-			onProgress,
-			onError
-		);
-	},
-
-	setPath: function(value) {
-		this.path = value;
-		return this;
-	},
-
-	parse: function(data, url) {
-		function parseHeader(data) {
-			var PCDheader = {};
-			var result1 = data.search(/[\r\n]DATA\s(\S*)\s/i);
-			var result2 = /[\r\n]DATA\s(\S*)\s/i.exec(data.substr(result1 - 1));
-
-			PCDheader.data = result2[1];
-			PCDheader.headerLen = result2[0].length + result1;
-			PCDheader.str = data.substr(0, PCDheader.headerLen);
-
-			// remove comments
-
-			PCDheader.str = PCDheader.str.replace(/\#.*/gi, "");
-
-			// parse
-
-			PCDheader.version = /VERSION (.*)/i.exec(PCDheader.str);
-			PCDheader.fields = /FIELDS (.*)/i.exec(PCDheader.str);
-			PCDheader.size = /SIZE (.*)/i.exec(PCDheader.str);
-			PCDheader.type = /TYPE (.*)/i.exec(PCDheader.str);
-			PCDheader.count = /COUNT (.*)/i.exec(PCDheader.str);
-			PCDheader.width = /WIDTH (.*)/i.exec(PCDheader.str);
-			PCDheader.height = /HEIGHT (.*)/i.exec(PCDheader.str);
-			PCDheader.viewpoint = /VIEWPOINT (.*)/i.exec(PCDheader.str);
-			PCDheader.points = /POINTS (.*)/i.exec(PCDheader.str);
-
-			// evaluate
-
-			if (PCDheader.version !== null) PCDheader.version = parseFloat(PCDheader.version[1]);
-
-			if (PCDheader.fields !== null) PCDheader.fields = PCDheader.fields[1].split(" ");
-
-			if (PCDheader.type !== null) PCDheader.type = PCDheader.type[1].split(" ");
-
-			if (PCDheader.width !== null) PCDheader.width = parseInt(PCDheader.width[1]);
-
-			if (PCDheader.height !== null) PCDheader.height = parseInt(PCDheader.height[1]);
-
-			if (PCDheader.viewpoint !== null) PCDheader.viewpoint = PCDheader.viewpoint[1];
-
-			if (PCDheader.points !== null) PCDheader.points = parseInt(PCDheader.points[1], 10);
-
-			if (PCDheader.points === null) PCDheader.points = PCDheader.width * PCDheader.height;
-
-			if (PCDheader.size !== null) {
-				PCDheader.size = PCDheader.size[1].split(" ").map(function(x) {
-					return parseInt(x, 10);
-				});
-			}
-
-			if (PCDheader.count !== null) {
-				PCDheader.count = PCDheader.count[1].split(" ").map(function(x) {
-					return parseInt(x, 10);
-				});
-			} else {
-				PCDheader.count = [];
-
-				for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
-					PCDheader.count.push(1);
-				}
-			}
-
-			PCDheader.offset = {};
-
-			var sizeSum = 0;
-
-			for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
-				if (PCDheader.data === "ascii") {
-					PCDheader.offset[PCDheader.fields[i]] = i;
-				} else {
-					PCDheader.offset[PCDheader.fields[i]] = sizeSum;
-					sizeSum += PCDheader.size[i];
-				}
-			}
-
-			// for binary only
-
-			PCDheader.rowSize = sizeSum;
-
-			return PCDheader;
-		}
-
-		var textData = LoaderUtils.decodeText(data);
-
-		// parse header (always ascii format)
-
-		var PCDheader = parseHeader(textData);
-
-		// parse data
-
-		var position = [];
-		var normal = [];
-		var color = [];
-
-		// ascii
-
-		if (PCDheader.data === "ascii") {
-			var offset = PCDheader.offset;
-			var pcdData = textData.substr(PCDheader.headerLen);
-			var lines = pcdData.split("\n");
-
-			for (var i = 0, l = lines.length; i < l; i++) {
-				if (lines[i] === "") continue;
-
-				var line = lines[i].split(" ");
-
-				if (offset.x !== undefined) {
-					position.push(parseFloat(line[offset.x]));
-					position.push(parseFloat(line[offset.y]));
-					position.push(parseFloat(line[offset.z]));
-				}
-
-				if (offset.rgb !== undefined) {
-					var rgb = parseFloat(line[offset.rgb]);
-					var r = (rgb >> 16) & 0x0000ff;
-					var g = (rgb >> 8) & 0x0000ff;
-					var b = (rgb >> 0) & 0x0000ff;
-					color.push(r / 255, g / 255, b / 255);
-				}
-
-				if (offset.normal_x !== undefined) {
-					normal.push(parseFloat(line[offset.normal_x]));
-					normal.push(parseFloat(line[offset.normal_y]));
-					normal.push(parseFloat(line[offset.normal_z]));
-				}
-			}
-		}
-
-		// binary
-
-		if (PCDheader.data === "binary_compressed") {
-			console.error("PCDLoader: binary_compressed files are not supported");
-			return;
-		}
-
-		if (PCDheader.data === "binary") {
-			var dataview = new DataView(data, PCDheader.headerLen);
-			var offset = PCDheader.offset;
-
-			for (var i = 0, row = 0; i < PCDheader.points; i++, row += PCDheader.rowSize) {
-				if (offset.x !== undefined) {
-					position.push(dataview.getFloat32(row + offset.x, this.littleEndian));
-					position.push(dataview.getFloat32(row + offset.y, this.littleEndian));
-					position.push(dataview.getFloat32(row + offset.z, this.littleEndian));
-				}
-
-				if (offset.rgb !== undefined) {
-					color.push(dataview.getUint8(row + offset.rgb + 2) / 255.0);
-					color.push(dataview.getUint8(row + offset.rgb + 1) / 255.0);
-					color.push(dataview.getUint8(row + offset.rgb + 0) / 255.0);
-				}
-
-				if (offset.normal_x !== undefined) {
-					normal.push(dataview.getFloat32(row + offset.normal_x, this.littleEndian));
-					normal.push(dataview.getFloat32(row + offset.normal_y, this.littleEndian));
-					normal.push(dataview.getFloat32(row + offset.normal_z, this.littleEndian));
-				}
-			}
-		}
-
-		// build geometry
-
-		var geometry = new BufferGeometry();
-
-		if (position.length > 0) geometry.addAttribute("position", new Float32BufferAttribute(position, 3));
-		if (normal.length > 0) geometry.addAttribute("normal", new Float32BufferAttribute(normal, 3));
-		if (color.length > 0) geometry.addAttribute("color", new Float32BufferAttribute(color, 3));
-
-		geometry.computeBoundingSphere();
-
-		// build material
-
-		var material = new PointsMaterial({ size: 0.005 });
-
-		if (color.length > 0) {
-			material.vertexColors = VertexColors;
-		} else {
-			material.color.setHex(Math.random() * 0xffffff);
-		}
-
-		// build mesh
-
-		var mesh = new Points(geometry, material);
-		var name = url
-			.split("")
-			.reverse()
-			.join("");
-		name = /([^\/]*)/.exec(name);
-		name = name[1]
-			.split("")
-			.reverse()
-			.join("");
-		mesh.name = name;
-
-		return mesh;
-	}
-});
 
 /**
  * @author alteredq / http://alteredqualia.com/
@@ -49207,4 +49098,4 @@ function LensFlare() {
 
 }
 
-export { ACESFilmicToneMapping, AddEquation, AddOperation, AdditiveBlending, AlphaFormat, AlwaysDepth, AlwaysStencilFunc, AmbientLight, AmbientLightProbe, AnimationClip, AnimationLoader, AnimationMixer, AnimationObjectGroup, AnimationUtils, ArcCurve, ArrayCamera, ArrowHelper, Audio, AudioAnalyser, AudioContext, AudioListener, AudioLoader, AxesHelper, AxisHelper, BackSide, BasicDepthPacking, BasicShadowMap, BinaryTextureLoader, Bone, BooleanKeyframeTrack, BoundingBoxHelper, Box2, Box3, Box3Helper, BoxBufferGeometry, BoxGeometry, BoxHelper, BufferAttribute, BufferGeometry, BufferGeometryLoader, ByteType, Cache, Camera, CameraHelper, CanvasRenderer, CanvasTexture, CatmullRomCurve3, CineonToneMapping, CircleBufferGeometry, CircleGeometry, ClampToEdgeWrapping, Clock, ClosedSplineCurve3, Color, ColorKeyframeTrack, CompressedTexture, CompressedTextureLoader, ConeBufferGeometry, ConeGeometry, CubeCamera, BoxGeometry as CubeGeometry, CubeReflectionMapping, CubeRefractionMapping, CubeTexture, CubeTextureLoader, CubeUVReflectionMapping, CubeUVRefractionMapping, CubicBezierCurve, CubicBezierCurve3, CubicInterpolant, CullFaceBack, CullFaceFront, CullFaceFrontBack, CullFaceNone, Curve, CurvePath, CustomBlending, CylinderBufferGeometry, CylinderGeometry, Cylindrical, DataTexture, DataTexture2DArray, DataTexture3D, DataTextureLoader, DecrementStencilOp, DecrementWrapStencilOp, DefaultLoadingManager, DepthFormat, DepthStencilFormat, DepthTexture, DirectionalLight, DirectionalLightHelper, DirectionalLightShadow, DiscreteInterpolant, DodecahedronBufferGeometry, DodecahedronGeometry, DoubleSide, DstAlphaFactor, DstColorFactor, DynamicBufferAttribute, EdgesGeometry, EdgesHelper, EllipseCurve, EqualDepth, EqualStencilFunc, EquirectangularReflectionMapping, EquirectangularRefractionMapping, Euler, EventDispatcher, ExtrudeBufferGeometry, ExtrudeGeometry, Face3, Face4, FaceColors, FaceNormalsHelper, FileLoader, FlatShading, Float32Attribute, Float32BufferAttribute, Float64Attribute, Float64BufferAttribute, FloatType, Fog, FogExp2, Font, FontLoader, FrontFaceDirectionCCW, FrontFaceDirectionCW, FrontSide, Frustum, GammaEncoding, Geometry, GeometryUtils, GreaterDepth, GreaterEqualDepth, GreaterEqualStencilFunc, GreaterStencilFunc, GridHelper, Group, HalfFloatType, HemisphereLight, HemisphereLightHelper, HemisphereLightProbe, IcosahedronBufferGeometry, IcosahedronGeometry, ImageBitmapLoader, ImageLoader, ImageUtils, ImmediateRenderObject, IncrementStencilOp, IncrementWrapStencilOp, InstancedBufferAttribute, InstancedBufferGeometry, InstancedInterleavedBuffer, Int16Attribute, Int16BufferAttribute, Int32Attribute, Int32BufferAttribute, Int8Attribute, Int8BufferAttribute, IntType, InterleavedBuffer, InterleavedBufferAttribute, Interpolant, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, InvertStencilOp, JSONLoader, KeepStencilOp, KeyframeTrack, LOD, LatheBufferGeometry, LatheGeometry, Layers, LensFlare, LessDepth, LessEqualDepth, LessEqualStencilFunc, LessStencilFunc, Light, LightProbe, LightProbeHelper, LightShadow, Line, Line3, LineBasicMaterial, LineCurve, LineCurve3, LineDashedMaterial, LineLoop, LinePieces, LineSegments, LineStrip, LinearEncoding, LinearFilter, LinearInterpolant, LinearMipMapLinearFilter, LinearMipMapNearestFilter, LinearMipmapLinearFilter, LinearMipmapNearestFilter, LinearToneMapping, Loader, LoaderUtils, LoadingManager, LogLuvEncoding, LoopOnce, LoopPingPong, LoopRepeat, LuminanceAlphaFormat, LuminanceFormat, MOUSE, Material, MaterialLoader, _Math as Math, Matrix3, Matrix4, MaxEquation, Mesh, MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshFaceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, MinEquation, MirroredRepeatWrapping, MixOperation, MultiMaterial, MultiplyBlending, MultiplyOperation, NearestFilter, NearestMipMapLinearFilter, NearestMipMapNearestFilter, NearestMipmapLinearFilter, NearestMipmapNearestFilter, NeverDepth, NeverStencilFunc, NoBlending, NoColors, NoToneMapping, NormalBlending, NotEqualDepth, NotEqualStencilFunc, NumberKeyframeTrack, Object3D, ObjectLoader, ObjectSpaceNormalMap, OctahedronBufferGeometry, OctahedronGeometry, OneFactor, OneMinusDstAlphaFactor, OneMinusDstColorFactor, OneMinusSrcAlphaFactor, OneMinusSrcColorFactor, OrthographicCamera, PCFShadowMap, PCFSoftShadowMap, ParametricBufferGeometry, ParametricGeometry, Particle, ParticleBasicMaterial, ParticleSystem, ParticleSystemMaterial, Path, PerspectiveCamera, Plane, PlaneBufferGeometry, PlaneGeometry, PlaneHelper, PointCloud, PointCloudMaterial, PointLight, PointLightHelper, Points, PointsMaterial, PolarGridHelper, PolyhedronBufferGeometry, PolyhedronGeometry, PositionalAudio, PositionalAudioHelper, PropertyBinding, PropertyMixer, QuadraticBezierCurve, QuadraticBezierCurve3, Quaternion, QuaternionKeyframeTrack, QuaternionLinearInterpolant, REVISION, RGBADepthPacking, RGBAFormat, RGBA_ASTC_10x10_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGBDEncoding, RGBEEncoding, RGBEFormat, RGBFormat, RGBM16Encoding, RGBM7Encoding, RGB_ETC1_Format, RGB_PVRTC_2BPPV1_Format, RGB_PVRTC_4BPPV1_Format, RGB_S3TC_DXT1_Format, RawShaderMaterial, Ray, Raycaster, RectAreaLight, RectAreaLightHelper, RedFormat, ReinhardToneMapping, RepeatWrapping, ReplaceStencilOp, ReverseSubtractEquation, RingBufferGeometry, RingGeometry, Scene, SceneUtils, ShaderChunk, ShaderLib, ShaderMaterial, ShadowMaterial, Shape, ShapeBufferGeometry, ShapeGeometry, ShapePath, ShapeUtils, ShortType, Skeleton, SkeletonHelper, SkinnedMesh, SmoothShading, Sphere, SphereBufferGeometry, SphereGeometry, Spherical, SphericalHarmonics3, SphericalReflectionMapping, Spline, SplineCurve, SplineCurve3, SpotLight, SpotLightHelper, SpotLightShadow, Sprite, SpriteMaterial, SrcAlphaFactor, SrcAlphaSaturateFactor, SrcColorFactor, StereoCamera, StringKeyframeTrack, SubtractEquation, SubtractiveBlending, TOUCH, TangentSpaceNormalMap, TetrahedronBufferGeometry, TetrahedronGeometry, TextBufferGeometry, TextGeometry, Texture, TextureLoader, TorusBufferGeometry, TorusGeometry, TorusKnotBufferGeometry, TorusKnotGeometry, Triangle, TriangleFanDrawMode, TriangleStripDrawMode, TrianglesDrawMode, TubeBufferGeometry, TubeGeometry, UVMapping, Uint16Attribute, Uint16BufferAttribute, Uint32Attribute, Uint32BufferAttribute, Uint8Attribute, Uint8BufferAttribute, Uint8ClampedAttribute, Uint8ClampedBufferAttribute, Uncharted2ToneMapping, Uniform, UniformsLib, UniformsUtils, UnsignedByteType, UnsignedInt248Type, UnsignedIntType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedShort565Type, UnsignedShortType, Vector2, Vector3, Vector4, VectorKeyframeTrack, Vertex, VertexColors, VertexNormalsHelper, VideoTexture, WebGLMultisampleRenderTarget, WebGLRenderTarget, WebGLRenderTargetCube, WebGLRenderer, WebGLUtils, WireframeGeometry, WireframeHelper, WrapAroundEnding, XHRLoader, ZeroCurvatureEnding, ZeroFactor, ZeroSlopeEnding, ZeroStencilOp, sRGBEncoding };
+export { WebGLMultisampleRenderTarget, WebGLRenderTargetCube, WebGLRenderTarget, WebGLRenderer, ShaderLib, UniformsLib, UniformsUtils, ShaderChunk, FogExp2, Fog, Scene, Sprite, LOD, SkinnedMesh, Skeleton, Bone, Mesh, LineSegments, LineLoop, Line, Points, Group, VideoTexture, DataTexture, DataTexture2DArray, DataTexture3D, CompressedTexture, CubeTexture, CanvasTexture, DepthTexture, Texture, AnimationLoader, CompressedTextureLoader, DataTextureLoader, CubeTextureLoader, TextureLoader, ObjectLoader, PCDLoader, MaterialLoader, BufferGeometryLoader, DefaultLoadingManager, LoadingManager, ImageLoader, ImageBitmapLoader, FontLoader, FileLoader, Loader, LoaderUtils, Cache, AudioLoader, SpotLightShadow, SpotLight, PointLight, RectAreaLight, HemisphereLight, HemisphereLightProbe, DirectionalLightShadow, DirectionalLight, AmbientLight, AmbientLightProbe, LightShadow, Light, LightProbe, StereoCamera, PerspectiveCamera, OrthographicCamera, CubeCamera, ArrayCamera, Camera, AudioListener, PositionalAudio, AudioContext, AudioAnalyser, Audio, VectorKeyframeTrack, StringKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack, ColorKeyframeTrack, BooleanKeyframeTrack, PropertyMixer, PropertyBinding, KeyframeTrack, AnimationUtils, AnimationObjectGroup, AnimationMixer, AnimationClip, Uniform, InstancedBufferGeometry, BufferGeometry, Geometry, InterleavedBufferAttribute, InstancedInterleavedBuffer, InterleavedBuffer, InstancedBufferAttribute, Face3, Object3D, Raycaster, Layers, EventDispatcher, Clock, QuaternionLinearInterpolant, LinearInterpolant, DiscreteInterpolant, CubicInterpolant, Interpolant, Triangle, _Math as Math, Spherical, Cylindrical, Plane, Frustum, Sphere, Ray, Matrix4, Matrix3, Box3, Box2, Line3, Euler, Vector4, Vector3, Vector2, Quaternion, Color, SphericalHarmonics3, ImmediateRenderObject, VertexNormalsHelper, SpotLightHelper, SkeletonHelper, PointLightHelper, RectAreaLightHelper, HemisphereLightHelper, LightProbeHelper, GridHelper, PolarGridHelper, PositionalAudioHelper, FaceNormalsHelper, DirectionalLightHelper, CameraHelper, BoxHelper, Box3Helper, PlaneHelper, ArrowHelper, AxesHelper, Shape, Path, ShapePath, Font, CurvePath, Curve, ImageUtils, ShapeUtils, WebGLUtils, WireframeGeometry, ParametricGeometry, ParametricBufferGeometry, TetrahedronGeometry, TetrahedronBufferGeometry, OctahedronGeometry, OctahedronBufferGeometry, IcosahedronGeometry, IcosahedronBufferGeometry, DodecahedronGeometry, DodecahedronBufferGeometry, PolyhedronGeometry, PolyhedronBufferGeometry, TubeGeometry, TubeBufferGeometry, TorusKnotGeometry, TorusKnotBufferGeometry, TorusGeometry, TorusBufferGeometry, TextGeometry, TextBufferGeometry, SphereGeometry, SphereBufferGeometry, RingGeometry, RingBufferGeometry, PlaneGeometry, PlaneBufferGeometry, LatheGeometry, LatheBufferGeometry, ShapeGeometry, ShapeBufferGeometry, ExtrudeGeometry, ExtrudeBufferGeometry, EdgesGeometry, ConeGeometry, ConeBufferGeometry, CylinderGeometry, CylinderBufferGeometry, CircleGeometry, CircleBufferGeometry, BoxGeometry, BoxGeometry as CubeGeometry, BoxBufferGeometry, ShadowMaterial, SpriteMaterial, RawShaderMaterial, ShaderMaterial, PointsMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshPhongMaterial, MeshToonMaterial, MeshNormalMaterial, MeshLambertMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshBasicMaterial, MeshMatcapMaterial, LineDashedMaterial, LineBasicMaterial, Material, Float64BufferAttribute, Float32BufferAttribute, Uint32BufferAttribute, Int32BufferAttribute, Uint16BufferAttribute, Int16BufferAttribute, Uint8ClampedBufferAttribute, Uint8BufferAttribute, Int8BufferAttribute, BufferAttribute, ArcCurve, CatmullRomCurve3, CubicBezierCurve, CubicBezierCurve3, EllipseCurve, LineCurve, LineCurve3, QuadraticBezierCurve, QuadraticBezierCurve3, SplineCurve, REVISION, MOUSE, TOUCH, CullFaceNone, CullFaceBack, CullFaceFront, CullFaceFrontBack, FrontFaceDirectionCW, FrontFaceDirectionCCW, BasicShadowMap, PCFShadowMap, PCFSoftShadowMap, FrontSide, BackSide, DoubleSide, FlatShading, SmoothShading, NoColors, FaceColors, VertexColors$1 as VertexColors, NoBlending, NormalBlending, AdditiveBlending, SubtractiveBlending, MultiplyBlending, CustomBlending, AddEquation, SubtractEquation, ReverseSubtractEquation, MinEquation, MaxEquation, ZeroFactor, OneFactor, SrcColorFactor, OneMinusSrcColorFactor, SrcAlphaFactor, OneMinusSrcAlphaFactor, DstAlphaFactor, OneMinusDstAlphaFactor, DstColorFactor, OneMinusDstColorFactor, SrcAlphaSaturateFactor, NeverDepth, AlwaysDepth, LessDepth, LessEqualDepth, EqualDepth, GreaterEqualDepth, GreaterDepth, NotEqualDepth, MultiplyOperation, MixOperation, AddOperation, NoToneMapping, LinearToneMapping, ReinhardToneMapping, Uncharted2ToneMapping, CineonToneMapping, ACESFilmicToneMapping, UVMapping, CubeReflectionMapping, CubeRefractionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping, CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, NearestMipmapNearestFilter, NearestMipMapNearestFilter, NearestMipmapLinearFilter, NearestMipMapLinearFilter, LinearFilter, LinearMipmapNearestFilter, LinearMipMapNearestFilter, LinearMipmapLinearFilter, LinearMipMapLinearFilter, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType, UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedShort565Type, UnsignedInt248Type, AlphaFormat, RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat, DepthStencilFormat, RedFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGB_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_PVRTC_2BPPV1_Format, RGB_ETC1_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_10x10_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, LoopOnce, LoopRepeat, LoopPingPong, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, TrianglesDrawMode, TriangleStripDrawMode, TriangleFanDrawMode, LinearEncoding, sRGBEncoding, GammaEncoding, RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking, RGBADepthPacking, TangentSpaceNormalMap, ObjectSpaceNormalMap, ZeroStencilOp, KeepStencilOp, ReplaceStencilOp, IncrementStencilOp, DecrementStencilOp, IncrementWrapStencilOp, DecrementWrapStencilOp, InvertStencilOp, NeverStencilFunc, LessStencilFunc, EqualStencilFunc, LessEqualStencilFunc, GreaterStencilFunc, NotEqualStencilFunc, GreaterEqualStencilFunc, AlwaysStencilFunc, Face4, LineStrip, LinePieces, MeshFaceMaterial, MultiMaterial, PointCloud, Particle, ParticleSystem, PointCloudMaterial, ParticleBasicMaterial, ParticleSystemMaterial, Vertex, DynamicBufferAttribute, Int8Attribute, Uint8Attribute, Uint8ClampedAttribute, Int16Attribute, Uint16Attribute, Int32Attribute, Uint32Attribute, Float32Attribute, Float64Attribute, ClosedSplineCurve3, SplineCurve3, Spline, AxisHelper, BoundingBoxHelper, EdgesHelper, WireframeHelper, XHRLoader, BinaryTextureLoader, GeometryUtils, CanvasRenderer, JSONLoader, SceneUtils, LensFlare };

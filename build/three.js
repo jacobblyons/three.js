@@ -9046,15 +9046,12 @@
 	 * @author mrdoob / http://mrdoob.com/
 	 */
 
-	function BufferAttribute( array, itemSize, normalized ) {
-
-		if ( Array.isArray( array ) ) {
-
-			throw new TypeError( 'THREE.BufferAttribute: array should be a Typed Array.' );
-
+	function BufferAttribute(array, itemSize, normalized) {
+		if (Array.isArray(array)) {
+			throw new TypeError("THREE.BufferAttribute: array should be a Typed Array.");
 		}
 
-		this.name = '';
+		this.name = "";
 
 		this.array = array;
 		this.itemSize = itemSize;
@@ -9062,55 +9059,42 @@
 		this.normalized = normalized === true;
 
 		this.dynamic = false;
-		this.updateRange = { offset: 0, count: - 1 };
+		this.updateRange = { offset: 0, count: -1 };
 
 		this.version = 0;
-
 	}
 
-	Object.defineProperty( BufferAttribute.prototype, 'needsUpdate', {
-
-		set: function ( value ) {
-
-			if ( value === true ) this.version ++;
-
+	Object.defineProperty(BufferAttribute.prototype, "needsUpdate", {
+		set: function(value) {
+			if (value === true) this.version++;
 		}
+	});
 
-	} );
-
-	Object.assign( BufferAttribute.prototype, {
-
+	Object.assign(BufferAttribute.prototype, {
 		isBufferAttribute: true,
 
-		onUploadCallback: function () {},
+		onUploadCallback: function() {},
 
-		setArray: function ( array ) {
-
-			if ( Array.isArray( array ) ) {
-
-				throw new TypeError( 'THREE.BufferAttribute: array should be a Typed Array.' );
-
+		setArray: function(array) {
+			if (Array.isArray(array)) {
+				throw new TypeError("THREE.BufferAttribute: array should be a Typed Array.");
 			}
 
 			this.count = array !== undefined ? array.length / this.itemSize : 0;
 			this.array = array;
 
 			return this;
-
 		},
 
-		setDynamic: function ( value ) {
-
+		setDynamic: function(value) {
 			this.dynamic = value;
 
 			return this;
-
 		},
 
-		copy: function ( source ) {
-
+		copy: function(source) {
 			this.name = source.name;
-			this.array = new source.array.constructor( source.array );
+			this.array = new source.array.constructor(source.array);
 			this.itemSize = source.itemSize;
 			this.count = source.count;
 			this.normalized = source.normalized;
@@ -9118,350 +9102,266 @@
 			this.dynamic = source.dynamic;
 
 			return this;
-
 		},
 
-		copyAt: function ( index1, attribute, index2 ) {
-
+		copyAt: function(index1, attribute, index2) {
 			index1 *= this.itemSize;
 			index2 *= attribute.itemSize;
 
-			for ( var i = 0, l = this.itemSize; i < l; i ++ ) {
-
-				this.array[ index1 + i ] = attribute.array[ index2 + i ];
-
+			for (var i = 0, l = this.itemSize; i < l; i++) {
+				this.array[index1 + i] = attribute.array[index2 + i];
 			}
 
 			return this;
-
 		},
 
-		copyArray: function ( array ) {
-
-			this.array.set( array );
+		copyArray: function(array) {
+			this.array.set(array);
 
 			return this;
-
 		},
 
-		copyColorsArray: function ( colors ) {
+		copyColorsArray: function(colors) {
+			var array = this.array,
+				offset = 0;
 
-			var array = this.array, offset = 0;
+			for (var i = 0, l = colors.length; i < l; i++) {
+				var color = colors[i];
 
-			for ( var i = 0, l = colors.length; i < l; i ++ ) {
-
-				var color = colors[ i ];
-
-				if ( color === undefined ) {
-
-					console.warn( 'THREE.BufferAttribute.copyColorsArray(): color is undefined', i );
+				if (color === undefined) {
+					console.warn("THREE.BufferAttribute.copyColorsArray(): color is undefined", i);
 					color = new Color();
-
 				}
 
-				array[ offset ++ ] = color.r;
-				array[ offset ++ ] = color.g;
-				array[ offset ++ ] = color.b;
-
+				array[offset++] = color.r;
+				array[offset++] = color.g;
+				array[offset++] = color.b;
 			}
 
 			return this;
-
 		},
 
-		copyVector2sArray: function ( vectors ) {
+		copyVector2sArray: function(vectors) {
+			var array = this.array,
+				offset = 0;
 
-			var array = this.array, offset = 0;
+			for (var i = 0, l = vectors.length; i < l; i++) {
+				var vector = vectors[i];
 
-			for ( var i = 0, l = vectors.length; i < l; i ++ ) {
-
-				var vector = vectors[ i ];
-
-				if ( vector === undefined ) {
-
-					console.warn( 'THREE.BufferAttribute.copyVector2sArray(): vector is undefined', i );
+				if (vector === undefined) {
+					console.warn("THREE.BufferAttribute.copyVector2sArray(): vector is undefined", i);
 					vector = new Vector2();
-
 				}
 
-				array[ offset ++ ] = vector.x;
-				array[ offset ++ ] = vector.y;
-
+				array[offset++] = vector.x;
+				array[offset++] = vector.y;
 			}
 
 			return this;
-
 		},
 
-		copyVector3sArray: function ( vectors ) {
+		copyVector3sArray: function(vectors) {
+			var array = this.array,
+				offset = 0;
 
-			var array = this.array, offset = 0;
+			for (var i = 0, l = vectors.length; i < l; i++) {
+				var vector = vectors[i];
 
-			for ( var i = 0, l = vectors.length; i < l; i ++ ) {
-
-				var vector = vectors[ i ];
-
-				if ( vector === undefined ) {
-
-					console.warn( 'THREE.BufferAttribute.copyVector3sArray(): vector is undefined', i );
+				if (vector === undefined) {
+					console.warn("THREE.BufferAttribute.copyVector3sArray(): vector is undefined", i);
 					vector = new Vector3();
-
 				}
 
-				array[ offset ++ ] = vector.x;
-				array[ offset ++ ] = vector.y;
-				array[ offset ++ ] = vector.z;
-
+				array[offset++] = vector.x;
+				array[offset++] = vector.y;
+				array[offset++] = vector.z;
 			}
 
 			return this;
-
 		},
 
-		copyVector4sArray: function ( vectors ) {
+		copyVector4sArray: function(vectors) {
+			var array = this.array,
+				offset = 0;
 
-			var array = this.array, offset = 0;
+			for (var i = 0, l = vectors.length; i < l; i++) {
+				var vector = vectors[i];
 
-			for ( var i = 0, l = vectors.length; i < l; i ++ ) {
-
-				var vector = vectors[ i ];
-
-				if ( vector === undefined ) {
-
-					console.warn( 'THREE.BufferAttribute.copyVector4sArray(): vector is undefined', i );
+				if (vector === undefined) {
+					console.warn("THREE.BufferAttribute.copyVector4sArray(): vector is undefined", i);
 					vector = new Vector4();
-
 				}
 
-				array[ offset ++ ] = vector.x;
-				array[ offset ++ ] = vector.y;
-				array[ offset ++ ] = vector.z;
-				array[ offset ++ ] = vector.w;
-
+				array[offset++] = vector.x;
+				array[offset++] = vector.y;
+				array[offset++] = vector.z;
+				array[offset++] = vector.w;
 			}
 
 			return this;
-
 		},
 
-		set: function ( value, offset ) {
+		set: function(value, offset) {
+			if (offset === undefined) offset = 0;
 
-			if ( offset === undefined ) offset = 0;
-
-			this.array.set( value, offset );
+			this.array.set(value, offset);
 
 			return this;
-
 		},
 
-		getX: function ( index ) {
-
-			return this.array[ index * this.itemSize ];
-
+		getX: function(index) {
+			return this.array[index * this.itemSize];
 		},
 
-		setX: function ( index, x ) {
-
-			this.array[ index * this.itemSize ] = x;
+		setX: function(index, x) {
+			this.array[index * this.itemSize] = x;
 
 			return this;
-
 		},
 
-		getY: function ( index ) {
-
-			return this.array[ index * this.itemSize + 1 ];
-
+		getY: function(index) {
+			return this.array[index * this.itemSize + 1];
 		},
 
-		setY: function ( index, y ) {
-
-			this.array[ index * this.itemSize + 1 ] = y;
+		setY: function(index, y) {
+			this.array[index * this.itemSize + 1] = y;
 
 			return this;
-
 		},
 
-		getZ: function ( index ) {
-
-			return this.array[ index * this.itemSize + 2 ];
-
+		getZ: function(index) {
+			return this.array[index * this.itemSize + 2];
 		},
 
-		setZ: function ( index, z ) {
-
-			this.array[ index * this.itemSize + 2 ] = z;
+		setZ: function(index, z) {
+			this.array[index * this.itemSize + 2] = z;
 
 			return this;
-
 		},
 
-		getW: function ( index ) {
-
-			return this.array[ index * this.itemSize + 3 ];
-
+		getW: function(index) {
+			return this.array[index * this.itemSize + 3];
 		},
 
-		setW: function ( index, w ) {
-
-			this.array[ index * this.itemSize + 3 ] = w;
+		setW: function(index, w) {
+			this.array[index * this.itemSize + 3] = w;
 
 			return this;
-
 		},
 
-		setXY: function ( index, x, y ) {
-
+		setXY: function(index, x, y) {
 			index *= this.itemSize;
 
-			this.array[ index + 0 ] = x;
-			this.array[ index + 1 ] = y;
+			this.array[index + 0] = x;
+			this.array[index + 1] = y;
 
 			return this;
-
 		},
 
-		setXYZ: function ( index, x, y, z ) {
-
+		setXYZ: function(index, x, y, z) {
 			index *= this.itemSize;
 
-			this.array[ index + 0 ] = x;
-			this.array[ index + 1 ] = y;
-			this.array[ index + 2 ] = z;
+			this.array[index + 0] = x;
+			this.array[index + 1] = y;
+			this.array[index + 2] = z;
 
 			return this;
-
 		},
 
-		setXYZW: function ( index, x, y, z, w ) {
-
+		setXYZW: function(index, x, y, z, w) {
 			index *= this.itemSize;
 
-			this.array[ index + 0 ] = x;
-			this.array[ index + 1 ] = y;
-			this.array[ index + 2 ] = z;
-			this.array[ index + 3 ] = w;
+			this.array[index + 0] = x;
+			this.array[index + 1] = y;
+			this.array[index + 2] = z;
+			this.array[index + 3] = w;
 
 			return this;
-
 		},
 
-		onUpload: function ( callback ) {
-
+		onUpload: function(callback) {
 			this.onUploadCallback = callback;
 
 			return this;
-
 		},
 
-		clone: function () {
-
-			return new this.constructor( this.array, this.itemSize ).copy( this );
-
+		clone: function() {
+			return new this.constructor(this.array, this.itemSize).copy(this);
 		},
 
-		toJSON: function () {
-
+		toJSON: function() {
 			return {
 				itemSize: this.itemSize,
 				type: this.array.constructor.name,
-				array: Array.prototype.slice.call( this.array ),
+				array: Array.prototype.slice.call(this.array),
 				normalized: this.normalized
 			};
-
 		}
-
-	} );
+	});
 
 	//
 
-	function Int8BufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Int8Array( array ), itemSize, normalized );
-
+	function Int8BufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Int8Array(array), itemSize, normalized);
 	}
 
-	Int8BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Int8BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Int8BufferAttribute.prototype.constructor = Int8BufferAttribute;
 
-
-	function Uint8BufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Uint8Array( array ), itemSize, normalized );
-
+	function Uint8BufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Uint8Array(array), itemSize, normalized);
 	}
 
-	Uint8BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Uint8BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Uint8BufferAttribute.prototype.constructor = Uint8BufferAttribute;
 
-
-	function Uint8ClampedBufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Uint8ClampedArray( array ), itemSize, normalized );
-
+	function Uint8ClampedBufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Uint8ClampedArray(array), itemSize, normalized);
 	}
 
-	Uint8ClampedBufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Uint8ClampedBufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Uint8ClampedBufferAttribute.prototype.constructor = Uint8ClampedBufferAttribute;
 
-
-	function Int16BufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Int16Array( array ), itemSize, normalized );
-
+	function Int16BufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Int16Array(array), itemSize, normalized);
 	}
 
-	Int16BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Int16BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Int16BufferAttribute.prototype.constructor = Int16BufferAttribute;
 
-
-	function Uint16BufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Uint16Array( array ), itemSize, normalized );
-
+	function Uint16BufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Uint16Array(array), itemSize, normalized);
 	}
 
-	Uint16BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Uint16BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Uint16BufferAttribute.prototype.constructor = Uint16BufferAttribute;
 
-
-	function Int32BufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Int32Array( array ), itemSize, normalized );
-
+	function Int32BufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Int32Array(array), itemSize, normalized);
 	}
 
-	Int32BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Int32BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Int32BufferAttribute.prototype.constructor = Int32BufferAttribute;
 
-
-	function Uint32BufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Uint32Array( array ), itemSize, normalized );
-
+	function Uint32BufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Uint32Array(array), itemSize, normalized);
 	}
 
-	Uint32BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Uint32BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Uint32BufferAttribute.prototype.constructor = Uint32BufferAttribute;
 
-
-	function Float32BufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Float32Array( array ), itemSize, normalized );
-
+	function Float32BufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Float32Array(array), itemSize, normalized);
 	}
 
-	Float32BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Float32BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Float32BufferAttribute.prototype.constructor = Float32BufferAttribute;
 
-
-	function Float64BufferAttribute( array, itemSize, normalized ) {
-
-		BufferAttribute.call( this, new Float64Array( array ), itemSize, normalized );
-
+	function Float64BufferAttribute(array, itemSize, normalized) {
+		BufferAttribute.call(this, new Float64Array(array), itemSize, normalized);
 	}
 
-	Float64BufferAttribute.prototype = Object.create( BufferAttribute.prototype );
+	Float64BufferAttribute.prototype = Object.create(BufferAttribute.prototype);
 	Float64BufferAttribute.prototype.constructor = Float64BufferAttribute;
 
 	/**
@@ -10651,6 +10551,7 @@
 			}
 
 			return this;
+
 		},
 
 		normalizeNormals: function () {
@@ -18188,8 +18089,8 @@
 		// console.log( '*VERTEX*', vertexGlsl );
 		// console.log( '*FRAGMENT*', fragmentGlsl );
 
-		var glVertexShader = WebGLShader( gl, 35633, vertexGlsl, renderer.debug.checkShaderErrors );
-		var glFragmentShader = WebGLShader( gl, 35632, fragmentGlsl, renderer.debug.checkShaderErrors );
+		var glVertexShader = WebGLShader( gl, 35633, vertexGlsl );
+		var glFragmentShader = WebGLShader( gl, 35632, fragmentGlsl );
 
 		gl.attachShader( program, glVertexShader );
 		gl.attachShader( program, glFragmentShader );
@@ -23146,16 +23047,6 @@
 			 * @type {boolean}
 			 */
 			checkShaderErrors: true
-		};
-
-		// Debug configuration container
-		this.debug = {
-
-			/**
-			 * Enables error checking and reporting when shader programs are being compiled
-			 * @type {boolean}
-			 */
-			checkShaderErrors: false
 		};
 
 		// clearing
@@ -39668,6 +39559,249 @@
 	};
 
 	/**
+	 * @author Filipe Caixeta / http://filipecaixeta.com.br
+	 * @author Mugen87 / https://github.com/Mugen87
+	 *
+	 * Description: A loader for PCD ascii and binary files.
+	 *
+	 * Limitations: Compressed binary files are not supported.
+	 *
+	 */
+
+	function PCDLoader(manager) {
+		this.manager = manager !== undefined ? manager : DefaultLoadingManager;
+		this.littleEndian = true;
+	}
+
+	Object.assign(PCDLoader.prototype, {
+		load: function(url, onLoad, onProgress, onError) {
+			var scope = this;
+
+			var loader = new FileLoader(scope.manager);
+			loader.setPath(scope.path);
+			loader.setResponseType("arraybuffer");
+			loader.load(
+				url,
+				function(data) {
+					try {
+						onLoad(scope.parse(data, url));
+					} catch (e) {
+						if (onError) {
+							onError(e);
+						} else {
+							throw e;
+						}
+					}
+				},
+				onProgress,
+				onError
+			);
+		},
+
+		setPath: function(value) {
+			this.path = value;
+			return this;
+		},
+
+		parse: function(data, url) {
+			function parseHeader(data) {
+				var PCDheader = {};
+				var result1 = data.search(/[\r\n]DATA\s(\S*)\s/i);
+				var result2 = /[\r\n]DATA\s(\S*)\s/i.exec(data.substr(result1 - 1));
+
+				PCDheader.data = result2[1];
+				PCDheader.headerLen = result2[0].length + result1;
+				PCDheader.str = data.substr(0, PCDheader.headerLen);
+
+				// remove comments
+
+				PCDheader.str = PCDheader.str.replace(/\#.*/gi, "");
+
+				// parse
+
+				PCDheader.version = /VERSION (.*)/i.exec(PCDheader.str);
+				PCDheader.fields = /FIELDS (.*)/i.exec(PCDheader.str);
+				PCDheader.size = /SIZE (.*)/i.exec(PCDheader.str);
+				PCDheader.type = /TYPE (.*)/i.exec(PCDheader.str);
+				PCDheader.count = /COUNT (.*)/i.exec(PCDheader.str);
+				PCDheader.width = /WIDTH (.*)/i.exec(PCDheader.str);
+				PCDheader.height = /HEIGHT (.*)/i.exec(PCDheader.str);
+				PCDheader.viewpoint = /VIEWPOINT (.*)/i.exec(PCDheader.str);
+				PCDheader.points = /POINTS (.*)/i.exec(PCDheader.str);
+
+				// evaluate
+
+				if (PCDheader.version !== null) PCDheader.version = parseFloat(PCDheader.version[1]);
+
+				if (PCDheader.fields !== null) PCDheader.fields = PCDheader.fields[1].split(" ");
+
+				if (PCDheader.type !== null) PCDheader.type = PCDheader.type[1].split(" ");
+
+				if (PCDheader.width !== null) PCDheader.width = parseInt(PCDheader.width[1]);
+
+				if (PCDheader.height !== null) PCDheader.height = parseInt(PCDheader.height[1]);
+
+				if (PCDheader.viewpoint !== null) PCDheader.viewpoint = PCDheader.viewpoint[1];
+
+				if (PCDheader.points !== null) PCDheader.points = parseInt(PCDheader.points[1], 10);
+
+				if (PCDheader.points === null) PCDheader.points = PCDheader.width * PCDheader.height;
+
+				if (PCDheader.size !== null) {
+					PCDheader.size = PCDheader.size[1].split(" ").map(function(x) {
+						return parseInt(x, 10);
+					});
+				}
+
+				if (PCDheader.count !== null) {
+					PCDheader.count = PCDheader.count[1].split(" ").map(function(x) {
+						return parseInt(x, 10);
+					});
+				} else {
+					PCDheader.count = [];
+
+					for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
+						PCDheader.count.push(1);
+					}
+				}
+
+				PCDheader.offset = {};
+
+				var sizeSum = 0;
+
+				for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
+					if (PCDheader.data === "ascii") {
+						PCDheader.offset[PCDheader.fields[i]] = i;
+					} else {
+						PCDheader.offset[PCDheader.fields[i]] = sizeSum;
+						sizeSum += PCDheader.size[i];
+					}
+				}
+
+				// for binary only
+
+				PCDheader.rowSize = sizeSum;
+
+				return PCDheader;
+			}
+
+			var textData = LoaderUtils.decodeText(data);
+
+			// parse header (always ascii format)
+
+			var PCDheader = parseHeader(textData);
+
+			// parse data
+
+			var position = [];
+			var normal = [];
+			var color = [];
+
+			// ascii
+
+			if (PCDheader.data === "ascii") {
+				var offset = PCDheader.offset;
+				var pcdData = textData.substr(PCDheader.headerLen);
+				var lines = pcdData.split("\n");
+
+				for (var i = 0, l = lines.length; i < l; i++) {
+					if (lines[i] === "") continue;
+
+					var line = lines[i].split(" ");
+
+					if (offset.x !== undefined) {
+						position.push(parseFloat(line[offset.x]));
+						position.push(parseFloat(line[offset.y]));
+						position.push(parseFloat(line[offset.z]));
+					}
+
+					if (offset.rgb !== undefined) {
+						var rgb = parseFloat(line[offset.rgb]);
+						var r = (rgb >> 16) & 0x0000ff;
+						var g = (rgb >> 8) & 0x0000ff;
+						var b = (rgb >> 0) & 0x0000ff;
+						color.push(r / 255, g / 255, b / 255);
+					}
+
+					if (offset.normal_x !== undefined) {
+						normal.push(parseFloat(line[offset.normal_x]));
+						normal.push(parseFloat(line[offset.normal_y]));
+						normal.push(parseFloat(line[offset.normal_z]));
+					}
+				}
+			}
+
+			// binary
+
+			if (PCDheader.data === "binary_compressed") {
+				console.error("PCDLoader: binary_compressed files are not supported");
+				return;
+			}
+
+			if (PCDheader.data === "binary") {
+				var dataview = new DataView(data, PCDheader.headerLen);
+				var offset = PCDheader.offset;
+
+				for (var i = 0, row = 0; i < PCDheader.points; i++, row += PCDheader.rowSize) {
+					if (offset.x !== undefined) {
+						position.push(dataview.getFloat32(row + offset.x, this.littleEndian));
+						position.push(dataview.getFloat32(row + offset.y, this.littleEndian));
+						position.push(dataview.getFloat32(row + offset.z, this.littleEndian));
+					}
+
+					if (offset.rgb !== undefined) {
+						color.push(dataview.getUint8(row + offset.rgb + 2) / 255.0);
+						color.push(dataview.getUint8(row + offset.rgb + 1) / 255.0);
+						color.push(dataview.getUint8(row + offset.rgb + 0) / 255.0);
+					}
+
+					if (offset.normal_x !== undefined) {
+						normal.push(dataview.getFloat32(row + offset.normal_x, this.littleEndian));
+						normal.push(dataview.getFloat32(row + offset.normal_y, this.littleEndian));
+						normal.push(dataview.getFloat32(row + offset.normal_z, this.littleEndian));
+					}
+				}
+			}
+
+			// build geometry
+
+			var geometry = new BufferGeometry();
+
+			if (position.length > 0) geometry.addAttribute("position", new Float32BufferAttribute(position, 3));
+			if (normal.length > 0) geometry.addAttribute("normal", new Float32BufferAttribute(normal, 3));
+			if (color.length > 0) geometry.addAttribute("color", new Float32BufferAttribute(color, 3));
+
+			geometry.computeBoundingSphere();
+
+			// build material
+
+			var material = new PointsMaterial({ size: 0.005 });
+
+			if (color.length > 0) {
+				material.vertexColors = VertexColors;
+			} else {
+				material.color.setHex(Math.random() * 0xffffff);
+			}
+
+			// build mesh
+
+			var mesh = new Points(geometry, material);
+			var name = url
+				.split("")
+				.reverse()
+				.join("");
+			name = /([^\/]*)/.exec(name);
+			name = name[1]
+				.split("")
+				.reverse()
+				.join("");
+			mesh.name = name;
+
+			return mesh;
+		}
+	});
+
+	/**
 	 * @author thespite / http://clicktorelease.com/
 	 */
 
@@ -40266,249 +40400,6 @@
 		}
 
 	} );
-
-	/**
-	 * @author Filipe Caixeta / http://filipecaixeta.com.br
-	 * @author Mugen87 / https://github.com/Mugen87
-	 *
-	 * Description: A loader for PCD ascii and binary files.
-	 *
-	 * Limitations: Compressed binary files are not supported.
-	 *
-	 */
-
-	function PCDLoader(manager) {
-		this.manager = manager !== undefined ? manager : DefaultLoadingManager;
-		this.littleEndian = true;
-	}
-
-	Object.assign(PCDLoader.prototype, {
-		load: function(url, onLoad, onProgress, onError) {
-			var scope = this;
-
-			var loader = new FileLoader(scope.manager);
-			loader.setPath(scope.path);
-			loader.setResponseType("arraybuffer");
-			loader.load(
-				url,
-				function(data) {
-					try {
-						onLoad(scope.parse(data, url));
-					} catch (e) {
-						if (onError) {
-							onError(e);
-						} else {
-							throw e;
-						}
-					}
-				},
-				onProgress,
-				onError
-			);
-		},
-
-		setPath: function(value) {
-			this.path = value;
-			return this;
-		},
-
-		parse: function(data, url) {
-			function parseHeader(data) {
-				var PCDheader = {};
-				var result1 = data.search(/[\r\n]DATA\s(\S*)\s/i);
-				var result2 = /[\r\n]DATA\s(\S*)\s/i.exec(data.substr(result1 - 1));
-
-				PCDheader.data = result2[1];
-				PCDheader.headerLen = result2[0].length + result1;
-				PCDheader.str = data.substr(0, PCDheader.headerLen);
-
-				// remove comments
-
-				PCDheader.str = PCDheader.str.replace(/\#.*/gi, "");
-
-				// parse
-
-				PCDheader.version = /VERSION (.*)/i.exec(PCDheader.str);
-				PCDheader.fields = /FIELDS (.*)/i.exec(PCDheader.str);
-				PCDheader.size = /SIZE (.*)/i.exec(PCDheader.str);
-				PCDheader.type = /TYPE (.*)/i.exec(PCDheader.str);
-				PCDheader.count = /COUNT (.*)/i.exec(PCDheader.str);
-				PCDheader.width = /WIDTH (.*)/i.exec(PCDheader.str);
-				PCDheader.height = /HEIGHT (.*)/i.exec(PCDheader.str);
-				PCDheader.viewpoint = /VIEWPOINT (.*)/i.exec(PCDheader.str);
-				PCDheader.points = /POINTS (.*)/i.exec(PCDheader.str);
-
-				// evaluate
-
-				if (PCDheader.version !== null) PCDheader.version = parseFloat(PCDheader.version[1]);
-
-				if (PCDheader.fields !== null) PCDheader.fields = PCDheader.fields[1].split(" ");
-
-				if (PCDheader.type !== null) PCDheader.type = PCDheader.type[1].split(" ");
-
-				if (PCDheader.width !== null) PCDheader.width = parseInt(PCDheader.width[1]);
-
-				if (PCDheader.height !== null) PCDheader.height = parseInt(PCDheader.height[1]);
-
-				if (PCDheader.viewpoint !== null) PCDheader.viewpoint = PCDheader.viewpoint[1];
-
-				if (PCDheader.points !== null) PCDheader.points = parseInt(PCDheader.points[1], 10);
-
-				if (PCDheader.points === null) PCDheader.points = PCDheader.width * PCDheader.height;
-
-				if (PCDheader.size !== null) {
-					PCDheader.size = PCDheader.size[1].split(" ").map(function(x) {
-						return parseInt(x, 10);
-					});
-				}
-
-				if (PCDheader.count !== null) {
-					PCDheader.count = PCDheader.count[1].split(" ").map(function(x) {
-						return parseInt(x, 10);
-					});
-				} else {
-					PCDheader.count = [];
-
-					for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
-						PCDheader.count.push(1);
-					}
-				}
-
-				PCDheader.offset = {};
-
-				var sizeSum = 0;
-
-				for (var i = 0, l = PCDheader.fields.length; i < l; i++) {
-					if (PCDheader.data === "ascii") {
-						PCDheader.offset[PCDheader.fields[i]] = i;
-					} else {
-						PCDheader.offset[PCDheader.fields[i]] = sizeSum;
-						sizeSum += PCDheader.size[i];
-					}
-				}
-
-				// for binary only
-
-				PCDheader.rowSize = sizeSum;
-
-				return PCDheader;
-			}
-
-			var textData = LoaderUtils.decodeText(data);
-
-			// parse header (always ascii format)
-
-			var PCDheader = parseHeader(textData);
-
-			// parse data
-
-			var position = [];
-			var normal = [];
-			var color = [];
-
-			// ascii
-
-			if (PCDheader.data === "ascii") {
-				var offset = PCDheader.offset;
-				var pcdData = textData.substr(PCDheader.headerLen);
-				var lines = pcdData.split("\n");
-
-				for (var i = 0, l = lines.length; i < l; i++) {
-					if (lines[i] === "") continue;
-
-					var line = lines[i].split(" ");
-
-					if (offset.x !== undefined) {
-						position.push(parseFloat(line[offset.x]));
-						position.push(parseFloat(line[offset.y]));
-						position.push(parseFloat(line[offset.z]));
-					}
-
-					if (offset.rgb !== undefined) {
-						var rgb = parseFloat(line[offset.rgb]);
-						var r = (rgb >> 16) & 0x0000ff;
-						var g = (rgb >> 8) & 0x0000ff;
-						var b = (rgb >> 0) & 0x0000ff;
-						color.push(r / 255, g / 255, b / 255);
-					}
-
-					if (offset.normal_x !== undefined) {
-						normal.push(parseFloat(line[offset.normal_x]));
-						normal.push(parseFloat(line[offset.normal_y]));
-						normal.push(parseFloat(line[offset.normal_z]));
-					}
-				}
-			}
-
-			// binary
-
-			if (PCDheader.data === "binary_compressed") {
-				console.error("PCDLoader: binary_compressed files are not supported");
-				return;
-			}
-
-			if (PCDheader.data === "binary") {
-				var dataview = new DataView(data, PCDheader.headerLen);
-				var offset = PCDheader.offset;
-
-				for (var i = 0, row = 0; i < PCDheader.points; i++, row += PCDheader.rowSize) {
-					if (offset.x !== undefined) {
-						position.push(dataview.getFloat32(row + offset.x, this.littleEndian));
-						position.push(dataview.getFloat32(row + offset.y, this.littleEndian));
-						position.push(dataview.getFloat32(row + offset.z, this.littleEndian));
-					}
-
-					if (offset.rgb !== undefined) {
-						color.push(dataview.getUint8(row + offset.rgb + 2) / 255.0);
-						color.push(dataview.getUint8(row + offset.rgb + 1) / 255.0);
-						color.push(dataview.getUint8(row + offset.rgb + 0) / 255.0);
-					}
-
-					if (offset.normal_x !== undefined) {
-						normal.push(dataview.getFloat32(row + offset.normal_x, this.littleEndian));
-						normal.push(dataview.getFloat32(row + offset.normal_y, this.littleEndian));
-						normal.push(dataview.getFloat32(row + offset.normal_z, this.littleEndian));
-					}
-				}
-			}
-
-			// build geometry
-
-			var geometry = new BufferGeometry();
-
-			if (position.length > 0) geometry.addAttribute("position", new Float32BufferAttribute(position, 3));
-			if (normal.length > 0) geometry.addAttribute("normal", new Float32BufferAttribute(normal, 3));
-			if (color.length > 0) geometry.addAttribute("color", new Float32BufferAttribute(color, 3));
-
-			geometry.computeBoundingSphere();
-
-			// build material
-
-			var material = new PointsMaterial({ size: 0.005 });
-
-			if (color.length > 0) {
-				material.vertexColors = VertexColors;
-			} else {
-				material.color.setHex(Math.random() * 0xffffff);
-			}
-
-			// build mesh
-
-			var mesh = new Points(geometry, material);
-			var name = url
-				.split("")
-				.reverse()
-				.join("");
-			name = /([^\/]*)/.exec(name);
-			name = name[1]
-				.split("")
-				.reverse()
-				.join("");
-			mesh.name = name;
-
-			return mesh;
-		}
-	});
 
 	/**
 	 * @author alteredq / http://alteredqualia.com/
@@ -49213,308 +49104,351 @@
 
 	}
 
-	exports.ACESFilmicToneMapping = ACESFilmicToneMapping;
-	exports.AddEquation = AddEquation;
-	exports.AddOperation = AddOperation;
-	exports.AdditiveBlending = AdditiveBlending;
-	exports.AlphaFormat = AlphaFormat;
-	exports.AlwaysDepth = AlwaysDepth;
-	exports.AlwaysStencilFunc = AlwaysStencilFunc;
-	exports.AmbientLight = AmbientLight;
-	exports.AmbientLightProbe = AmbientLightProbe;
-	exports.AnimationClip = AnimationClip;
-	exports.AnimationLoader = AnimationLoader;
-	exports.AnimationMixer = AnimationMixer;
-	exports.AnimationObjectGroup = AnimationObjectGroup;
-	exports.AnimationUtils = AnimationUtils;
-	exports.ArcCurve = ArcCurve;
-	exports.ArrayCamera = ArrayCamera;
-	exports.ArrowHelper = ArrowHelper;
-	exports.Audio = Audio;
-	exports.AudioAnalyser = AudioAnalyser;
-	exports.AudioContext = AudioContext;
-	exports.AudioListener = AudioListener;
-	exports.AudioLoader = AudioLoader;
-	exports.AxesHelper = AxesHelper;
-	exports.AxisHelper = AxisHelper;
-	exports.BackSide = BackSide;
-	exports.BasicDepthPacking = BasicDepthPacking;
-	exports.BasicShadowMap = BasicShadowMap;
-	exports.BinaryTextureLoader = BinaryTextureLoader;
+	exports.WebGLMultisampleRenderTarget = WebGLMultisampleRenderTarget;
+	exports.WebGLRenderTargetCube = WebGLRenderTargetCube;
+	exports.WebGLRenderTarget = WebGLRenderTarget;
+	exports.WebGLRenderer = WebGLRenderer;
+	exports.ShaderLib = ShaderLib;
+	exports.UniformsLib = UniformsLib;
+	exports.UniformsUtils = UniformsUtils;
+	exports.ShaderChunk = ShaderChunk;
+	exports.FogExp2 = FogExp2;
+	exports.Fog = Fog;
+	exports.Scene = Scene;
+	exports.Sprite = Sprite;
+	exports.LOD = LOD;
+	exports.SkinnedMesh = SkinnedMesh;
+	exports.Skeleton = Skeleton;
 	exports.Bone = Bone;
-	exports.BooleanKeyframeTrack = BooleanKeyframeTrack;
-	exports.BoundingBoxHelper = BoundingBoxHelper;
-	exports.Box2 = Box2;
-	exports.Box3 = Box3;
-	exports.Box3Helper = Box3Helper;
-	exports.BoxBufferGeometry = BoxBufferGeometry;
-	exports.BoxGeometry = BoxGeometry;
-	exports.BoxHelper = BoxHelper;
-	exports.BufferAttribute = BufferAttribute;
-	exports.BufferGeometry = BufferGeometry;
-	exports.BufferGeometryLoader = BufferGeometryLoader;
-	exports.ByteType = ByteType;
-	exports.Cache = Cache;
-	exports.Camera = Camera;
-	exports.CameraHelper = CameraHelper;
-	exports.CanvasRenderer = CanvasRenderer;
-	exports.CanvasTexture = CanvasTexture;
-	exports.CatmullRomCurve3 = CatmullRomCurve3;
-	exports.CineonToneMapping = CineonToneMapping;
-	exports.CircleBufferGeometry = CircleBufferGeometry;
-	exports.CircleGeometry = CircleGeometry;
-	exports.ClampToEdgeWrapping = ClampToEdgeWrapping;
-	exports.Clock = Clock;
-	exports.ClosedSplineCurve3 = ClosedSplineCurve3;
-	exports.Color = Color;
-	exports.ColorKeyframeTrack = ColorKeyframeTrack;
-	exports.CompressedTexture = CompressedTexture;
-	exports.CompressedTextureLoader = CompressedTextureLoader;
-	exports.ConeBufferGeometry = ConeBufferGeometry;
-	exports.ConeGeometry = ConeGeometry;
-	exports.CubeCamera = CubeCamera;
-	exports.CubeGeometry = BoxGeometry;
-	exports.CubeReflectionMapping = CubeReflectionMapping;
-	exports.CubeRefractionMapping = CubeRefractionMapping;
-	exports.CubeTexture = CubeTexture;
-	exports.CubeTextureLoader = CubeTextureLoader;
-	exports.CubeUVReflectionMapping = CubeUVReflectionMapping;
-	exports.CubeUVRefractionMapping = CubeUVRefractionMapping;
-	exports.CubicBezierCurve = CubicBezierCurve;
-	exports.CubicBezierCurve3 = CubicBezierCurve3;
-	exports.CubicInterpolant = CubicInterpolant;
-	exports.CullFaceBack = CullFaceBack;
-	exports.CullFaceFront = CullFaceFront;
-	exports.CullFaceFrontBack = CullFaceFrontBack;
-	exports.CullFaceNone = CullFaceNone;
-	exports.Curve = Curve;
-	exports.CurvePath = CurvePath;
-	exports.CustomBlending = CustomBlending;
-	exports.CylinderBufferGeometry = CylinderBufferGeometry;
-	exports.CylinderGeometry = CylinderGeometry;
-	exports.Cylindrical = Cylindrical;
+	exports.Mesh = Mesh;
+	exports.LineSegments = LineSegments;
+	exports.LineLoop = LineLoop;
+	exports.Line = Line;
+	exports.Points = Points;
+	exports.Group = Group;
+	exports.VideoTexture = VideoTexture;
 	exports.DataTexture = DataTexture;
 	exports.DataTexture2DArray = DataTexture2DArray;
 	exports.DataTexture3D = DataTexture3D;
-	exports.DataTextureLoader = DataTextureLoader;
-	exports.DecrementStencilOp = DecrementStencilOp;
-	exports.DecrementWrapStencilOp = DecrementWrapStencilOp;
-	exports.DefaultLoadingManager = DefaultLoadingManager;
-	exports.DepthFormat = DepthFormat;
-	exports.DepthStencilFormat = DepthStencilFormat;
+	exports.CompressedTexture = CompressedTexture;
+	exports.CubeTexture = CubeTexture;
+	exports.CanvasTexture = CanvasTexture;
 	exports.DepthTexture = DepthTexture;
-	exports.DirectionalLight = DirectionalLight;
-	exports.DirectionalLightHelper = DirectionalLightHelper;
-	exports.DirectionalLightShadow = DirectionalLightShadow;
-	exports.DiscreteInterpolant = DiscreteInterpolant;
-	exports.DodecahedronBufferGeometry = DodecahedronBufferGeometry;
-	exports.DodecahedronGeometry = DodecahedronGeometry;
-	exports.DoubleSide = DoubleSide;
-	exports.DstAlphaFactor = DstAlphaFactor;
-	exports.DstColorFactor = DstColorFactor;
-	exports.DynamicBufferAttribute = DynamicBufferAttribute;
-	exports.EdgesGeometry = EdgesGeometry;
-	exports.EdgesHelper = EdgesHelper;
-	exports.EllipseCurve = EllipseCurve;
-	exports.EqualDepth = EqualDepth;
-	exports.EqualStencilFunc = EqualStencilFunc;
-	exports.EquirectangularReflectionMapping = EquirectangularReflectionMapping;
-	exports.EquirectangularRefractionMapping = EquirectangularRefractionMapping;
-	exports.Euler = Euler;
-	exports.EventDispatcher = EventDispatcher;
-	exports.ExtrudeBufferGeometry = ExtrudeBufferGeometry;
-	exports.ExtrudeGeometry = ExtrudeGeometry;
-	exports.Face3 = Face3;
-	exports.Face4 = Face4;
-	exports.FaceColors = FaceColors;
-	exports.FaceNormalsHelper = FaceNormalsHelper;
-	exports.FileLoader = FileLoader;
-	exports.FlatShading = FlatShading;
-	exports.Float32Attribute = Float32Attribute;
-	exports.Float32BufferAttribute = Float32BufferAttribute;
-	exports.Float64Attribute = Float64Attribute;
-	exports.Float64BufferAttribute = Float64BufferAttribute;
-	exports.FloatType = FloatType;
-	exports.Fog = Fog;
-	exports.FogExp2 = FogExp2;
-	exports.Font = Font;
-	exports.FontLoader = FontLoader;
-	exports.FrontFaceDirectionCCW = FrontFaceDirectionCCW;
-	exports.FrontFaceDirectionCW = FrontFaceDirectionCW;
-	exports.FrontSide = FrontSide;
-	exports.Frustum = Frustum;
-	exports.GammaEncoding = GammaEncoding;
-	exports.Geometry = Geometry;
-	exports.GeometryUtils = GeometryUtils;
-	exports.GreaterDepth = GreaterDepth;
-	exports.GreaterEqualDepth = GreaterEqualDepth;
-	exports.GreaterEqualStencilFunc = GreaterEqualStencilFunc;
-	exports.GreaterStencilFunc = GreaterStencilFunc;
-	exports.GridHelper = GridHelper;
-	exports.Group = Group;
-	exports.HalfFloatType = HalfFloatType;
-	exports.HemisphereLight = HemisphereLight;
-	exports.HemisphereLightHelper = HemisphereLightHelper;
-	exports.HemisphereLightProbe = HemisphereLightProbe;
-	exports.IcosahedronBufferGeometry = IcosahedronBufferGeometry;
-	exports.IcosahedronGeometry = IcosahedronGeometry;
-	exports.ImageBitmapLoader = ImageBitmapLoader;
+	exports.Texture = Texture;
+	exports.AnimationLoader = AnimationLoader;
+	exports.CompressedTextureLoader = CompressedTextureLoader;
+	exports.DataTextureLoader = DataTextureLoader;
+	exports.CubeTextureLoader = CubeTextureLoader;
+	exports.TextureLoader = TextureLoader;
+	exports.ObjectLoader = ObjectLoader;
+	exports.PCDLoader = PCDLoader;
+	exports.MaterialLoader = MaterialLoader;
+	exports.BufferGeometryLoader = BufferGeometryLoader;
+	exports.DefaultLoadingManager = DefaultLoadingManager;
+	exports.LoadingManager = LoadingManager;
 	exports.ImageLoader = ImageLoader;
-	exports.ImageUtils = ImageUtils;
-	exports.ImmediateRenderObject = ImmediateRenderObject;
-	exports.IncrementStencilOp = IncrementStencilOp;
-	exports.IncrementWrapStencilOp = IncrementWrapStencilOp;
-	exports.InstancedBufferAttribute = InstancedBufferAttribute;
-	exports.InstancedBufferGeometry = InstancedBufferGeometry;
-	exports.InstancedInterleavedBuffer = InstancedInterleavedBuffer;
-	exports.Int16Attribute = Int16Attribute;
-	exports.Int16BufferAttribute = Int16BufferAttribute;
-	exports.Int32Attribute = Int32Attribute;
-	exports.Int32BufferAttribute = Int32BufferAttribute;
-	exports.Int8Attribute = Int8Attribute;
-	exports.Int8BufferAttribute = Int8BufferAttribute;
-	exports.IntType = IntType;
-	exports.InterleavedBuffer = InterleavedBuffer;
-	exports.InterleavedBufferAttribute = InterleavedBufferAttribute;
-	exports.Interpolant = Interpolant;
-	exports.InterpolateDiscrete = InterpolateDiscrete;
-	exports.InterpolateLinear = InterpolateLinear;
-	exports.InterpolateSmooth = InterpolateSmooth;
-	exports.InvertStencilOp = InvertStencilOp;
-	exports.JSONLoader = JSONLoader;
-	exports.KeepStencilOp = KeepStencilOp;
-	exports.KeyframeTrack = KeyframeTrack;
-	exports.LOD = LOD;
-	exports.LatheBufferGeometry = LatheBufferGeometry;
-	exports.LatheGeometry = LatheGeometry;
-	exports.Layers = Layers;
-	exports.LensFlare = LensFlare;
-	exports.LessDepth = LessDepth;
-	exports.LessEqualDepth = LessEqualDepth;
-	exports.LessEqualStencilFunc = LessEqualStencilFunc;
-	exports.LessStencilFunc = LessStencilFunc;
-	exports.Light = Light;
-	exports.LightProbe = LightProbe;
-	exports.LightProbeHelper = LightProbeHelper;
-	exports.LightShadow = LightShadow;
-	exports.Line = Line;
-	exports.Line3 = Line3;
-	exports.LineBasicMaterial = LineBasicMaterial;
-	exports.LineCurve = LineCurve;
-	exports.LineCurve3 = LineCurve3;
-	exports.LineDashedMaterial = LineDashedMaterial;
-	exports.LineLoop = LineLoop;
-	exports.LinePieces = LinePieces;
-	exports.LineSegments = LineSegments;
-	exports.LineStrip = LineStrip;
-	exports.LinearEncoding = LinearEncoding;
-	exports.LinearFilter = LinearFilter;
-	exports.LinearInterpolant = LinearInterpolant;
-	exports.LinearMipMapLinearFilter = LinearMipMapLinearFilter;
-	exports.LinearMipMapNearestFilter = LinearMipMapNearestFilter;
-	exports.LinearMipmapLinearFilter = LinearMipmapLinearFilter;
-	exports.LinearMipmapNearestFilter = LinearMipmapNearestFilter;
-	exports.LinearToneMapping = LinearToneMapping;
+	exports.ImageBitmapLoader = ImageBitmapLoader;
+	exports.FontLoader = FontLoader;
+	exports.FileLoader = FileLoader;
 	exports.Loader = Loader;
 	exports.LoaderUtils = LoaderUtils;
-	exports.LoadingManager = LoadingManager;
-	exports.LogLuvEncoding = LogLuvEncoding;
-	exports.LoopOnce = LoopOnce;
-	exports.LoopPingPong = LoopPingPong;
-	exports.LoopRepeat = LoopRepeat;
-	exports.LuminanceAlphaFormat = LuminanceAlphaFormat;
-	exports.LuminanceFormat = LuminanceFormat;
-	exports.MOUSE = MOUSE;
-	exports.Material = Material;
-	exports.MaterialLoader = MaterialLoader;
+	exports.Cache = Cache;
+	exports.AudioLoader = AudioLoader;
+	exports.SpotLightShadow = SpotLightShadow;
+	exports.SpotLight = SpotLight;
+	exports.PointLight = PointLight;
+	exports.RectAreaLight = RectAreaLight;
+	exports.HemisphereLight = HemisphereLight;
+	exports.HemisphereLightProbe = HemisphereLightProbe;
+	exports.DirectionalLightShadow = DirectionalLightShadow;
+	exports.DirectionalLight = DirectionalLight;
+	exports.AmbientLight = AmbientLight;
+	exports.AmbientLightProbe = AmbientLightProbe;
+	exports.LightShadow = LightShadow;
+	exports.Light = Light;
+	exports.LightProbe = LightProbe;
+	exports.StereoCamera = StereoCamera;
+	exports.PerspectiveCamera = PerspectiveCamera;
+	exports.OrthographicCamera = OrthographicCamera;
+	exports.CubeCamera = CubeCamera;
+	exports.ArrayCamera = ArrayCamera;
+	exports.Camera = Camera;
+	exports.AudioListener = AudioListener;
+	exports.PositionalAudio = PositionalAudio;
+	exports.AudioContext = AudioContext;
+	exports.AudioAnalyser = AudioAnalyser;
+	exports.Audio = Audio;
+	exports.VectorKeyframeTrack = VectorKeyframeTrack;
+	exports.StringKeyframeTrack = StringKeyframeTrack;
+	exports.QuaternionKeyframeTrack = QuaternionKeyframeTrack;
+	exports.NumberKeyframeTrack = NumberKeyframeTrack;
+	exports.ColorKeyframeTrack = ColorKeyframeTrack;
+	exports.BooleanKeyframeTrack = BooleanKeyframeTrack;
+	exports.PropertyMixer = PropertyMixer;
+	exports.PropertyBinding = PropertyBinding;
+	exports.KeyframeTrack = KeyframeTrack;
+	exports.AnimationUtils = AnimationUtils;
+	exports.AnimationObjectGroup = AnimationObjectGroup;
+	exports.AnimationMixer = AnimationMixer;
+	exports.AnimationClip = AnimationClip;
+	exports.Uniform = Uniform;
+	exports.InstancedBufferGeometry = InstancedBufferGeometry;
+	exports.BufferGeometry = BufferGeometry;
+	exports.Geometry = Geometry;
+	exports.InterleavedBufferAttribute = InterleavedBufferAttribute;
+	exports.InstancedInterleavedBuffer = InstancedInterleavedBuffer;
+	exports.InterleavedBuffer = InterleavedBuffer;
+	exports.InstancedBufferAttribute = InstancedBufferAttribute;
+	exports.Face3 = Face3;
+	exports.Object3D = Object3D;
+	exports.Raycaster = Raycaster;
+	exports.Layers = Layers;
+	exports.EventDispatcher = EventDispatcher;
+	exports.Clock = Clock;
+	exports.QuaternionLinearInterpolant = QuaternionLinearInterpolant;
+	exports.LinearInterpolant = LinearInterpolant;
+	exports.DiscreteInterpolant = DiscreteInterpolant;
+	exports.CubicInterpolant = CubicInterpolant;
+	exports.Interpolant = Interpolant;
+	exports.Triangle = Triangle;
 	exports.Math = _Math;
-	exports.Matrix3 = Matrix3;
+	exports.Spherical = Spherical;
+	exports.Cylindrical = Cylindrical;
+	exports.Plane = Plane;
+	exports.Frustum = Frustum;
+	exports.Sphere = Sphere;
+	exports.Ray = Ray;
 	exports.Matrix4 = Matrix4;
-	exports.MaxEquation = MaxEquation;
-	exports.Mesh = Mesh;
-	exports.MeshBasicMaterial = MeshBasicMaterial;
-	exports.MeshDepthMaterial = MeshDepthMaterial;
-	exports.MeshDistanceMaterial = MeshDistanceMaterial;
-	exports.MeshFaceMaterial = MeshFaceMaterial;
-	exports.MeshLambertMaterial = MeshLambertMaterial;
-	exports.MeshMatcapMaterial = MeshMatcapMaterial;
-	exports.MeshNormalMaterial = MeshNormalMaterial;
-	exports.MeshPhongMaterial = MeshPhongMaterial;
+	exports.Matrix3 = Matrix3;
+	exports.Box3 = Box3;
+	exports.Box2 = Box2;
+	exports.Line3 = Line3;
+	exports.Euler = Euler;
+	exports.Vector4 = Vector4;
+	exports.Vector3 = Vector3;
+	exports.Vector2 = Vector2;
+	exports.Quaternion = Quaternion;
+	exports.Color = Color;
+	exports.SphericalHarmonics3 = SphericalHarmonics3;
+	exports.ImmediateRenderObject = ImmediateRenderObject;
+	exports.VertexNormalsHelper = VertexNormalsHelper;
+	exports.SpotLightHelper = SpotLightHelper;
+	exports.SkeletonHelper = SkeletonHelper;
+	exports.PointLightHelper = PointLightHelper;
+	exports.RectAreaLightHelper = RectAreaLightHelper;
+	exports.HemisphereLightHelper = HemisphereLightHelper;
+	exports.LightProbeHelper = LightProbeHelper;
+	exports.GridHelper = GridHelper;
+	exports.PolarGridHelper = PolarGridHelper;
+	exports.PositionalAudioHelper = PositionalAudioHelper;
+	exports.FaceNormalsHelper = FaceNormalsHelper;
+	exports.DirectionalLightHelper = DirectionalLightHelper;
+	exports.CameraHelper = CameraHelper;
+	exports.BoxHelper = BoxHelper;
+	exports.Box3Helper = Box3Helper;
+	exports.PlaneHelper = PlaneHelper;
+	exports.ArrowHelper = ArrowHelper;
+	exports.AxesHelper = AxesHelper;
+	exports.Shape = Shape;
+	exports.Path = Path;
+	exports.ShapePath = ShapePath;
+	exports.Font = Font;
+	exports.CurvePath = CurvePath;
+	exports.Curve = Curve;
+	exports.ImageUtils = ImageUtils;
+	exports.ShapeUtils = ShapeUtils;
+	exports.WebGLUtils = WebGLUtils;
+	exports.WireframeGeometry = WireframeGeometry;
+	exports.ParametricGeometry = ParametricGeometry;
+	exports.ParametricBufferGeometry = ParametricBufferGeometry;
+	exports.TetrahedronGeometry = TetrahedronGeometry;
+	exports.TetrahedronBufferGeometry = TetrahedronBufferGeometry;
+	exports.OctahedronGeometry = OctahedronGeometry;
+	exports.OctahedronBufferGeometry = OctahedronBufferGeometry;
+	exports.IcosahedronGeometry = IcosahedronGeometry;
+	exports.IcosahedronBufferGeometry = IcosahedronBufferGeometry;
+	exports.DodecahedronGeometry = DodecahedronGeometry;
+	exports.DodecahedronBufferGeometry = DodecahedronBufferGeometry;
+	exports.PolyhedronGeometry = PolyhedronGeometry;
+	exports.PolyhedronBufferGeometry = PolyhedronBufferGeometry;
+	exports.TubeGeometry = TubeGeometry;
+	exports.TubeBufferGeometry = TubeBufferGeometry;
+	exports.TorusKnotGeometry = TorusKnotGeometry;
+	exports.TorusKnotBufferGeometry = TorusKnotBufferGeometry;
+	exports.TorusGeometry = TorusGeometry;
+	exports.TorusBufferGeometry = TorusBufferGeometry;
+	exports.TextGeometry = TextGeometry;
+	exports.TextBufferGeometry = TextBufferGeometry;
+	exports.SphereGeometry = SphereGeometry;
+	exports.SphereBufferGeometry = SphereBufferGeometry;
+	exports.RingGeometry = RingGeometry;
+	exports.RingBufferGeometry = RingBufferGeometry;
+	exports.PlaneGeometry = PlaneGeometry;
+	exports.PlaneBufferGeometry = PlaneBufferGeometry;
+	exports.LatheGeometry = LatheGeometry;
+	exports.LatheBufferGeometry = LatheBufferGeometry;
+	exports.ShapeGeometry = ShapeGeometry;
+	exports.ShapeBufferGeometry = ShapeBufferGeometry;
+	exports.ExtrudeGeometry = ExtrudeGeometry;
+	exports.ExtrudeBufferGeometry = ExtrudeBufferGeometry;
+	exports.EdgesGeometry = EdgesGeometry;
+	exports.ConeGeometry = ConeGeometry;
+	exports.ConeBufferGeometry = ConeBufferGeometry;
+	exports.CylinderGeometry = CylinderGeometry;
+	exports.CylinderBufferGeometry = CylinderBufferGeometry;
+	exports.CircleGeometry = CircleGeometry;
+	exports.CircleBufferGeometry = CircleBufferGeometry;
+	exports.BoxGeometry = BoxGeometry;
+	exports.CubeGeometry = BoxGeometry;
+	exports.BoxBufferGeometry = BoxBufferGeometry;
+	exports.ShadowMaterial = ShadowMaterial;
+	exports.SpriteMaterial = SpriteMaterial;
+	exports.RawShaderMaterial = RawShaderMaterial;
+	exports.ShaderMaterial = ShaderMaterial;
+	exports.PointsMaterial = PointsMaterial;
 	exports.MeshPhysicalMaterial = MeshPhysicalMaterial;
 	exports.MeshStandardMaterial = MeshStandardMaterial;
+	exports.MeshPhongMaterial = MeshPhongMaterial;
 	exports.MeshToonMaterial = MeshToonMaterial;
-	exports.MinEquation = MinEquation;
-	exports.MirroredRepeatWrapping = MirroredRepeatWrapping;
-	exports.MixOperation = MixOperation;
-	exports.MultiMaterial = MultiMaterial;
-	exports.MultiplyBlending = MultiplyBlending;
-	exports.MultiplyOperation = MultiplyOperation;
-	exports.NearestFilter = NearestFilter;
-	exports.NearestMipMapLinearFilter = NearestMipMapLinearFilter;
-	exports.NearestMipMapNearestFilter = NearestMipMapNearestFilter;
-	exports.NearestMipmapLinearFilter = NearestMipmapLinearFilter;
-	exports.NearestMipmapNearestFilter = NearestMipmapNearestFilter;
-	exports.NeverDepth = NeverDepth;
-	exports.NeverStencilFunc = NeverStencilFunc;
-	exports.NoBlending = NoBlending;
-	exports.NoColors = NoColors;
-	exports.NoToneMapping = NoToneMapping;
-	exports.NormalBlending = NormalBlending;
-	exports.NotEqualDepth = NotEqualDepth;
-	exports.NotEqualStencilFunc = NotEqualStencilFunc;
-	exports.NumberKeyframeTrack = NumberKeyframeTrack;
-	exports.Object3D = Object3D;
-	exports.ObjectLoader = ObjectLoader;
-	exports.ObjectSpaceNormalMap = ObjectSpaceNormalMap;
-	exports.OctahedronBufferGeometry = OctahedronBufferGeometry;
-	exports.OctahedronGeometry = OctahedronGeometry;
-	exports.OneFactor = OneFactor;
-	exports.OneMinusDstAlphaFactor = OneMinusDstAlphaFactor;
-	exports.OneMinusDstColorFactor = OneMinusDstColorFactor;
-	exports.OneMinusSrcAlphaFactor = OneMinusSrcAlphaFactor;
-	exports.OneMinusSrcColorFactor = OneMinusSrcColorFactor;
-	exports.OrthographicCamera = OrthographicCamera;
-	exports.PCFShadowMap = PCFShadowMap;
-	exports.PCFSoftShadowMap = PCFSoftShadowMap;
-	exports.ParametricBufferGeometry = ParametricBufferGeometry;
-	exports.ParametricGeometry = ParametricGeometry;
-	exports.Particle = Particle;
-	exports.ParticleBasicMaterial = ParticleBasicMaterial;
-	exports.ParticleSystem = ParticleSystem;
-	exports.ParticleSystemMaterial = ParticleSystemMaterial;
-	exports.Path = Path;
-	exports.PerspectiveCamera = PerspectiveCamera;
-	exports.Plane = Plane;
-	exports.PlaneBufferGeometry = PlaneBufferGeometry;
-	exports.PlaneGeometry = PlaneGeometry;
-	exports.PlaneHelper = PlaneHelper;
-	exports.PointCloud = PointCloud;
-	exports.PointCloudMaterial = PointCloudMaterial;
-	exports.PointLight = PointLight;
-	exports.PointLightHelper = PointLightHelper;
-	exports.Points = Points;
-	exports.PointsMaterial = PointsMaterial;
-	exports.PolarGridHelper = PolarGridHelper;
-	exports.PolyhedronBufferGeometry = PolyhedronBufferGeometry;
-	exports.PolyhedronGeometry = PolyhedronGeometry;
-	exports.PositionalAudio = PositionalAudio;
-	exports.PositionalAudioHelper = PositionalAudioHelper;
-	exports.PropertyBinding = PropertyBinding;
-	exports.PropertyMixer = PropertyMixer;
+	exports.MeshNormalMaterial = MeshNormalMaterial;
+	exports.MeshLambertMaterial = MeshLambertMaterial;
+	exports.MeshDepthMaterial = MeshDepthMaterial;
+	exports.MeshDistanceMaterial = MeshDistanceMaterial;
+	exports.MeshBasicMaterial = MeshBasicMaterial;
+	exports.MeshMatcapMaterial = MeshMatcapMaterial;
+	exports.LineDashedMaterial = LineDashedMaterial;
+	exports.LineBasicMaterial = LineBasicMaterial;
+	exports.Material = Material;
+	exports.Float64BufferAttribute = Float64BufferAttribute;
+	exports.Float32BufferAttribute = Float32BufferAttribute;
+	exports.Uint32BufferAttribute = Uint32BufferAttribute;
+	exports.Int32BufferAttribute = Int32BufferAttribute;
+	exports.Uint16BufferAttribute = Uint16BufferAttribute;
+	exports.Int16BufferAttribute = Int16BufferAttribute;
+	exports.Uint8ClampedBufferAttribute = Uint8ClampedBufferAttribute;
+	exports.Uint8BufferAttribute = Uint8BufferAttribute;
+	exports.Int8BufferAttribute = Int8BufferAttribute;
+	exports.BufferAttribute = BufferAttribute;
+	exports.ArcCurve = ArcCurve;
+	exports.CatmullRomCurve3 = CatmullRomCurve3;
+	exports.CubicBezierCurve = CubicBezierCurve;
+	exports.CubicBezierCurve3 = CubicBezierCurve3;
+	exports.EllipseCurve = EllipseCurve;
+	exports.LineCurve = LineCurve;
+	exports.LineCurve3 = LineCurve3;
 	exports.QuadraticBezierCurve = QuadraticBezierCurve;
 	exports.QuadraticBezierCurve3 = QuadraticBezierCurve3;
-	exports.Quaternion = Quaternion;
-	exports.QuaternionKeyframeTrack = QuaternionKeyframeTrack;
-	exports.QuaternionLinearInterpolant = QuaternionLinearInterpolant;
+	exports.SplineCurve = SplineCurve;
 	exports.REVISION = REVISION;
-	exports.RGBADepthPacking = RGBADepthPacking;
+	exports.MOUSE = MOUSE;
+	exports.TOUCH = TOUCH;
+	exports.CullFaceNone = CullFaceNone;
+	exports.CullFaceBack = CullFaceBack;
+	exports.CullFaceFront = CullFaceFront;
+	exports.CullFaceFrontBack = CullFaceFrontBack;
+	exports.FrontFaceDirectionCW = FrontFaceDirectionCW;
+	exports.FrontFaceDirectionCCW = FrontFaceDirectionCCW;
+	exports.BasicShadowMap = BasicShadowMap;
+	exports.PCFShadowMap = PCFShadowMap;
+	exports.PCFSoftShadowMap = PCFSoftShadowMap;
+	exports.FrontSide = FrontSide;
+	exports.BackSide = BackSide;
+	exports.DoubleSide = DoubleSide;
+	exports.FlatShading = FlatShading;
+	exports.SmoothShading = SmoothShading;
+	exports.NoColors = NoColors;
+	exports.FaceColors = FaceColors;
+	exports.VertexColors = VertexColors$1;
+	exports.NoBlending = NoBlending;
+	exports.NormalBlending = NormalBlending;
+	exports.AdditiveBlending = AdditiveBlending;
+	exports.SubtractiveBlending = SubtractiveBlending;
+	exports.MultiplyBlending = MultiplyBlending;
+	exports.CustomBlending = CustomBlending;
+	exports.AddEquation = AddEquation;
+	exports.SubtractEquation = SubtractEquation;
+	exports.ReverseSubtractEquation = ReverseSubtractEquation;
+	exports.MinEquation = MinEquation;
+	exports.MaxEquation = MaxEquation;
+	exports.ZeroFactor = ZeroFactor;
+	exports.OneFactor = OneFactor;
+	exports.SrcColorFactor = SrcColorFactor;
+	exports.OneMinusSrcColorFactor = OneMinusSrcColorFactor;
+	exports.SrcAlphaFactor = SrcAlphaFactor;
+	exports.OneMinusSrcAlphaFactor = OneMinusSrcAlphaFactor;
+	exports.DstAlphaFactor = DstAlphaFactor;
+	exports.OneMinusDstAlphaFactor = OneMinusDstAlphaFactor;
+	exports.DstColorFactor = DstColorFactor;
+	exports.OneMinusDstColorFactor = OneMinusDstColorFactor;
+	exports.SrcAlphaSaturateFactor = SrcAlphaSaturateFactor;
+	exports.NeverDepth = NeverDepth;
+	exports.AlwaysDepth = AlwaysDepth;
+	exports.LessDepth = LessDepth;
+	exports.LessEqualDepth = LessEqualDepth;
+	exports.EqualDepth = EqualDepth;
+	exports.GreaterEqualDepth = GreaterEqualDepth;
+	exports.GreaterDepth = GreaterDepth;
+	exports.NotEqualDepth = NotEqualDepth;
+	exports.MultiplyOperation = MultiplyOperation;
+	exports.MixOperation = MixOperation;
+	exports.AddOperation = AddOperation;
+	exports.NoToneMapping = NoToneMapping;
+	exports.LinearToneMapping = LinearToneMapping;
+	exports.ReinhardToneMapping = ReinhardToneMapping;
+	exports.Uncharted2ToneMapping = Uncharted2ToneMapping;
+	exports.CineonToneMapping = CineonToneMapping;
+	exports.ACESFilmicToneMapping = ACESFilmicToneMapping;
+	exports.UVMapping = UVMapping;
+	exports.CubeReflectionMapping = CubeReflectionMapping;
+	exports.CubeRefractionMapping = CubeRefractionMapping;
+	exports.EquirectangularReflectionMapping = EquirectangularReflectionMapping;
+	exports.EquirectangularRefractionMapping = EquirectangularRefractionMapping;
+	exports.SphericalReflectionMapping = SphericalReflectionMapping;
+	exports.CubeUVReflectionMapping = CubeUVReflectionMapping;
+	exports.CubeUVRefractionMapping = CubeUVRefractionMapping;
+	exports.RepeatWrapping = RepeatWrapping;
+	exports.ClampToEdgeWrapping = ClampToEdgeWrapping;
+	exports.MirroredRepeatWrapping = MirroredRepeatWrapping;
+	exports.NearestFilter = NearestFilter;
+	exports.NearestMipmapNearestFilter = NearestMipmapNearestFilter;
+	exports.NearestMipMapNearestFilter = NearestMipMapNearestFilter;
+	exports.NearestMipmapLinearFilter = NearestMipmapLinearFilter;
+	exports.NearestMipMapLinearFilter = NearestMipMapLinearFilter;
+	exports.LinearFilter = LinearFilter;
+	exports.LinearMipmapNearestFilter = LinearMipmapNearestFilter;
+	exports.LinearMipMapNearestFilter = LinearMipMapNearestFilter;
+	exports.LinearMipmapLinearFilter = LinearMipmapLinearFilter;
+	exports.LinearMipMapLinearFilter = LinearMipMapLinearFilter;
+	exports.UnsignedByteType = UnsignedByteType;
+	exports.ByteType = ByteType;
+	exports.ShortType = ShortType;
+	exports.UnsignedShortType = UnsignedShortType;
+	exports.IntType = IntType;
+	exports.UnsignedIntType = UnsignedIntType;
+	exports.FloatType = FloatType;
+	exports.HalfFloatType = HalfFloatType;
+	exports.UnsignedShort4444Type = UnsignedShort4444Type;
+	exports.UnsignedShort5551Type = UnsignedShort5551Type;
+	exports.UnsignedShort565Type = UnsignedShort565Type;
+	exports.UnsignedInt248Type = UnsignedInt248Type;
+	exports.AlphaFormat = AlphaFormat;
+	exports.RGBFormat = RGBFormat;
 	exports.RGBAFormat = RGBAFormat;
-	exports.RGBA_ASTC_10x10_Format = RGBA_ASTC_10x10_Format;
-	exports.RGBA_ASTC_10x5_Format = RGBA_ASTC_10x5_Format;
-	exports.RGBA_ASTC_10x6_Format = RGBA_ASTC_10x6_Format;
-	exports.RGBA_ASTC_10x8_Format = RGBA_ASTC_10x8_Format;
-	exports.RGBA_ASTC_12x10_Format = RGBA_ASTC_12x10_Format;
-	exports.RGBA_ASTC_12x12_Format = RGBA_ASTC_12x12_Format;
+	exports.LuminanceFormat = LuminanceFormat;
+	exports.LuminanceAlphaFormat = LuminanceAlphaFormat;
+	exports.RGBEFormat = RGBEFormat;
+	exports.DepthFormat = DepthFormat;
+	exports.DepthStencilFormat = DepthStencilFormat;
+	exports.RedFormat = RedFormat;
+	exports.RGB_S3TC_DXT1_Format = RGB_S3TC_DXT1_Format;
+	exports.RGBA_S3TC_DXT1_Format = RGBA_S3TC_DXT1_Format;
+	exports.RGBA_S3TC_DXT3_Format = RGBA_S3TC_DXT3_Format;
+	exports.RGBA_S3TC_DXT5_Format = RGBA_S3TC_DXT5_Format;
+	exports.RGB_PVRTC_4BPPV1_Format = RGB_PVRTC_4BPPV1_Format;
+	exports.RGB_PVRTC_2BPPV1_Format = RGB_PVRTC_2BPPV1_Format;
+	exports.RGBA_PVRTC_4BPPV1_Format = RGBA_PVRTC_4BPPV1_Format;
+	exports.RGBA_PVRTC_2BPPV1_Format = RGBA_PVRTC_2BPPV1_Format;
+	exports.RGB_ETC1_Format = RGB_ETC1_Format;
 	exports.RGBA_ASTC_4x4_Format = RGBA_ASTC_4x4_Format;
 	exports.RGBA_ASTC_5x4_Format = RGBA_ASTC_5x4_Format;
 	exports.RGBA_ASTC_5x5_Format = RGBA_ASTC_5x5_Format;
@@ -49523,130 +49457,88 @@
 	exports.RGBA_ASTC_8x5_Format = RGBA_ASTC_8x5_Format;
 	exports.RGBA_ASTC_8x6_Format = RGBA_ASTC_8x6_Format;
 	exports.RGBA_ASTC_8x8_Format = RGBA_ASTC_8x8_Format;
-	exports.RGBA_PVRTC_2BPPV1_Format = RGBA_PVRTC_2BPPV1_Format;
-	exports.RGBA_PVRTC_4BPPV1_Format = RGBA_PVRTC_4BPPV1_Format;
-	exports.RGBA_S3TC_DXT1_Format = RGBA_S3TC_DXT1_Format;
-	exports.RGBA_S3TC_DXT3_Format = RGBA_S3TC_DXT3_Format;
-	exports.RGBA_S3TC_DXT5_Format = RGBA_S3TC_DXT5_Format;
-	exports.RGBDEncoding = RGBDEncoding;
-	exports.RGBEEncoding = RGBEEncoding;
-	exports.RGBEFormat = RGBEFormat;
-	exports.RGBFormat = RGBFormat;
-	exports.RGBM16Encoding = RGBM16Encoding;
-	exports.RGBM7Encoding = RGBM7Encoding;
-	exports.RGB_ETC1_Format = RGB_ETC1_Format;
-	exports.RGB_PVRTC_2BPPV1_Format = RGB_PVRTC_2BPPV1_Format;
-	exports.RGB_PVRTC_4BPPV1_Format = RGB_PVRTC_4BPPV1_Format;
-	exports.RGB_S3TC_DXT1_Format = RGB_S3TC_DXT1_Format;
-	exports.RawShaderMaterial = RawShaderMaterial;
-	exports.Ray = Ray;
-	exports.Raycaster = Raycaster;
-	exports.RectAreaLight = RectAreaLight;
-	exports.RectAreaLightHelper = RectAreaLightHelper;
-	exports.RedFormat = RedFormat;
-	exports.ReinhardToneMapping = ReinhardToneMapping;
-	exports.RepeatWrapping = RepeatWrapping;
-	exports.ReplaceStencilOp = ReplaceStencilOp;
-	exports.ReverseSubtractEquation = ReverseSubtractEquation;
-	exports.RingBufferGeometry = RingBufferGeometry;
-	exports.RingGeometry = RingGeometry;
-	exports.Scene = Scene;
-	exports.SceneUtils = SceneUtils;
-	exports.ShaderChunk = ShaderChunk;
-	exports.ShaderLib = ShaderLib;
-	exports.ShaderMaterial = ShaderMaterial;
-	exports.ShadowMaterial = ShadowMaterial;
-	exports.Shape = Shape;
-	exports.ShapeBufferGeometry = ShapeBufferGeometry;
-	exports.ShapeGeometry = ShapeGeometry;
-	exports.ShapePath = ShapePath;
-	exports.ShapeUtils = ShapeUtils;
-	exports.ShortType = ShortType;
-	exports.Skeleton = Skeleton;
-	exports.SkeletonHelper = SkeletonHelper;
-	exports.SkinnedMesh = SkinnedMesh;
-	exports.SmoothShading = SmoothShading;
-	exports.Sphere = Sphere;
-	exports.SphereBufferGeometry = SphereBufferGeometry;
-	exports.SphereGeometry = SphereGeometry;
-	exports.Spherical = Spherical;
-	exports.SphericalHarmonics3 = SphericalHarmonics3;
-	exports.SphericalReflectionMapping = SphericalReflectionMapping;
-	exports.Spline = Spline;
-	exports.SplineCurve = SplineCurve;
-	exports.SplineCurve3 = SplineCurve3;
-	exports.SpotLight = SpotLight;
-	exports.SpotLightHelper = SpotLightHelper;
-	exports.SpotLightShadow = SpotLightShadow;
-	exports.Sprite = Sprite;
-	exports.SpriteMaterial = SpriteMaterial;
-	exports.SrcAlphaFactor = SrcAlphaFactor;
-	exports.SrcAlphaSaturateFactor = SrcAlphaSaturateFactor;
-	exports.SrcColorFactor = SrcColorFactor;
-	exports.StereoCamera = StereoCamera;
-	exports.StringKeyframeTrack = StringKeyframeTrack;
-	exports.SubtractEquation = SubtractEquation;
-	exports.SubtractiveBlending = SubtractiveBlending;
-	exports.TOUCH = TOUCH;
-	exports.TangentSpaceNormalMap = TangentSpaceNormalMap;
-	exports.TetrahedronBufferGeometry = TetrahedronBufferGeometry;
-	exports.TetrahedronGeometry = TetrahedronGeometry;
-	exports.TextBufferGeometry = TextBufferGeometry;
-	exports.TextGeometry = TextGeometry;
-	exports.Texture = Texture;
-	exports.TextureLoader = TextureLoader;
-	exports.TorusBufferGeometry = TorusBufferGeometry;
-	exports.TorusGeometry = TorusGeometry;
-	exports.TorusKnotBufferGeometry = TorusKnotBufferGeometry;
-	exports.TorusKnotGeometry = TorusKnotGeometry;
-	exports.Triangle = Triangle;
-	exports.TriangleFanDrawMode = TriangleFanDrawMode;
-	exports.TriangleStripDrawMode = TriangleStripDrawMode;
-	exports.TrianglesDrawMode = TrianglesDrawMode;
-	exports.TubeBufferGeometry = TubeBufferGeometry;
-	exports.TubeGeometry = TubeGeometry;
-	exports.UVMapping = UVMapping;
-	exports.Uint16Attribute = Uint16Attribute;
-	exports.Uint16BufferAttribute = Uint16BufferAttribute;
-	exports.Uint32Attribute = Uint32Attribute;
-	exports.Uint32BufferAttribute = Uint32BufferAttribute;
-	exports.Uint8Attribute = Uint8Attribute;
-	exports.Uint8BufferAttribute = Uint8BufferAttribute;
-	exports.Uint8ClampedAttribute = Uint8ClampedAttribute;
-	exports.Uint8ClampedBufferAttribute = Uint8ClampedBufferAttribute;
-	exports.Uncharted2ToneMapping = Uncharted2ToneMapping;
-	exports.Uniform = Uniform;
-	exports.UniformsLib = UniformsLib;
-	exports.UniformsUtils = UniformsUtils;
-	exports.UnsignedByteType = UnsignedByteType;
-	exports.UnsignedInt248Type = UnsignedInt248Type;
-	exports.UnsignedIntType = UnsignedIntType;
-	exports.UnsignedShort4444Type = UnsignedShort4444Type;
-	exports.UnsignedShort5551Type = UnsignedShort5551Type;
-	exports.UnsignedShort565Type = UnsignedShort565Type;
-	exports.UnsignedShortType = UnsignedShortType;
-	exports.Vector2 = Vector2;
-	exports.Vector3 = Vector3;
-	exports.Vector4 = Vector4;
-	exports.VectorKeyframeTrack = VectorKeyframeTrack;
-	exports.Vertex = Vertex;
-	exports.VertexColors = VertexColors;
-	exports.VertexNormalsHelper = VertexNormalsHelper;
-	exports.VideoTexture = VideoTexture;
-	exports.WebGLMultisampleRenderTarget = WebGLMultisampleRenderTarget;
-	exports.WebGLRenderTarget = WebGLRenderTarget;
-	exports.WebGLRenderTargetCube = WebGLRenderTargetCube;
-	exports.WebGLRenderer = WebGLRenderer;
-	exports.WebGLUtils = WebGLUtils;
-	exports.WireframeGeometry = WireframeGeometry;
-	exports.WireframeHelper = WireframeHelper;
-	exports.WrapAroundEnding = WrapAroundEnding;
-	exports.XHRLoader = XHRLoader;
+	exports.RGBA_ASTC_10x5_Format = RGBA_ASTC_10x5_Format;
+	exports.RGBA_ASTC_10x6_Format = RGBA_ASTC_10x6_Format;
+	exports.RGBA_ASTC_10x8_Format = RGBA_ASTC_10x8_Format;
+	exports.RGBA_ASTC_10x10_Format = RGBA_ASTC_10x10_Format;
+	exports.RGBA_ASTC_12x10_Format = RGBA_ASTC_12x10_Format;
+	exports.RGBA_ASTC_12x12_Format = RGBA_ASTC_12x12_Format;
+	exports.LoopOnce = LoopOnce;
+	exports.LoopRepeat = LoopRepeat;
+	exports.LoopPingPong = LoopPingPong;
+	exports.InterpolateDiscrete = InterpolateDiscrete;
+	exports.InterpolateLinear = InterpolateLinear;
+	exports.InterpolateSmooth = InterpolateSmooth;
 	exports.ZeroCurvatureEnding = ZeroCurvatureEnding;
-	exports.ZeroFactor = ZeroFactor;
 	exports.ZeroSlopeEnding = ZeroSlopeEnding;
-	exports.ZeroStencilOp = ZeroStencilOp;
+	exports.WrapAroundEnding = WrapAroundEnding;
+	exports.TrianglesDrawMode = TrianglesDrawMode;
+	exports.TriangleStripDrawMode = TriangleStripDrawMode;
+	exports.TriangleFanDrawMode = TriangleFanDrawMode;
+	exports.LinearEncoding = LinearEncoding;
 	exports.sRGBEncoding = sRGBEncoding;
+	exports.GammaEncoding = GammaEncoding;
+	exports.RGBEEncoding = RGBEEncoding;
+	exports.LogLuvEncoding = LogLuvEncoding;
+	exports.RGBM7Encoding = RGBM7Encoding;
+	exports.RGBM16Encoding = RGBM16Encoding;
+	exports.RGBDEncoding = RGBDEncoding;
+	exports.BasicDepthPacking = BasicDepthPacking;
+	exports.RGBADepthPacking = RGBADepthPacking;
+	exports.TangentSpaceNormalMap = TangentSpaceNormalMap;
+	exports.ObjectSpaceNormalMap = ObjectSpaceNormalMap;
+	exports.ZeroStencilOp = ZeroStencilOp;
+	exports.KeepStencilOp = KeepStencilOp;
+	exports.ReplaceStencilOp = ReplaceStencilOp;
+	exports.IncrementStencilOp = IncrementStencilOp;
+	exports.DecrementStencilOp = DecrementStencilOp;
+	exports.IncrementWrapStencilOp = IncrementWrapStencilOp;
+	exports.DecrementWrapStencilOp = DecrementWrapStencilOp;
+	exports.InvertStencilOp = InvertStencilOp;
+	exports.NeverStencilFunc = NeverStencilFunc;
+	exports.LessStencilFunc = LessStencilFunc;
+	exports.EqualStencilFunc = EqualStencilFunc;
+	exports.LessEqualStencilFunc = LessEqualStencilFunc;
+	exports.GreaterStencilFunc = GreaterStencilFunc;
+	exports.NotEqualStencilFunc = NotEqualStencilFunc;
+	exports.GreaterEqualStencilFunc = GreaterEqualStencilFunc;
+	exports.AlwaysStencilFunc = AlwaysStencilFunc;
+	exports.Face4 = Face4;
+	exports.LineStrip = LineStrip;
+	exports.LinePieces = LinePieces;
+	exports.MeshFaceMaterial = MeshFaceMaterial;
+	exports.MultiMaterial = MultiMaterial;
+	exports.PointCloud = PointCloud;
+	exports.Particle = Particle;
+	exports.ParticleSystem = ParticleSystem;
+	exports.PointCloudMaterial = PointCloudMaterial;
+	exports.ParticleBasicMaterial = ParticleBasicMaterial;
+	exports.ParticleSystemMaterial = ParticleSystemMaterial;
+	exports.Vertex = Vertex;
+	exports.DynamicBufferAttribute = DynamicBufferAttribute;
+	exports.Int8Attribute = Int8Attribute;
+	exports.Uint8Attribute = Uint8Attribute;
+	exports.Uint8ClampedAttribute = Uint8ClampedAttribute;
+	exports.Int16Attribute = Int16Attribute;
+	exports.Uint16Attribute = Uint16Attribute;
+	exports.Int32Attribute = Int32Attribute;
+	exports.Uint32Attribute = Uint32Attribute;
+	exports.Float32Attribute = Float32Attribute;
+	exports.Float64Attribute = Float64Attribute;
+	exports.ClosedSplineCurve3 = ClosedSplineCurve3;
+	exports.SplineCurve3 = SplineCurve3;
+	exports.Spline = Spline;
+	exports.AxisHelper = AxisHelper;
+	exports.BoundingBoxHelper = BoundingBoxHelper;
+	exports.EdgesHelper = EdgesHelper;
+	exports.WireframeHelper = WireframeHelper;
+	exports.XHRLoader = XHRLoader;
+	exports.BinaryTextureLoader = BinaryTextureLoader;
+	exports.GeometryUtils = GeometryUtils;
+	exports.CanvasRenderer = CanvasRenderer;
+	exports.JSONLoader = JSONLoader;
+	exports.SceneUtils = SceneUtils;
+	exports.LensFlare = LensFlare;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
