@@ -135,6 +135,16 @@ var Strings = function ( config ) {
 			'sidebar/geometry/cylinder_geometry/heightsegments': 'Height segments',
 			'sidebar/geometry/cylinder_geometry/openended': 'Open ended',
 
+			'sidebar/geometry/extrude_geometry/curveSegments': 'Curve Segments',
+			'sidebar/geometry/extrude_geometry/steps': 'Steps',
+			'sidebar/geometry/extrude_geometry/depth': 'Depth',
+			'sidebar/geometry/extrude_geometry/bevelEnabled': 'Bevel?',
+			'sidebar/geometry/extrude_geometry/bevelThickness': 'Thickness',
+			'sidebar/geometry/extrude_geometry/bevelSize': 'Size',
+			'sidebar/geometry/extrude_geometry/bevelOffset': 'Offset',
+			'sidebar/geometry/extrude_geometry/bevelSegments': 'Segments',
+			'sidebar/geometry/extrude_geometry/shape': 'Convert to Shape',
+
 			'sidebar/geometry/geometry/vertices': 'Vertices',
 			'sidebar/geometry/geometry/faces': 'Faces',
 
@@ -163,6 +173,9 @@ var Strings = function ( config ) {
 			'sidebar/geometry/ring_geometry/phiSegments': 'Phi segments',
 			'sidebar/geometry/ring_geometry/thetastart': 'Theta start',
 			'sidebar/geometry/ring_geometry/thetalength': 'Theta length',
+
+			'sidebar/geometry/shape_geometry/curveSegments': 'Curve Segments',
+			'sidebar/geometry/shape_geometry/extrude': 'Extrude',
 
 			'sidebar/geometry/sphere_geometry/radius': 'Radius',
 			'sidebar/geometry/sphere_geometry/widthsegments': 'Width segments',
@@ -313,6 +326,7 @@ var Strings = function ( config ) {
 			'menubar/edit/clone': '拷贝',
 			'menubar/edit/delete': '删除 (Del)',
 			'menubar/edit/minify_shaders': '压缩着色器',
+			'menubar/edit/fixcolormaps': '修复颜色贴图',
 
 			'menubar/add': '添加',
 			'menubar/add/group': '组',
